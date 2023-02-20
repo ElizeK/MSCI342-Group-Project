@@ -64,7 +64,7 @@ const ButtonAppBar = () => {
 }
 
 
-const Home = () => {
+const Profile = () => {
 
 
     return (
@@ -81,7 +81,7 @@ const Home = () => {
                 style={{ minHeight: '100vh' }}>
 
                 <Typography variant="h3" color="inherit" noWrap>
-                    Pulse News Home Page
+                    Profile Page
                 </Typography>
                 <Typography style={{ margin: 30 }}></Typography>
 
@@ -144,7 +144,7 @@ const styles = theme => ({
     },
 
 });
-class Homes extends Component {
+class Profiles extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -166,7 +166,7 @@ class Homes extends Component {
                     <Paper
                         className={classes.paper}
                     >
-                        <Home />
+                        <Profile />
                     </Paper>
 
                 </div>
@@ -176,8 +176,8 @@ class Homes extends Component {
     }
 }
 
-Homes.propTypes = {
+Profiles.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Homes);
+export default withStyles(styles)(Profiles);
