@@ -97,81 +97,81 @@ const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:305
 const opacityValue = 0.7;
 
 const theme = createTheme({
-    palette: {
-        type: 'dark',
-        background: {
-            default: "#b552f7"
-        },
-        primary: {
-            main: "#52F7B4",
-        },
-        secondary: {
-            main: "#b552f7",
-        },
-    },
+    // palette: {
+    //     type: 'dark',
+    //     background: {
+    //         default: "#b552f7"
+    //     },
+    //     primary: {
+    //         main: "#52F7B4",
+    //     },
+    //     secondary: {
+    //         main: "#b552f7",
+    //     },
+    // },
 });
 const styles = theme => ({
-    root: {
-        body: {
-            backgroundColor: "#AFE1AF",
-            opacity: opacityValue,
-            overflow: "hidden",
-            color: green[400],
-            '&$checked': {
-                color: green[600],
-            },
-        },
-    },
-    paper: {
-        overflow: "hidden",
-    },
-    message: {
-        opacity: opacityValue,
-        maxWidth: 250,
-        paddingBottom: theme.spacing(2),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 200,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
+    // root: {
+    //     body: {
+    //         backgroundColor: "#AFE1AF",
+    //         opacity: opacityValue,
+    //         overflow: "hidden",
+    //         color: green[400],
+    //         '&$checked': {
+    //             color: green[600],
+    //         },
+    //     },
+    // },
+    // paper: {
+    //     overflow: "hidden",
+    // },
+    // message: {
+    //     opacity: opacityValue,
+    //     maxWidth: 250,
+    //     paddingBottom: theme.spacing(2),
+    // },
+    // formControl: {
+    //     margin: theme.spacing(1),
+    //     minWidth: 200,
+    // },
+    // selectEmpty: {
+    //     marginTop: theme.spacing(2),
+    // },
+    // bullet: {
+    //     display: 'inline-block',
+    //     margin: '0 2px',
+    //     transform: 'scale(0.8)',
+    // },
 
 });
 class Homes extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userID: 1,
-            mode: 0
-        }
-    };
-    componentDidMount() {
-        //this.loadUserSettings();
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         userID: 1,
+    //         mode: 0
+    //     }
+    // };
+    // componentDidMount() {
+    //     //this.loadUserSettings();
+    // }
 
     render() {
         const { classes } = this.props;
 
         return (
-            <MuiThemeProvider theme={theme}>
+            // <MuiThemeProvider theme={theme}>
                 <div className={classes.root}>
-                    <CssBaseline />
-                    <Paper
-                        className={classes.paper}
-                    >
+                    {/* <CssBaseline /> */}
+                    {/* <Paper */}
+                        {/* className={classes.paper}
+                    > */}
                         <Home />
-                    </Paper>
+                    {/* </Paper> */}
 
                 </div>
 
-            </MuiThemeProvider>
+            // </MuiThemeProvider>
         );
     }
 }

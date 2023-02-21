@@ -6,7 +6,12 @@ import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import history from "../Navigation/history";
-
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import DirectionsIcon from '@mui/icons-material/Directions';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { green } from '@material-ui/core/colors';
@@ -16,7 +21,24 @@ import { deepOrange, deepPurple } from '@mui/material/colors';
 
 
 
-
+const SearchBar = () => {
+    return (
+        <Paper
+            component="form"
+            sx={{ p: "1px 4px", display: "flex", alignItems: "center", width: 600 }}
+        >
+            <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="What are you looking for?"
+                inputProps={{ "aria-label": "What are you looking for?" }}
+            />
+            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+                <SearchIcon />
+            </IconButton>
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+        </Paper>
+    );
+}
 
 const ButtonAppBar = () => {
     return (
@@ -65,6 +87,7 @@ const ButtonAppBar = () => {
 
 
 const Search = () => {
+    const [keyword, setKeyWord] = useState("")
 
 
     return (
@@ -83,10 +106,18 @@ const Search = () => {
                 <Typography variant="h3" color="inherit" noWrap>
                     Search Page
                 </Typography>
-                <Typography style={{ margin: 30 }}></Typography>
 
+                <Typography style={{ margin: 30 }}></Typography>
+                <Grid Item>
+                    <SearchBar
+                    justifyContent="center"
+                    alignItems="center"
+                        backgroundColor="secondary"
+                    ></SearchBar>
+                </Grid>
 
             </Grid>
+
 
         </div>
     )
@@ -113,7 +144,6 @@ const theme = createTheme({
 const styles = theme => ({
     root: {
         body: {
-            backgroundColor: "#AFE1AF",
             opacity: opacityValue,
             overflow: "hidden",
             color: green[400],
@@ -121,6 +151,11 @@ const styles = theme => ({
                 color: green[600],
             },
         },
+    },
+    palette: {
+        secondary: {
+            main: '#E33E7F'
+        }
     },
     paper: {
         overflow: "hidden",
@@ -142,6 +177,7 @@ const styles = theme => ({
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
+
 
 });
 class Searchs extends Component {
