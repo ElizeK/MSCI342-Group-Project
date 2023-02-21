@@ -64,7 +64,7 @@ const ButtonAppBar = () => {
 }
 
 
-const SignIn = () => {
+const SigningIn = () => {
 
 
     return (
@@ -81,7 +81,7 @@ const SignIn = () => {
                 style={{ minHeight: '100vh' }}>
 
                 <Typography variant="h3" color="inherit" noWrap>
-                    Pulse News SignIn Page
+                    Pulse News SigningIn Page
                 </Typography>
                 <Typography style={{ margin: 30 }}></Typography>
 
@@ -144,7 +144,7 @@ const styles = theme => ({
     // },
 
 });
-class SignIns extends Component {
+class SigningIns extends Component {
     // constructor(props) {
     //     super(props);
     //     this.state = {
@@ -166,7 +166,7 @@ class SignIns extends Component {
                     {/* <Paper */}
                         {/* className={classes.paper}
                     > */}
-                        <SignIn />
+                        <SigningIn />
                     {/* </Paper> */}
 
                 </div>
@@ -176,8 +176,8 @@ class SignIns extends Component {
     }
 }
 
-SignIns.propTypes = {
+SigningIns.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SignIns);
+export default withStyles(styles)(SigningIns);
