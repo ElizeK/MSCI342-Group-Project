@@ -12,61 +12,54 @@ import Button from '@mui/material/Button';
 import { green } from '@material-ui/core/colors';
 import Paper from "@material-ui/core/Paper";
 
-import { deepOrange, deepPurple } from '@mui/material/colors';
-
-
-
-
-
 const ButtonAppBar = () => {
     return (
-        <Toolbar>
-            <Typography style={{ marginRight: 10 }}></Typography>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                News App
+        <div>
+            <Toolbar>
+                <Typography style={{ marginRight: 10 }}></Typography>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    News App
             </Typography>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/')}
-            >
-                Home
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/')}
+                >
+                    Home
             </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/Search')}
-            >
-                Search
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/Search')}
+                >
+                    Search
             </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/ThinkPiece')}
-            >
-                ThinkPiece
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/ThinkPiece')}
+                >
+                    ThinkPiece
             </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/Profile')}
-            >
-                Profile
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/Profile')}
+                >
+                    Profile
             </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
+                <Typography style={{ marginRight: 50 }}></Typography>
+            </Toolbar>
+        </div>
 
-        </Toolbar>
     );
 }
 
-
 const ThinkPiece = () => {
-
-
     return (
         <div>
             <ButtonAppBar
@@ -92,8 +85,6 @@ const ThinkPiece = () => {
     )
 }
 
-const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3054"; //enable for deployed mode; Change PORT to the port number given to you;
-
 const opacityValue = 0.7;
 
 const theme = createTheme({
@@ -110,6 +101,7 @@ const theme = createTheme({
         },
     },
 });
+
 const styles = theme => ({
     root: {
         body: {
@@ -144,36 +136,25 @@ const styles = theme => ({
     },
 
 });
-class ThinkPieces extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userID: 1,
-            mode: 0
-        }
-    };
-    componentDidMount() {
-        //this.loadUserSettings();
-    }
 
-    render() {
-        const { classes } = this.props;
+const ThinkPieces = (props) => {
 
-        return (
-            <MuiThemeProvider theme={theme}>
-                <div className={classes.root}>
-                    <CssBaseline />
-                    <Paper
-                        className={classes.paper}
-                    >
-                        <ThinkPiece />
-                    </Paper>
+    const [userId, setUserId] = useState(1);
+    const [mode, setMode] = useState(0)
 
-                </div>
+    return (
+        <MuiThemeProvider theme={theme}>
+            <div className={props.classes.root}>
+                <CssBaseline />
+                <Paper
+                    className={props.classes.paper}
+                >
+                    <ThinkPiece />
+                </Paper>
 
-            </MuiThemeProvider>
-        );
-    }
+            </div>
+        </MuiThemeProvider>
+    );
 }
 
 ThinkPieces.propTypes = {
