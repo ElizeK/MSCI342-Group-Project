@@ -36,6 +36,35 @@ app.post('/api/loadUserSettings', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/thinkpieces', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	let userId = req.body.userId;
+	//console.log(userId)
+	let title = req.body.title;
+	let content = req.body.content;
+	let summary = req.body.summary;
+	let topic = req.body.topic;
+	let url = req.body.url;
+
+	userId = 1;
+
+	let data = [userId];
+
+	let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url)
+	VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`;
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
