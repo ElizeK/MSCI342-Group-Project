@@ -6,6 +6,7 @@ import ThinkPiece from '../ThinkPiece';
 import Search from '../Search';
 import Profile from '../Profile';
 import SigningIn from "../SigningIn";
+import Login from "../Login";
 // import SignIn from '.../SignIn';
 // import SignUp from '.../SignUp';
 // import SignOut from '.../SignOut';
@@ -19,12 +20,13 @@ export default function PrivateRoute({
 
     <Router history={history}>
       <Switch>
-      <Route path="/" exact component={Home} />
-      <Route path="/Landing" exact component={Landing} />
+      <Route path="/" exact component={Landing} />
+      <Route path="/Home" exact component={Home} />
       <Route path="/ThinkPiece" exact component={ThinkPiece} />
       <Route path="/Search" exact component={Search} />
       <Route path="/Profile" exact component={Profile} />
       <Route path="/SigningIn" exact component={SigningIn} />
+      <Route path="/Login" exact component={Login} />
 
       {/* <Route path="/SignIn" exact component={SignIn} />
       <Route path="/SignUp" exact component={SignUp} />

@@ -17,6 +17,18 @@ const NewsAPI = require('newsapi');
 const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
 
 
+app.post('/news', (req, res) => {
+    query = req.body.query
+    newsapi.v2.topHeadlines({
+        q: query,
+        category: 'business',
+        language: 'en',
+        country: 'us'
+    }).then(response => {
+        res.send(response);
+    });
+});
+
 app.post('/api/loadUserSettings', (req, res) => {
 
 	let connection = mysql.createConnection(config);
@@ -106,6 +118,24 @@ app.post('/api/news/topHeadlines', (req, res) => {
 		})
 });
 
+app.post('/api/news/everything', (req, res) => {
+	console.log(req.body)
+	const query = req.body.query
+	const pageSize = req.body.pageSize
+	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	fetch(url)
+		.then(response => {
+			response.json().then(
+				data => {
+					console.log(data)
+					res.send(data) // .send takes the response from our end and sends it 
+				})
+		})
+});
+
+app.post('/articleHeadlines', (req, res) => {
+	let connection = mysql.createConnection(config);
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
