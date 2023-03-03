@@ -268,18 +268,17 @@ const Search = () => {
                         <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit}>Search</Button>
                     </Box>
                     <Box ml={7} p={2}>
-                    {
-                    articles.length > 0 ?
-                    <div>
-                        <Typography className={classes.subHeading}>Results for keyword: {query}</Typography>
-                        {     
-                        articles.map((article) => {
-                                    return (
-                                        <ArticleCard article={article} />
-                                    )
-                                })}
-                            </div>
-                        
+                        {
+                            articles.length > 0 ?
+                                <div>
+                                    <Typography className={classes.subHeading}>Results for keyword: {query}</Typography>
+                                    {articles.map((article) => {
+                                        return (
+                                            <ArticleCard article={article} />
+                                        )
+                                    })}
+                                </div>
+
                                 : <></>
                         }
                     </Box>
