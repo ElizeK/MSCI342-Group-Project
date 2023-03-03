@@ -13,6 +13,9 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(express.static(path.join(__dirname, "client/build")));
 
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
+
 
 app.post('/api/loadUserSettings', (req, res) => {
 
@@ -65,6 +68,43 @@ app.post('/api/thinkpieces', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/preferenceCategory', (req, res) => {
+	// let userID = req.body.userID
+	let connection = mysql.createConnection(config);
+	let userID = 1;
+	console.log("UserID: ", userID);
+	// let sql = `SELECT preference_category FROM user_info WHERE user_id = ("${userID}%")`;
+	let sql = `SELECT preference_category FROM user_info WHERE user_id = (${userID})`
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+
+		}
+		// let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		res.send({ user_info: results });
+		
+	});
+	connection.end();
+})
+
+app.post('/api/news/topHeadlines', (req, res) => {
+	console.log(req.body)
+	const category = req.body.category;
+	const pageSize = req.body.pageSize;
+	
+	const url = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	fetch(url)
+		.then(response => {
+			response.json().then(
+				data => {
+					console.log(data)
+					res.send(data) // .send takes the response from our end and sends it 
+				})
+		})
+});
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
