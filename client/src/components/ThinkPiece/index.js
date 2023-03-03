@@ -227,7 +227,8 @@ const ThinkPiece = () => {
     }
 
     return (
-        <div>
+
+        <div data-testid="think-piece-component">
             <ButtonAppBar
                 backgroundColor="secondary"
             ></ButtonAppBar>
@@ -256,6 +257,7 @@ const ThinkPiece = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='Title'
                         />
                     </Box>
                     <Box ml={7} p={2}>
@@ -272,6 +274,7 @@ const ThinkPiece = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='Summary'
                         />
                     </Box>
                     <Box ml={7} p={2}>
@@ -284,6 +287,8 @@ const ThinkPiece = () => {
                                 className={classes.select}
                                 style={{ color: "#fff" }}
                                 required
+                                data-testid='Topic'
+
                             >
                                 {
                                     Object.keys(Categories).map(key => Categories[key]).map((categoryName) =>
@@ -305,6 +310,7 @@ const ThinkPiece = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='URL'
                         />
                     </Box>
                 </Grid>
@@ -323,11 +329,12 @@ const ThinkPiece = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='Content'
                             onChange={(e) => setContent(e.target.value)}
                         />
                     </Box>
                     <Box m2={2} p={2}>
-                        <Button variant="contained" onClick={handleSubmit} style={{ backgroundColor: "#B18CFF" }}>Submit</Button>
+                        <Button id="submit-button" variant="contained" onClick={handleSubmit} style={{ backgroundColor: "#B18CFF" }} data-testid='Submit'>Submit</Button>
                     </Box>
                 </Grid>
 
