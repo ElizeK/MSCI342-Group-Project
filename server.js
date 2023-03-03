@@ -36,6 +36,33 @@ app.post('/api/loadUserSettings', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/addUser', (req, res) => {
+
+	console.log("/api/addUser");
+	let connection = mysql.createConnection(config);
+	//let userId = req.body.userId;
+	let username = req.body.username;
+	let userEmail = req.body.userEmail;
+	let password = req.body.password;
+	let preference = req.body.preference;
+	let language = req.body.language;
+	userId = 1;
+	let data = [userId];
+
+	let sql = `INSERT INTO user_info( username, email_address, user_password, preference_category, user_language)
+	VALUES("${username}", "${userEmail}", "${password}", "${preference}", "${language}")`;
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+})
+
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
