@@ -24,6 +24,15 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { makeStyles } from '@material-ui/styles';
+
+import "@fontsource/oswald";
+import "@fontsource/inter";
+import {FormControl, InputLabel, Select, TextField, Box } from '@mui/material';
+import { LastPageOutlined } from '@material-ui/icons';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+
 
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { Article } from '@mui/icons-material';
@@ -50,26 +59,28 @@ import { Article } from '@mui/icons-material';
 //     };
 
 
-// interface ExpandMoreProps extends IconButtonProps {
-//     expand: boolean;
-// }
-// const ExpandMore = styled((props: ExpandMoreProps) => {
-//     const { expand, ...other } = props;
-//     return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-//     marginLeft: 'auto',
-//     transition: theme.transitions.create('transform', {
-//         duration: theme.transitions.duration.shortest,
-//     }),
-// }));
 
-// const RecipeReviewCard = () => {
-//     const [expanded, setExpanded] = React.useState(false);
+// const serverURL = process.env.DB_URL;
+const serverURL = " ";
+// const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com"
 
-//     const handleExpandClick = () => {
-//         setExpanded(!expanded);
-//     };
+const theme = createTheme({
+    palette: {
+        type: 'dark',
+        background: {
+            default: "#1b1b1b"
+        },
+        primary: {
+            main: "#FFFFFF",
+        },
+        secondary: {
+            main: "#1b1b1b",
+        },
+    },
+});
+
+const opacityValue = 1;
+// const classes = useStyles();
 
 const useStyles = makeStyles((theme) => ({
     body: {
@@ -187,11 +198,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-
-// const serverURL = process.env.DB_URL;
-const serverURL = "";
-// const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com"
-
 const ButtonAppBar = () => {
     const classes = useStyles();
     return (
@@ -240,6 +246,21 @@ const ButtonAppBar = () => {
 }
 
 
+const ArticleCard = ({ topHeadline }) => {
+    return (
+        <Card variant="outlined" style={{ "width": 500 }}>
+            <ul>
+                <li> <b>Source:</b> {topHeadline.source?.name}</li>
+                <li> <b>Author: </b>{topHeadline.author}</li>
+                <li> <b>Title:</b> {topHeadline.title}</li>
+                <li> <b>Description:</b> {topHeadline.description}</li>
+                <li> <b>URL:</b> {topHeadline.url}</li>
+                <li> <b>Published at: </b>{topHeadline.publishedAt}</li>
+                <li> <b>Content:</b> {topHeadline.content}</li>
+            </ul>
+        </Card>
+    )
+}
 const Home = () => {
     const classes = useStyles();
 
@@ -258,62 +279,73 @@ const Home = () => {
         setExpanded(!expanded);
     };
 
-    const [article, setArticle] = React.useState([]);
-    const [expanded, setExpanded] = React.useState('');
-    const [categoryList, setCategories] = React.useState([]);
-    const [category, setCategory] = React.useState('');
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
     React.useEffect(() => {
         getCategory();
-    }, []);
+    }, [userId]);
 
-    const callApiGetArticles = async () => {
-        const url = serverURL + "/news";
+    React.useEffect(() => {
+        console.log(category)
+        getTopHeadlines();
+    }, [category])
+
+    const getCategory = () => {
+        callApiGetPreferenceCategory()
+            .then(res => {
+                // callApiGetArticles(res.user_info) 
+                setCategory(res.user_info[0].preference_category)
+            })
+    }
+
+    const callApiGetPreferenceCategory = async () => {
+        const url = '/api/preferenceCategory';
         const response = await fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                query: "tech"
+                userID: userId,
+                category: category
             })
         });
-        const body = response.json();
-        console.log(body);
+        const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
+        console.log("Category: ", body);
         return body;
     }
 
-    const getCategory = async () => {
-        await callApiGetArticles()
+    const getTopHeadlines = () => {
+        if (category === "") return
+        callApiGetTopHeadlines()
             .then(res => {
-                console.log("callApiGetArticles returned: ", res);
-            });
+                console.log("callGetTopHeadlines returned: ", res);
+                setTopHeadlines(res.articles)
+            })
     }
 
-    const ShowArticles = (props) => {
-        return (
-            <Grid item>
-                <Typography
-                    variant={"h5"}
-                    align="center"
-                >
-                </Typography>
-                <Card sx={{ maxWidth: 345 }}
-                >
-                    {props.categoryList.map((article) => {
-                        return (
-                            <MenuItem key={article.name} value={article.name}>{article.name}</MenuItem>
-                        )
-                    })}
-                </Card>
+    const callApiGetTopHeadlines = async () => {
+        const url = 'api/news/topHeadlines'
 
-            </Grid>
-        )
+        console.log("CALL TOP HEADLINESSSSSSS")
+        console.log(JSON.stringify({
+            category: category,
+            pageSize: 15
+        }))
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                category: category,
+                pageSize: 15
+            })
+        });
+        const body = await response.json();
+
+        if (response.status !== 200) throw Error(body.message);
+        return body;
     }
 
     return (
@@ -345,11 +377,8 @@ const Home = () => {
                         : <></>
                 }
                 <Typography style={{ margin: 30 }}></Typography>
-
-                {/* <ShowArticles categoryList={}/> */}
-
             </Grid>
-            <Card sx={{ maxWidth: 345 }}>
+            {/* <Card sx={{ maxWidth: 345 }}>
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -364,6 +393,12 @@ const Home = () => {
                     title="Shrimp and Chorizo Paella"
                     subheader="September 14, 2016"
                 />
+                <CardMedia
+                    component="img"
+                    height="194"
+                    image="/static/images/cards/paella.jpg"
+                    alt="Paella dish"
+                />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                         This is test card content.
@@ -375,17 +410,17 @@ const Home = () => {
                     </IconButton>
                     <IconButton aria-label="share">
                         <ShareIcon />
-                    </IconButton>
+                    </IconButton> */}
                     {/* <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </ExpandMore> */}
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                        <ExpandMoreIcon />
+                    </ExpandMore> */}
+                {/* </CardActions> */}
+                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>Method:</Typography>
                         <Typography paragraph>
@@ -400,8 +435,8 @@ const Home = () => {
                             pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
                             stirring often until thickened and fragrant, about 10 minutes. Add
                             saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                        </Typography>
-                        <Typography paragraph>
+                        </Typography> */}
+                        {/* <Typography paragraph>
                             Add rice and stir very gently to distribute. Top with artichokes and
                             peppers, and cook without stirring, until most of the liquid is absorbed,
                             15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
@@ -414,7 +449,7 @@ const Home = () => {
                         </Typography>
                     </CardContent>
                 </Collapse>
-            </Card>
+            </Card> */}
         </div>
     )
 }
@@ -422,78 +457,17 @@ const Home = () => {
 // const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3054"; //enable for deployed mode; Change PORT to the port number given to you;
 
 
-const theme = createTheme({
-    // palette: {
-    //     type: 'dark',
-    //     background: {
-    //         default: "#b552f7"
-    //     },
-    //     primary: {
-    //         main: "#52F7B4",
-    //     },
-    //     secondary: {
-    //         main: "#b552f7",
-    //     },
-    // },
-});
-const styles = theme => ({
-    // root: {
-    //     body: {
-    //         backgroundColor: "#AFE1AF",
-    //         opacity: opacityValue,
-    //         overflow: "hidden",
-    //         color: green[400],
-    //         '&$checked': {
-    //             color: green[600],
-    //         },
-    //     },
-    // },
-    // paper: {
-    //     overflow: "hidden",
-    // },
-    // message: {
-    //     opacity: opacityValue,
-    //     maxWidth: 250,
-    //     paddingBottom: theme.spacing(2),
-    // },
-    // formControl: {
-    //     margin: theme.spacing(1),
-    //     minWidth: 200,
-    // },
-    // selectEmpty: {
-    //     marginTop: theme.spacing(2),
-    // },
-    // bullet: {
-    //     display: 'inline-block',
-    //     margin: '0 2px',
-    //     transform: 'scale(0.8)',
-    // },
+const Homes = () => {
 
-});
-class Homes extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         userID: 1,
-    //         mode: 0
-    //     }
-    // };
-    // componentDidMount() {
-    //     //this.loadUserSettings();
-    // }
-
-    render() {
-        const { classes } = this.props;
-
-        return (
-            // <MuiThemeProvider theme={theme}>
-            <div className={classes.root}>
-                {/* <CssBaseline /> */}
-                {/* <Paper */}
-                {/* className={classes.paper}
-                    > */}
-                <Home />
-                {/* </Paper> */}
+    return(
+            <MuiThemeProvider theme = { theme } >
+            <div>
+                <CssBaseline />
+                <Paper>
+                    {/* className={classes.paper}
+                    > */}
+                    <Home />
+                </Paper>
 
             </div>
 
