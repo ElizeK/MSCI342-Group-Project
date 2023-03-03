@@ -5,13 +5,9 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
-
 const { response } = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
-// app.use(cors({ origin: '*' }))
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
@@ -35,24 +31,24 @@ app.post('/news', (req, res) => {
 
 app.post('/api/loadUserSettings', (req, res) => {
 
-    let connection = mysql.createConnection(config);
-    let userID = req.body.userID;
+	let connection = mysql.createConnection(config);
+	let userID = req.body.userID;
 
-    let sql = `SELECT mode FROM user WHERE userID = ?`;
-    console.log(sql);
-    let data = [userID];
-    console.log(data);
+	let sql = `SELECT mode FROM user WHERE userID = ?`;
+	console.log(sql);
+	let data = [userID];
+	console.log(data);
 
-    connection.query(sql, data, (error, results, fields) => {
-        if (error) {
-            return console.error(error.message);
-        }
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
 
-        let string = JSON.stringify(results);
-        //let obj = JSON.parse(string);
-        res.send({ express: string });
-    });
-    connection.end();
+		let string = JSON.stringify(results);
+		//let obj = JSON.parse(string);
+		res.send({ express: string });
+	});
+	connection.end();
 });
 
 app.post('/api/thinkpieces', (req, res) => {
@@ -122,6 +118,24 @@ app.post('/api/news/topHeadlines', (req, res) => {
 		})
 });
 
+app.get('/searchNews/everything', (req, res) => {
+	console.log(req.body)
+	const query = req.body.query
+	const pageSize = req.body.pageSize
+	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	fetch(url)
+		.then(response => {
+			response.json().then(
+				data => {
+					console.log(data)
+					res.send(data) // .send takes the response from our end and sends it 
+				})
+		})
+});
+
+app.post('/articleHeadlines', (req, res) => {
+	let connection = mysql.createConnection(config);
+})
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
 //app.listen(port, '129.97.25.211'); //for the deployed version, specify the IP address of the server
