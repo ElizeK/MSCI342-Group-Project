@@ -134,7 +134,8 @@ const ButtonAppBar = () => {
                 <Typography style={{ marginRight: 50 }}></Typography>
                 <Button
                     color="inherit"
-                    onClick={() => history.push('/')}
+                    onClick={() => history.push('/')
+                    }
                 >
                     <Typography className={classes.navbarItem}>Home</Typography>
                 </Button>
