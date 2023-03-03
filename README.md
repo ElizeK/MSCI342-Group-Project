@@ -37,4 +37,6 @@ The next input of data will be from an external API - “News API” which will 
 News articles from the external API will not be stored in the system unless users decide to save articles in their personal profile. 
 
 # Jest Testing
+
+This image shows that 6 tests pass.
 ![PNG image](https://user-images.githubusercontent.com/64228226/222853570-51be259c-6eb0-4294-a45e-fdbebcbd6f80.jpeg)
