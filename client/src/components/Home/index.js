@@ -28,6 +28,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
+import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import {FormControl, InputLabel, Select, TextField, Box } from '@mui/material';
 import { LastPageOutlined } from '@material-ui/icons';
 import Stack from '@mui/material/Stack';
@@ -37,32 +38,32 @@ import { styled } from '@mui/material/styles';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { Article } from '@mui/icons-material';
 
-// interface ExpandMoreProps extends IconButtonProps {
-//     expand: boolean;
-// }
-// const ExpandMore = styled((props: ExpandMoreProps) => {
-//     const { expand, ...other } = props;
-//     return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-//     marginLeft: 'auto',
-//     transition: theme.transitions.create('transform', {
-//         duration: theme.transitions.duration.shortest,
-//     }),
-// }));
+// // interface ExpandMoreProps extends IconButtonProps {
+// //     expand: boolean;
+// // }
+// // const ExpandMore = styled((props: ExpandMoreProps) => {
+// //     const { expand, ...other } = props;
+// //     return <IconButton {...other} />;
+// // })(({ theme, expand }) => ({
+// //     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+// //     marginLeft: 'auto',
+// //     transition: theme.transitions.create('transform', {
+// //         duration: theme.transitions.duration.shortest,
+// //     }),
+// // }));
 
-// const RecipeReviewCard = () => {
-//     const [expanded, setExpanded] = React.useState(false);
+// // const RecipeReviewCard = () => {
+// //     const [expanded, setExpanded] = React.useState(false);
 
-//     const handleExpandClick = () => {
-//         setExpanded(!expanded);
-//     };
+// //     const handleExpandClick = () => {
+// //         setExpanded(!expanded);
+// //     };
 
 
 
-// const serverURL = process.env.DB_URL;
+// // const serverURL = process.env.DB_URL;
 const serverURL = " ";
-// const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com"
+// // const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com"
 
 const theme = createTheme({
     palette: {
@@ -80,7 +81,7 @@ const theme = createTheme({
 });
 
 const opacityValue = 1;
-// const classes = useStyles();
+// // const classes = useStyles();
 
 const useStyles = makeStyles((theme) => ({
     body: {
@@ -111,6 +112,11 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
+
+    button: {
+        paddingTop: theme.spacing(5),
+    },
+
     textField: {
         "& .MuiInputBase-root": {
             color: 'white'
@@ -156,6 +162,7 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: "Oswald",
         fontSize: 55
     },
+
     subHeading: {
         color: "white",
         fontFamily: "Inter",
@@ -171,8 +178,26 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 16,
         cursor: "pointer"
     },
+    ArticleCard: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        backgroundColor: "#1b1b1b",
+        overflow: "hidden",
+        color: "#1b1b1b"
+        // cursor: "pointer"
+    },
     inputLabelRoot: {
         color: "white",
+    },
+
+    header: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        color: '#712EFF'
     },
 
     card: {
@@ -247,18 +272,65 @@ const ButtonAppBar = () => {
 
 
 const ArticleCard = ({ topHeadline }) => {
+    const classes = useStyles();
+
     return (
-        <Card variant="outlined" style={{ "width": 500 }}>
-            <ul>
-                <li> <b>Source:</b> {topHeadline.source?.name}</li>
-                <li> <b>Author: </b>{topHeadline.author}</li>
-                <li> <b>Title:</b> {topHeadline.title}</li>
-                <li> <b>Description:</b> {topHeadline.description}</li>
-                <li> <b>URL:</b> {topHeadline.url}</li>
-                <li> <b>Published at: </b>{topHeadline.publishedAt}</li>
-                <li> <b>Content:</b> {topHeadline.content}</li>
-            </ul>
-        </Card>
+        // <Grid container spacing = {2}>
+        //     <Grid item xs={4}>
+                <Card variant="outlined" style={{ "width": 500 }} className={classes.ArticleCard}>
+                    <div>
+                        <img src="./placeholderImage.png" width="500" height="200"></img>
+                    </div>
+                    <CardHeader className={classes.header}
+                        avatar={
+                            <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
+                                S
+                            </Avatar>
+                        }
+                        action={
+                            <IconButton aria-label="settings">
+                                <MoreVertIcon />
+                            </IconButton>
+                        }
+                        title={topHeadline.title}
+                        subheader={topHeadline.source?.name + " ● " + topHeadline.publishedAt}
+                    />
+                        <CardContent>
+                            <Typography variant="body2" color="text.secondary" className={classes.header}>
+                                This text is placeholder for our description field. The content for this field
+                                will be added in Sprint 2.
+                            </Typography>
+                        </CardContent>
+       
+                    <ul>
+                        {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
+                        {/* <li> <b>Author: </b>{topHeadline.author}</li> */}
+                        {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
+                        {/* <li> <b>Description:</b> {topHeadline.description}</li> */}
+                        {/* <li> <b>Published at: </b>{topHeadline.publishedAt}</li> */}
+                        {/* <li> <b>URL:</b> {topHeadline.url}</li> */}
+                        {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
+                        {/* <li> TESTING IMAGE </li> */}
+                    <div
+                        style={{ justifyContent: 'flex-start' }}>
+                        <Button
+                            className={classes.button}
+                            pt={20}
+                            variant="outlined"
+                            href={topHeadline.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            color="inherit"
+                        style={{ cursor: "pointer", float: 'left', backgroundColor: '#712EFF', color: 'white' }}
+                        >
+                            Learn More
+                        </Button>
+                    </div>
+                    </ul>
+                </Card>
+            // </Grid>
+        // </Grid>
+        
     )
 }
 const Home = () => {
@@ -351,6 +423,7 @@ const Home = () => {
         <div>
             <ButtonAppBar
                 backgroundColor="secondary"
+                
             ></ButtonAppBar>
             <Grid
                 container
@@ -358,97 +431,39 @@ const Home = () => {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                style={{ minHeight: '100vh' }}>
+                style={{ minHeight: '100vh' }}
+                className={classes.backgroundColor}>
 
-                <Typography variant="h3" color="inherit" noWrap>
+                <Typography className={classes.heading} >
                     Pulse News Home Page
                 </Typography>
-                <Typography variant="h5" color="inherit" noWrap>
-                    Test123 Preference category is <b>{category}</b>
+                <Typography variant="h5" color="inherit" noWrap className={classes.subHeading}>
+                    Preference category is <b>{category}</b>
                 </Typography>
+
                 {
                     topHeadlines.length > 0 ?
-                        topHeadlines.map((topHeadline) => {
+                        
+                    <Grid container spacing = {{xs: 10, md:3}} columns = {{xs: 5, sm: 8, md:12}} alignItems = "center" style = {{marginLeft: 50}}>
+                        
+                        {topHeadlines.map((topHeadline, index) => {
                             return (
-                                <ArticleCard topHeadline={topHeadline} />
+                           
+                                <Grid
+                                    xs = {2} sm = {4} key = {index}
+                                    container spacing={15}
+                                    direction="column"
+                                    className={classes.backgroundColor}
+                                >
+                                    <ArticleCard topHeadline={topHeadline} />
+                                    <Typography style={{ padding: 30 }}></Typography>
+                                </Grid>
                             )
-                        })
+                        })}
+                    </Grid>   
                         : <></>
-                }
-                <Typography style={{ margin: 30 }}></Typography>
+                }              
             </Grid>
-            {/* <Card sx={{ maxWidth: 345 }}>
-                <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            R
-                        </Avatar>
-                    }
-                    action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
-                    }
-                    title="Shrimp and Chorizo Paella"
-                    subheader="September 14, 2016"
-                />
-                <CardMedia
-                    component="img"
-                    height="194"
-                    image="/static/images/cards/paella.jpg"
-                    alt="Paella dish"
-                />
-                <CardContent>
-                    <Typography variant="body2" color="text.secondary">
-                        This is test card content.
-                    </Typography>
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <ShareIcon />
-                    </IconButton> */}
-                    {/* <ExpandMore
-                        expand={expanded}
-                        onClick={handleExpandClick}
-                        aria-expanded={expanded}
-                        aria-label="show more"
-                    >
-                        <ExpandMoreIcon />
-                    </ExpandMore> */}
-                {/* </CardActions> */}
-                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography paragraph>Method:</Typography>
-                        <Typography paragraph>
-                            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                            aside for 10 minutes.
-                        </Typography>
-                        <Typography paragraph>
-                            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-                            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-                            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-                            large plate and set aside, leaving chicken and chorizo in the pan. Add
-                            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-                            stirring often until thickened and fragrant, about 10 minutes. Add
-                            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                        </Typography> */}
-                        {/* <Typography paragraph>
-                            Add rice and stir very gently to distribute. Top with artichokes and
-                            peppers, and cook without stirring, until most of the liquid is absorbed,
-                            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-                            mussels, tucking them down into the rice, and cook again without
-                            stirring, until mussels have opened and rice is just tender, 5 to 7
-                            minutes more. (Discard any mussels that don&apos;t open.)
-                        </Typography>
-                        <Typography>
-                            Set aside off of the heat to let rest for 10 minutes, and then serve.
-                        </Typography>
-                    </CardContent>
-                </Collapse>
-            </Card> */}
         </div>
     )
 }
@@ -475,3 +490,4 @@ const Homes = () => {
 };
 
 export default Homes;
+
