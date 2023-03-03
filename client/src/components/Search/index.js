@@ -31,7 +31,7 @@ const theme = createTheme({
             main: "#FFFFFF",
         },
         secondary: {
-            main: "#1b1b1b",
+            main: "#712EFF",
         },
     },
 });
@@ -114,10 +114,25 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 200,
         fontSize: 20,
         backgroundColor: "#1b1b1b",
-        overflow: "hidden",
+        // overflow: "hidden",
         color: "#1b1b1b"
         // cursor: "pointer"
     },
+    header: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        color: '#712EFF'
+    },
+    subHeader: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        color: '#712EFF'
+    },
+
     heading: {
         color: "white",
         fontFamily: "Oswald",
@@ -194,43 +209,50 @@ const ArticleCard = ({ article }) => {
     const classes = useStyles();
     return (
 
-        <Card variant="outlined" style={{ "width": 400 }} className={classes.ArticleCard}>
+        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
             <div>
-                <img src="./placeholderImage.png" width="400"></img>
+                {/* <img src="./placeholderImage.png" width="400"></img> */}
+                <img src={article.urlToImage} width="400" alt='Image not available'></img>
+
 
             </div>
             <CardHeader className={classes.header}
-                avatar={
-                    <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
-                        S
-                    </Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
                 title={article.title}
                 subheader={article.author + " ● " + article.publishedAt}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary" className={classes.header}>
-                    This text is placeholder for our description field. The content for this field
-                    will be added in Sprint 2.
+                    {article.description}
                 </Typography>
             </CardContent>
 
             <ul>
                 {/* <li> <b>Source:</b> {article.source?.name}</li> */}
-                <li> <b>Author: </b>{article.author}</li>
+                {/* <li> <b>Author: </b>{article.author}</li> */}
                 {/* <li> <b>Title:</b> {article.title}</li> */}
-                <li> <b>Description:</b> {article.description}</li>
-                <li> <b>Published at: </b>{article.publishedAt}</li>
-                <li> <b>URL:</b> {article.url}</li>
+                {/* <li> <b>Description:</b> {article.description}</li> */}
+                {/* <li> <b>Published at: </b>{article.publishedAt}</li> */}
+                {/* <li> <b>URL:</b> {article.url}</li> */}
                 {/* <li> <b>Content:</b> {article.content}</li> */}
-                <li> TESTING IMAGE </li>
+                {/* <li> <b>URL Image:</b> {article.urlToImage}</li> */}
+                {/* <img src={article.urlToImage}></img> */}
 
             </ul>
+
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+                <Button
+                    // color="secondary"
+                    variant="outlined"
+                    href={article.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    color="inherit"
+                    style={{ cursor: "pointer", float: 'left' }}
+                >
+                    Learn More
+                </Button>
+            </div>
 
         </Card>
 
@@ -354,34 +376,42 @@ const Search = () => {
                 container
                 // direction="column"
                 justifyContent="center"
+                display="flex"
+                alignItems="center"
                 className={classes.backgroundColor}
             >
 
                 <Grid item>
-                    {/* <Box ml={1} p={1}> */}
-                        {
-                            articles.length > 0 ?
-                                <div>
-                                    <Typography className={classes.subHeading}>Results for keyword: {query}</Typography>
-                                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 5, sm: 8, md: 12 }}>
 
-                                        {articles.map((article, index) => {
-                                            return (
-                                                <Grid xs={4} sm={4} md={4} key={index}>
-                                                    <ArticleCard article={article} />
+                    {
+                        articles.length > 0 ?
+                            <div>
 
-                                                </Grid>
+                                <Typography style={{ padding: 20 }} className={classes.subHeading}>Results for keyword: {query}</Typography>
+                                <Typography style={{ margin: 20 }}></Typography>
+                                <Grid
+                                    container spacing={{ xs: 1, md: 1 }} columns={{ xs: 5, sm: 8, md: 12 }} justifyContent="center"
+                                    display="flex"
+                                    alignItems="center"
+                                    style={{ marginLeft: 20 }}
+                                >
 
-                                            )
+                                    {articles.map((article, index) => {
+                                        return (
+                                            <Grid xs={4} sm={4} md={4} key={index}>
+                                                <ArticleCard article={article} />
+                                                <Typography style={{ padding: 20 }}></Typography>
+                                            </Grid>
 
-                                        })}
-                                    </Grid>
+                                        )
 
-                                </div>
+                                    })}
+                                </Grid>
 
-                                : <></>
-                        }
-                    {/* </Box> */}
+                            </div>
+
+                            : <></>
+                    }
                 </Grid>
             </Grid>
         </div >

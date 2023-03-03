@@ -20,8 +20,8 @@ export default function PrivateRoute({
 
     <Router history={history}>
       <Switch>
-      <Route path="/" exact component={Home} />
-      <Route path="/Landing" exact component={Landing} />
+      <Route path="/" exact component={Landing} />
+      <Route path="/Home" exact component={Home} />
       <Route path="/ThinkPiece" exact component={ThinkPiece} />
       <Route path="/Search" exact component={Search} />
       <Route path="/Profile" exact component={Profile} />
