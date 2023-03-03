@@ -5,7 +5,7 @@ import Landing from '../Landing';
 import ThinkPiece from '../ThinkPiece';
 import Search from '../Search';
 import Profile from '../Profile';
-import SigningIn from "../SigningIn";
+import SigningUp from "../SigningUp";
 import Login from "../Login";
 // import SignIn from '.../SignIn';
 // import SignUp from '.../SignUp';
@@ -25,7 +25,7 @@ export default function PrivateRoute({
       <Route path="/ThinkPiece" exact component={ThinkPiece} />
       <Route path="/Search" exact component={Search} />
       <Route path="/Profile" exact component={Profile} />
-      <Route path="/SigningIn" exact component={SigningIn} />
+      <Route path="/SigningUp" exact component={SigningUp} />
       <Route path="/Login" exact component={Login} />
 
       {/* <Route path="/SignIn" exact component={SignIn} />
