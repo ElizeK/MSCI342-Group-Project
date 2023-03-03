@@ -11,7 +11,7 @@ import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem
 import { LastPageOutlined } from '@material-ui/icons';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
-// import news from "./news.jpeg";
+// import news from "./news.png";
 
 
 
@@ -201,7 +201,6 @@ const SignUpBar = () => {
                     <Typography className={classes.navbarItem}>Login</Typography>
                 </Button>
             </Box>
-
         </div>
 
     );
@@ -243,24 +242,9 @@ const Landing = () => {
                 </Grid>
                 <Grid item xs={1}></Grid>
                 <Grid item direction="column" xs={4.5} style={{ marginTop: 50 }}>
-                    {/* <Box mt={22.5} p={2}>
-                        <TextField
-                            required
-                            fullWidth
-                            id="outlined-multiline-static"
-                            label="Body"
-                            multiline
-                            rows={10}
-                            value={content}
-                            className={classes.textField}
-                            InputLabelProps={{
-                                style: { color: '#fff' },
-                            }}
-                            onChange={(e) => setContent(e.target.value)}
-                        />
-                    </Box> */}
-                    {/* <img src={news} alt="news" /> */}
-                    <Box m2={2} p={2}>
+                    <Box m2={3} p={2}>
+                    <img src = "./news.png" width="400" height="500"></img>
+
                     </Box>
                 </Grid>
 

@@ -9,6 +9,16 @@ import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
 import { LastPageOutlined } from '@material-ui/icons';
+import Stack from '@mui/material/Stack';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+
+
 
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
@@ -97,6 +107,17 @@ const useStyles = makeStyles((theme) => ({
             fill: "white !important",
         }
     },
+
+    ArticleCard: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        backgroundColor: "#1b1b1b",
+        overflow: "hidden",
+        color: "#1b1b1b"
+        // cursor: "pointer"
+    },
     heading: {
         color: "white",
         fontFamily: "Oswald",
@@ -170,18 +191,63 @@ const ButtonAppBar = () => {
 }
 
 const ArticleCard = ({ article }) => {
+    const classes = useStyles();
     return (
-        <Card variant="outlined" style={{ "width": 500 }}>
+
+        <Card variant="outlined" style={{ "width": 400 }} className={classes.ArticleCard}>
+            <div>
+                <img src="./placeholderImage.png" width="400"></img>
+
+            </div>
+            <CardHeader className={classes.header}
+                avatar={
+                    <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
+                        S
+                    </Avatar>
+                }
+                action={
+                    <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                    </IconButton>
+                }
+                title={article.title}
+                subheader={article.author + " ● " + article.publishedAt}
+            />
+            <CardContent>
+                <Typography variant="body2" color="text.secondary" className={classes.header}>
+                    This text is placeholder for our description field. The content for this field
+                    will be added in Sprint 2.
+                </Typography>
+            </CardContent>
+
             <ul>
-                <li> <b>Source:</b> {article.source?.name}</li>
+                {/* <li> <b>Source:</b> {article.source?.name}</li> */}
                 <li> <b>Author: </b>{article.author}</li>
-                <li> <b>Title:</b> {article.title}</li>
+                {/* <li> <b>Title:</b> {article.title}</li> */}
                 <li> <b>Description:</b> {article.description}</li>
-                <li> <b>URL:</b> <a>{article.url}</a></li>
                 <li> <b>Published at: </b>{article.publishedAt}</li>
-                <li> <b>Content:</b> {article.content}</li>
+                <li> <b>URL:</b> {article.url}</li>
+                {/* <li> <b>Content:</b> {article.content}</li> */}
+                <li> TESTING IMAGE </li>
+
             </ul>
+
         </Card>
+
+        // <Card variant="outlined" style={{ "width": 500 }} className={classes.article}>
+        //     <ul>
+        //         <img src="./placeholderImage.png" width="400" height="200"></img>
+
+        //         <li> <h3><b></b> {article.title}</h3></li>
+        //         <li> {article.urlToImage}</li>
+        //         <b>Source:</b> {article.source?.name}
+        //         <li> <b>Author: </b>{article.author}</li>
+        //         <li> <b>Description:</b> {article.description}</li>
+        //         <li> <b>URL:</b> <a>{article.url}</a></li>
+        //         <li> <b>Published at: </b>{article.publishedAt}</li>
+        //         <li> <b>Content:</b> {article.content}</li>
+        //     </ul>
+        // </Card>
     )
 }
 
@@ -251,37 +317,71 @@ const Search = () => {
                         <Typography className={classes.subHeading}>Search for articles based on keyword</Typography>
                     </Box>
                 </Grid>
-                <Grid item>
+
+            </Grid>
+            <Grid
+                container
+                // direction="column"
+                justifyContent="center"
+                className={classes.backgroundColor}
+            >
+                <Grid item
+                    justifyContent="center"
+
+                >
                     <Box ml={7} p={2}>
-                        <TextField
-                            required
-                            id="outlined-basic"
-                            label="Search"
-                            value={query}
-                            variant="outlined"
-                            className={classes.textField}
-                            onChange={(e) => setQuery(e.target.value)}
-                            InputLabelProps={{
-                                style: { color: '#fff' },
-                            }}
-                        />
-                        <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit}>Search</Button>
+                        <Stack direction="row" spacing={2}>
+                            <TextField
+                                required
+                                id="outlined-basic"
+                                label="Search"
+                                value={query}
+                                variant="outlined"
+                                className={classes.textField}
+                                onChange={(e) => setQuery(e.target.value)}
+                                InputLabelProps={{
+                                    style: { color: '#fff' },
+                                }}
+                            />
+                            <Box p={2}></Box>
+                            <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit}>Search</Button>
+
+                        </Stack>
                     </Box>
-                    <Box ml={7} p={2}>
+                </Grid>
+            </Grid>
+            <Grid
+                container
+                // direction="column"
+                justifyContent="center"
+                className={classes.backgroundColor}
+            >
+
+                <Grid item>
+                    {/* <Box ml={1} p={1}> */}
                         {
                             articles.length > 0 ?
                                 <div>
                                     <Typography className={classes.subHeading}>Results for keyword: {query}</Typography>
-                                    {articles.map((article) => {
-                                        return (
-                                            <ArticleCard article={article} />
-                                        )
-                                    })}
+                                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 5, sm: 8, md: 12 }}>
+
+                                        {articles.map((article, index) => {
+                                            return (
+                                                <Grid xs={4} sm={4} md={4} key={index}>
+                                                    <ArticleCard article={article} />
+
+                                                </Grid>
+
+                                            )
+
+                                        })}
+                                    </Grid>
+
                                 </div>
 
                                 : <></>
                         }
-                    </Box>
+                    {/* </Box> */}
                 </Grid>
             </Grid>
         </div >
