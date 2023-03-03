@@ -36,4 +36,5 @@ Information about preferred categories will be used to find the default news art
 The next input of data will be from an external API - “News API” which will help pull data on relevant news from users across multiple publications, categories, languages and more. 
 News articles from the external API will not be stored in the system unless users decide to save articles in their personal profile. 
 
-
+# Jest Testing
+![PNG image](https://user-images.githubusercontent.com/64228226/222853570-51be259c-6eb0-4294-a45e-fdbebcbd6f80.jpeg)
