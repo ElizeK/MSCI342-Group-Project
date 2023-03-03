@@ -28,6 +28,7 @@ import { makeStyles } from '@material-ui/styles';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
+import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
 import {FormControl, InputLabel, Select, TextField, Box } from '@mui/material';
 import { LastPageOutlined } from '@material-ui/icons';
 import Stack from '@mui/material/Stack';
@@ -111,6 +112,11 @@ const useStyles = makeStyles((theme) => ({
         margin: '0 2px',
         transform: 'scale(0.8)',
     },
+
+    button: {
+        paddingTop: theme.spacing(5),
+    },
+
     textField: {
         "& .MuiInputBase-root": {
             color: 'white'
@@ -296,16 +302,30 @@ const ArticleCard = ({ topHeadline }) => {
                             </Typography>
                         </CardContent>
        
-
                     <ul>
                         {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
-                        <li> <b>Author: </b>{topHeadline.author}</li>
+                        {/* <li> <b>Author: </b>{topHeadline.author}</li> */}
                         {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
-                        <li> <b>Description:</b> {topHeadline.description}</li>
-                        <li> <b>Published at: </b>{topHeadline.publishedAt}</li>
-                        <li> <b>URL:</b> {topHeadline.url}</li>
+                        {/* <li> <b>Description:</b> {topHeadline.description}</li> */}
+                        {/* <li> <b>Published at: </b>{topHeadline.publishedAt}</li> */}
+                        {/* <li> <b>URL:</b> {topHeadline.url}</li> */}
                         {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
-                        <li> TESTING IMAGE </li>
+                        {/* <li> TESTING IMAGE </li> */}
+                    <div
+                        style={{ justifyContent: 'flex-start' }}>
+                        <Button
+                            className={classes.button}
+                            pt={20}
+                            variant="outlined"
+                            href={topHeadline.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            color="inherit"
+                        style={{ cursor: "pointer", float: 'left', backgroundColor: '#712EFF', color: 'white' }}
+                        >
+                            Learn More
+                        </Button>
+                    </div>
                     </ul>
                 </Card>
             // </Grid>
@@ -424,7 +444,7 @@ const Home = () => {
                 {
                     topHeadlines.length > 0 ?
                         
-                    <Grid container spacing = {{xs: 10, md:3}} columns = {{xs: 5, sm: 8, md:12}}>
+                    <Grid container spacing = {{xs: 10, md:3}} columns = {{xs: 5, sm: 8, md:12}} alignItems = "center" style = {{marginLeft: 50}}>
                         
                         {topHeadlines.map((topHeadline, index) => {
                             return (
@@ -436,13 +456,13 @@ const Home = () => {
                                     className={classes.backgroundColor}
                                 >
                                     <ArticleCard topHeadline={topHeadline} />
+                                    <Typography style={{ padding: 30 }}></Typography>
                                 </Grid>
                             )
                         })}
                     </Grid>   
                         : <></>
-                }
-                <Typography style={{ margin: 30 }}></Typography>
+                }              
             </Grid>
         </div>
     )
