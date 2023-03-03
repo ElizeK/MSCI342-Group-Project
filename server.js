@@ -91,21 +91,20 @@ app.post('/api/preferenceCategory', (req, res) => {
 })
 
 app.post('/api/news/topHeadlines', (req, res) => {
-	const language = req.body.language;
+	console.log(req.body)
 	const category = req.body.category;
-	newsapi.v2.topHeadlines({
-		category: category ?? 'business',
-		language: language ?? 'en',
-		pageSize: 15
-	}).then(response => {
-		res.send(response.articles);
-	});
+	const pageSize = req.body.pageSize;
+	
+	const url = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	fetch(url)
+		.then(response => {
+			response.json().then(
+				data => {
+					console.log(data)
+					res.send(data) // .send takes the response from our end and sends it 
+				})
+		})
 });
-
-app.post('/articleHeadlines', (req, res) => {
-	let connection = mysql.createConnection(config);
-})
-
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version

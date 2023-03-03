@@ -24,6 +24,15 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { makeStyles } from '@material-ui/styles';
+
+import "@fontsource/oswald";
+import "@fontsource/inter";
+import {FormControl, InputLabel, Select, TextField, Box } from '@mui/material';
+import { LastPageOutlined } from '@material-ui/icons';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+
 
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { Article } from '@mui/icons-material';
@@ -55,55 +64,191 @@ import { Article } from '@mui/icons-material';
 const serverURL = " ";
 // const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com"
 
-const ButtonAppBar = () => {
-    return (
-        <Toolbar>
-            <Typography style={{ marginRight: 10 }}></Typography>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                News App
-            </Typography>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/')}
-            >
-                Home
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/Search')}
-            >
-                Search
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/ThinkPiece')}
-            >
-                ThinkPiece
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/Profile')}
-            >
-                Profile
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
+const theme = createTheme({
+    palette: {
+        type: 'dark',
+        background: {
+            default: "#1b1b1b"
+        },
+        primary: {
+            main: "#FFFFFF",
+        },
+        secondary: {
+            main: "#1b1b1b",
+        },
+    },
+});
 
-        </Toolbar>
+const opacityValue = 1;
+// const classes = useStyles();
+
+const useStyles = makeStyles((theme) => ({
+    body: {
+        backgroundColor: "#1b1b1b",
+        overflow: "hidden",
+        color: "#1b1b1b"
+    },
+    backgroundColor: {
+        backgroundColor: "#1b1b1b"
+    },
+    paper: {
+        overflow: "hidden",
+    },
+    message: {
+        opacity: opacityValue,
+        maxWidth: 250,
+        paddingBottom: theme.spacing(2),
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 200,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    bullet: {
+        display: 'inline-block',
+        margin: '0 2px',
+        transform: 'scale(0.8)',
+    },
+    textField: {
+        "& .MuiInputBase-root": {
+            color: 'white'
+        },
+        "& .MuiOutlinedInput-root": {
+            "& > fieldset": { borderColor: "white" },
+        },
+        "& .MuiInputLabel-root": { color: 'white' },
+        "& .MuiOutlinedInputLabel-root": { color: 'white' },
+        "& .MuiOutlinedInput-root:hover": {
+            "& > fieldset": {
+                borderColor: "white"
+            }
+        },
+        "& .MuiOutlinedInput-root.Mui-focused": {
+            "& > fieldset": {
+                borderColor: "white"
+            }
+        }
+    },
+    select: {
+        '&:before': {
+            borderColor: 'white',
+        },
+        '&:after': {
+            borderColor: 'white',
+        },
+        '&:not(.Mui-disabled):hover::before': {
+            borderColor: 'white',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+            border: "1px solid white !important"
+        },
+        '& .MuiOutlinedInput-notchedOutline.Mui-focused': {
+            borderColor: "white !important"
+        },
+        '& .MuiSvgIcon-root': {
+            fill: "white !important",
+        }
+    },
+    heading: {
+        color: "white",
+        fontFamily: "Oswald",
+        fontSize: 55
+    },
+    subHeading: {
+        color: "white",
+        fontFamily: "Inter",
+        fontSize: 22,
+        fontStyle: "normal",
+        fontWeight: 300
+
+    },
+    navbarItem: {
+        fontFamily: 'Inter',
+        fontStyle: "normal",
+        fontWeight: 400,
+        fontSize: 16,
+        cursor: "pointer"
+    },
+    inputLabelRoot: {
+        color: "white",
+    },
+
+    card: {
+        maxWidth: 345,
+        margin: 'auto',
+        marginTop: 50,
+        marginBottom: 50,
+    },
+    content: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    buttonGroup: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    textField: {
+        margin: 10,
+        width: '80%',
+    }
+}));
+
+const ButtonAppBar = () => {
+    const classes = useStyles();
+    return (
+        <div>
+            <Toolbar>
+                <Typography style={{ marginRight: 10 }}></Typography>
+                <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    News App
+                </Typography>
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    onClick={() => history.push('/')}
+                >
+                    <Typography className={classes.navbarItem}>Home</Typography>
+                </Button>
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/Search')}
+                >
+                    <Typography className={classes.navbarItem}>Search</Typography>
+                </Button>
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/ThinkPiece')}
+                >
+                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
+                </Button>
+                <Typography style={{ marginRight: 50 }}></Typography>
+                <Button
+                    color="inherit"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push('/Profile')}
+                >
+                    <Typography className={classes.navbarItem}>Profile</Typography>
+                </Button>
+
+            </Toolbar>
+        </div>
+
     );
 }
 
 
-const ArticleCard = ({topHeadline}) => {
+const ArticleCard = ({ topHeadline }) => {
     return (
-        <Card variant="outlined">
+        <Card variant="outlined" style={{ "width": 500 }}>
             <ul>
                 <li> <b>Source:</b> {topHeadline.source?.name}</li>
                 <li> <b>Author: </b>{topHeadline.author}</li>
@@ -117,7 +262,8 @@ const ArticleCard = ({topHeadline}) => {
     )
 }
 const Home = () => {
-    
+    const classes = useStyles();
+
     const [article, setArticle] = useState([]);
     const [expanded, setExpanded] = useState('');
     const [topHeadlines, setTopHeadlines] = useState([]);
@@ -126,22 +272,24 @@ const Home = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [url, setUrl] = useState('');
-    
+    const [category, setCategory] = React.useState("");
 
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    const [category, setCategory] = React.useState("");
-
     React.useEffect(() => {
         getCategory();
-        getTopHeadlines();
     }, [userId]);
 
+    React.useEffect(() => {
+        console.log(category)
+        getTopHeadlines();
+    }, [category])
+
     const getCategory = () => {
-        const result = callApiGetPreferenceCategory()
+        callApiGetPreferenceCategory()
             .then(res => {
                 // callApiGetArticles(res.user_info) 
                 setCategory(res.user_info[0].preference_category)
@@ -167,16 +315,22 @@ const Home = () => {
     }
 
     const getTopHeadlines = () => {
-        const result = callApiGetTopHeadlines()   
+        if (category === "") return
+        callApiGetTopHeadlines()
             .then(res => {
-            console.log("callGetTopHeadlines returned: ", res);
-            setTopHeadlines(res)
-        })
-
-
+                console.log("callGetTopHeadlines returned: ", res);
+                setTopHeadlines(res.articles)
+            })
     }
+
     const callApiGetTopHeadlines = async () => {
         const url = 'api/news/topHeadlines'
+
+        console.log("CALL TOP HEADLINESSSSSSS")
+        console.log(JSON.stringify({
+            category: category,
+            pageSize: 15
+        }))
 
         const response = await fetch(url, {
             method: "POST",
@@ -184,11 +338,12 @@ const Home = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                language: "en",
-                category: category
+                category: category,
+                pageSize: 15
             })
         });
         const body = await response.json();
+
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
@@ -209,22 +364,21 @@ const Home = () => {
                 <Typography variant="h3" color="inherit" noWrap>
                     Pulse News Home Page
                 </Typography>
-                <Typography variant="h3" color="inherit" noWrap>
-                    Preference category is {category !== "" ? category : ""}
+                <Typography variant="h5" color="inherit" noWrap>
+                    Test123 Preference category is <b>{category}</b>
                 </Typography>
                 {
                     topHeadlines.length > 0 ?
-                    topHeadlines.map((topHeadline) => {
-                        return (
-                  <ArticleCard topHeadline={topHeadline}/>
-                
-                        )
-                    })
-                   : <></>
+                        topHeadlines.map((topHeadline) => {
+                            return (
+                                <ArticleCard topHeadline={topHeadline} />
+                            )
+                        })
+                        : <></>
                 }
                 <Typography style={{ margin: 30 }}></Typography>
             </Grid>
-            <Card sx={{ maxWidth: 345 }}>
+            {/* <Card sx={{ maxWidth: 345 }}>
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -256,7 +410,7 @@ const Home = () => {
                     </IconButton>
                     <IconButton aria-label="share">
                         <ShareIcon />
-                    </IconButton>
+                    </IconButton> */}
                     {/* <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
@@ -265,8 +419,8 @@ const Home = () => {
                     >
                         <ExpandMoreIcon />
                     </ExpandMore> */}
-                </CardActions>
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                {/* </CardActions> */}
+                {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography paragraph>Method:</Typography>
                         <Typography paragraph>
@@ -281,8 +435,8 @@ const Home = () => {
                             pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
                             stirring often until thickened and fragrant, about 10 minutes. Add
                             saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                        </Typography>
-                        <Typography paragraph>
+                        </Typography> */}
+                        {/* <Typography paragraph>
                             Add rice and stir very gently to distribute. Top with artichokes and
                             peppers, and cook without stirring, until most of the liquid is absorbed,
                             15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
@@ -295,97 +449,30 @@ const Home = () => {
                         </Typography>
                     </CardContent>
                 </Collapse>
-            </Card>        
+            </Card> */}
         </div>
     )
 }
 
 // const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3054"; //enable for deployed mode; Change PORT to the port number given to you;
 
-const opacityValue = 0.7;
 
-const theme = createTheme({
-    // palette: {
-    //     type: 'dark',
-    //     background: {
-    //         default: "#b552f7"
-    //     },
-    //     primary: {
-    //         main: "#52F7B4",
-    //     },
-    //     secondary: {
-    //         main: "#b552f7",
-    //     },
-    // },
-});
-const styles = theme => ({
-    // root: {
-    //     body: {
-    //         backgroundColor: "#AFE1AF",
-    //         opacity: opacityValue,
-    //         overflow: "hidden",
-    //         color: green[400],
-    //         '&$checked': {
-    //             color: green[600],
-    //         },
-    //     },
-    // },
-    // paper: {
-    //     overflow: "hidden",
-    // },
-    // message: {
-    //     opacity: opacityValue,
-    //     maxWidth: 250,
-    //     paddingBottom: theme.spacing(2),
-    // },
-    // formControl: {
-    //     margin: theme.spacing(1),
-    //     minWidth: 200,
-    // },
-    // selectEmpty: {
-    //     marginTop: theme.spacing(2),
-    // },
-    // bullet: {
-    //     display: 'inline-block',
-    //     margin: '0 2px',
-    //     transform: 'scale(0.8)',
-    // },
+const Homes = () => {
 
-});
-class Homes extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         userID: 1,
-    //         mode: 0
-    //     }
-    // };
-    // componentDidMount() {
-    //     //this.loadUserSettings();
-    // }
-
-    render() {
-        const { classes } = this.props;
-
-        return (
-            // <MuiThemeProvider theme={theme}>
-                <div className={classes.root}>
-                    {/* <CssBaseline /> */}
-                    {/* <Paper */}
-                        {/* className={classes.paper}
+    return(
+            <MuiThemeProvider theme = { theme } >
+            <div>
+                <CssBaseline />
+                <Paper>
+                    {/* className={classes.paper}
                     > */}
-                        <Home />
-                    {/* </Paper> */}
+                    <Home />
+                </Paper>
 
-                </div>
+            </div>
 
-            // </MuiThemeProvider>
+            </MuiThemeProvider >
         );
-    }
-}
-
-Homes.propTypes = {
-    classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Homes);
+export default Homes;
