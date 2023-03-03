@@ -312,7 +312,7 @@ const Search = () => {
     }
 
     return (
-        <div>
+        <div data-testid='search' >
             <ButtonAppBar
                 backgroundColor="primary"
             ></ButtonAppBar>
@@ -364,6 +364,7 @@ const Search = () => {
                                 InputLabelProps={{
                                     style: { color: '#fff' },
                                 }}
+                                data-testid='searchbox'
                             />
                             <Box p={2}></Box>
                             <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit}>Search</Button>

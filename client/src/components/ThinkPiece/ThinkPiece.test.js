@@ -1,26 +1,3 @@
-// import React from "react";
-// import renderer from 'react-test-renderer';
-// import Link from '../Home/Link';
-// import Thinkpiece from "./index"
-// const request = require("supertest");
-// import app from "./index"
-// const { createPool } = require("mysql2/promise");
-// const faker = require("faker");
-
-// describe('Thinkpiece component tests', () => {
-
-//   let connection;
-
-//   beforeEach(async () => {
-//     let createTableSQL
-//   })
-//   test('test root path', async () => {
-//     const response = await request(app).get("/Thinkpiece")
-//     expect(response.statusCode).toBe(200)
-//   });
-// });
-
-
 import React from 'react';
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
@@ -63,4 +40,6 @@ describe('ThinkPiece', () => {
 
 
 });
+
+
 
