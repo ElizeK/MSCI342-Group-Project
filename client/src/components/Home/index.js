@@ -216,121 +216,6 @@ const useStyles = makeStyles((theme) => ({
         width: '80%',
     }
 }));
-// const useStyles = makeStyles((theme) => ({
-//     body: {
-//         backgroundColor: "#1b1b1b",
-//         overflow: "hidden",
-//         color: "#1b1b1b"
-//     },
-//     backgroundColor: {
-//         backgroundColor: "#1b1b1b"
-//     },
-//     paper: {
-//         overflow: "hidden",
-//     },
-//     message: {
-//         opacity: opacityValue,
-//         maxWidth: 250,
-//         paddingBottom: theme.spacing(2),
-//     },
-//     formControl: {
-//         margin: theme.spacing(1),
-//         minWidth: 200,
-//     },
-//     selectEmpty: {
-//         marginTop: theme.spacing(2),
-//     },
-//     bullet: {
-//         display: 'inline-block',
-//         margin: '0 2px',
-//         transform: 'scale(0.8)',
-//     },
-//     textField: {
-//         "& .MuiInputBase-root": {
-//             color: 'white'
-//         },
-//         "& .MuiOutlinedInput-root": {
-//             "& > fieldset": { borderColor: "white" },
-//         },
-//         "& .MuiInputLabel-root": { color: 'white' },
-//         "& .MuiOutlinedInputLabel-root": { color: 'white' },
-//         "& .MuiOutlinedInput-root:hover": {
-//             "& > fieldset": {
-//                 borderColor: "white"
-//             }
-//         },
-//         "& .MuiOutlinedInput-root.Mui-focused": {
-//             "& > fieldset": {
-//                 borderColor: "white"
-//             }
-//         }
-//     },
-//     select: {
-//         '&:before': {
-//             borderColor: 'white',
-//         },
-//         '&:after': {
-//             borderColor: 'white',
-//         },
-//         '&:not(.Mui-disabled):hover::before': {
-//             borderColor: 'white',
-//         },
-//         '& .MuiOutlinedInput-notchedOutline': {
-//             border: "1px solid white !important"
-//         },
-//         '& .MuiOutlinedInput-notchedOutline.Mui-focused': {
-//             borderColor: "white !important"
-//         },
-//         '& .MuiSvgIcon-root': {
-//             fill: "white !important",
-//         }
-//     },
-//     heading: {
-//         color: "white",
-//         fontFamily: "Oswald",
-//         fontSize: 55
-//     },
-//     subHeading: {
-//         color: "white",
-//         fontFamily: "Inter",
-//         fontSize: 22,
-//         fontStyle: "normal",
-//         fontWeight: 300
-
-//     },
-//     navbarItem: {
-//         fontFamily: 'Inter',
-//         fontStyle: "normal",
-//         fontWeight: 400,
-//         fontSize: 16,
-//         cursor: "pointer"
-//     },
-//     inputLabelRoot: {
-//         color: "white",
-//     },
-
-//     card: {
-//         maxWidth: 345,
-//         margin: 'auto',
-//         marginTop: 50,
-//         marginBottom: 50,
-//     },
-//     content: {
-//         display: 'flex',
-//         justifyContent: 'space-between',
-//         alignItems: 'center',
-//     },
-//     buttonGroup: {
-//         display: 'flex',
-//         flexDirection: 'column',
-//         alignItems: 'center',
-//         marginTop: 20,
-//     },
-//     textField: {
-//         margin: 10,
-//         width: '80%',
-//     }
-// }));
 
 const ButtonAppBar = () => {
     const classes = useStyles();
@@ -384,46 +269,48 @@ const ArticleCard = ({ topHeadline }) => {
     const classes = useStyles();
 
     return (
-        <Card variant="outlined" style={{ "width": 500 }} className = {classes.ArticleCard}>
-             <CardHeader className = {classes.header}
-        avatar={
-          <Avatar sx={{bgcolor: 'backgroundColor.backgroundColor'}} aria-label="recipe">
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={topHeadline.title} 
-        subheader={topHeadline.source?.name}
-      />
-        <CardContent>
-            <Typography variant="body2" color="text.secondary" className = {classes.ArticleCard}>
-                This text is placeholder for our description field. The content for this field 
-                will be added in Sprint 2.
-            </Typography>
-        </CardContent>
-       {/* <CardContent>
-        <Typography variant="body2" color= {"white"}>
-          {topHeadline.description}
-        </Typography>
-      </CardContent> */}
-            <ul>
-                <li> <b>Source:</b> {topHeadline.source?.name}</li>
-                <li> <b>Author: </b>{topHeadline.author}</li>
-                <li> <b>Title:</b> {topHeadline.title}</li>
-                <li> <b>Description:</b> {topHeadline.description}</li>
-                <li> <b>Published at: </b>{topHeadline.publishedAt}</li>
-                <li> <b>URL:</b> {topHeadline.url}</li>
-                <li> <b>Content:</b> {topHeadline.content}</li>
-                <img 
-                    src = "${topHeadline.urlToImage}">
-                </img>
-            </ul>
-            
-        </Card>
+        // <Grid container spacing = {2}>
+        //     <Grid item xs={4}>
+                <Card variant="outlined" style={{ "width": 500 }} className={classes.ArticleCard}>
+                    <div>
+                        <img src="./placeholderImage.png" width="500" height="200"></img>
+                    </div>
+                    <CardHeader className={classes.header}
+                        avatar={
+                            <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
+                                S
+                            </Avatar>
+                        }
+                        action={
+                            <IconButton aria-label="settings">
+                                <MoreVertIcon />
+                            </IconButton>
+                        }
+                        title={topHeadline.title}
+                        subheader={topHeadline.source?.name + " ● " + topHeadline.publishedAt}
+                    />
+                        <CardContent>
+                            <Typography variant="body2" color="text.secondary" className={classes.header}>
+                                This text is placeholder for our description field. The content for this field
+                                will be added in Sprint 2.
+                            </Typography>
+                        </CardContent>
+       
+
+                    <ul>
+                        {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
+                        <li> <b>Author: </b>{topHeadline.author}</li>
+                        {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
+                        <li> <b>Description:</b> {topHeadline.description}</li>
+                        <li> <b>Published at: </b>{topHeadline.publishedAt}</li>
+                        <li> <b>URL:</b> {topHeadline.url}</li>
+                        {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
+                        <li> TESTING IMAGE </li>
+                    </ul>
+                </Card>
+            // </Grid>
+        // </Grid>
+        
     )
 }
 const Home = () => {
@@ -516,6 +403,7 @@ const Home = () => {
         <div>
             <ButtonAppBar
                 backgroundColor="secondary"
+                
             ></ButtonAppBar>
             <Grid
                 container
@@ -523,30 +411,35 @@ const Home = () => {
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
-                style={{ minHeight: '100vh' }}>
+                style={{ minHeight: '100vh' }}
+                className={classes.backgroundColor}>
 
-                <Typography variant="h3" color="inherit" noWrap>
+                <Typography className={classes.heading} >
                     Pulse News Home Page
                 </Typography>
-                <Typography variant="h5" color="inherit" noWrap>
+                <Typography variant="h5" color="inherit" noWrap className={classes.subHeading}>
                     Preference category is <b>{category}</b>
                 </Typography>
+
                 {
                     topHeadlines.length > 0 ?
-                        topHeadlines.map((topHeadline) => {
+                        
+                    <Grid container spacing = {{xs: 10, md:3}} columns = {{xs: 5, sm: 8, md:12}}>
+                        
+                        {topHeadlines.map((topHeadline, index) => {
                             return (
-                                <div>
-                                    <Grid
-                                        container
-                                        direction = "column"
-                                        className = {classes.backgroundColor}
-                                    >
-                                        <ArticleCard topHeadline={topHeadline} />
-                                    </Grid>
-                                </div>
-                                
+                           
+                                <Grid
+                                    xs = {2} sm = {4} key = {index}
+                                    container spacing={15}
+                                    direction="column"
+                                    className={classes.backgroundColor}
+                                >
+                                    <ArticleCard topHeadline={topHeadline} />
+                                </Grid>
                             )
-                        })
+                        })}
+                    </Grid>   
                         : <></>
                 }
                 <Typography style={{ margin: 30 }}></Typography>
