@@ -118,7 +118,7 @@ app.post('/api/news/topHeadlines', (req, res) => {
 		})
 });
 
-app.get('/searchNews/everything', (req, res) => {
+app.post('/api/news/everything', (req, res) => {
 	console.log(req.body)
 	const query = req.body.query
 	const pageSize = req.body.pageSize
