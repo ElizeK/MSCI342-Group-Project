@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ThinkPiece component shows error message on failed submission 1`] = `
+<div>
+  <Paper>
+    <div>
+      <div>
+        <Toolbar>
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            style={
+              Object {
+                "marginRight": 10,
+              }
+            }
+          />
+          <div
+            className="MuiTypography-root makeStyles-navbarItem-12 MuiTypography-h6"
+            sx={
+              Object {
+                "flexGrow": 1,
+              }
+            }
+          >
+            News App
+          </div>
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            style={
+              Object {
+                "marginRight": 50,
+              }
+            }
+          />
+          <Button
+            color="inherit"
+            onClick={[Function]}
+          >
+            <p
+              className="MuiTypography-root makeStyles-navbarItem-12 MuiTypography-body1"
+            >
+              Home
+            </p>
+          </Button>
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            style={
+              Object {
+                "marginRight": 50,
+              }
+            }
+          />
+          <Button
+            color="inherit"
+            onClick={[Function]}
+            style={
+              Object {
+                "cursor": "pointer",
+              }
+            }
+          >
+            <p
+              className="MuiTypography-root makeStyles-navbarItem-12 MuiTypography-body1"
+            >
+              Search
+            </p>
+          </Button>
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            style={
+              Object {
+                "marginRight": 50,
+              }
+            }
+          />
+          <Button
+            color="inherit"
+            onClick={[Function]}
+            style={
+              Object {
+                "cursor": "pointer",
+              }
+            }
+          >
+            <p
+              className="MuiTypography-root makeStyles-navbarItem-12 MuiTypography-body1"
+            >
+              Thinkpiece
+            </p>
+          </Button>
+          <p
+            className="MuiTypography-root MuiTypography-body1"
+            style={
+              Object {
+                "marginRight": 50,
+              }
+            }
+          />
+          <Button
+            color="inherit"
+            onClick={[Function]}
+            style={
+              Object {
+                "cursor": "pointer",
+              }
+            }
+          >
+            <p
+              className="MuiTypography-root makeStyles-navbarItem-12 MuiTypography-body1"
+            >
+              Profile
+            </p>
+          </Button>
+        </Toolbar>
+      </div>
+      <Grid
+        className="makeStyles-backgroundColor-2"
+        container={true}
+        direction="row"
+        style={
+          Object {
+            "minHeight": "100vh",
+          }
+        }
+      >
+        <Grid
+          item={true}
+          style={
+            Object {
+              "marginTop": 50,
+            }
+          }
+          xs={5}
+        >
+          <Box
+            ml={7}
+            p={2}
+          >
+            <p
+              className="MuiTypography-root makeStyles-heading-10 MuiTypography-body1"
+            >
+              Think Piece
+            </p>
+            <p
+              className="MuiTypography-root makeStyles-subHeading-11 MuiTypography-body1"
+            >
+              Write your own piece based on news you've read
+            </p>
+          </Box>
+          <Box
+            ml={7}
+            p={2}
+          >
+            <TextField
+              InputLabelProps={
+                Object {
+                  "style": Object {
+                    "color": "#fff",
+                  },
+                }
+              }
+              className="makeStyles-textField-8"
+              fullWidth={true}
+              id="outlined-basic"
+              label="Title"
+              onChange={[Function]}
+              required={true}
+              value=""
+              variant="outlined"
+            />
+          </Box>
+          <Box
+            ml={7}
+            p={2}
+          >
+            <TextField
+              InputLabelProps={
+                Object {
+                  "style": Object {
+                    "color": "#fff",
+                  },
+                }
+              }
+              className="makeStyles-textField-8"
+              fullWidth={true}
+              id="outlined-multiline-required"
+              label="Summary"
+              maxRows={4}
+              multiline={true}
+              onChange={[Function]}
+              required={true}
+              value=""
+            />
+          </Box>
+          <Box
+            ml={7}
+            p={2}
+          >
+            <FormControl
+              fullWidth={true}
+            >
+              <InputLabel
+                style={
+                  Object {
+                    "color": "#fff",
+                  }
+                }
+              >
+                Topic
+              </InputLabel>
+              <Select
+                className="makeStyles-select-9"
+                label="Topic"
+                onChange={[Function]}
+                required={true}
+                style={
+                  Object {
+                    "color": "#fff",
+                  }
+                }
+                value="General"
+              >
+                <MenuItem
+                  value="Business"
+                >
+                  Business
+                </MenuItem>
+                <MenuItem
+                  value="Entertainment"
+                >
+                  Entertainment
+                </MenuItem>
+                <MenuItem
+                  value="General"
+                >
+                  General
+                </MenuItem>
+                <MenuItem
+                  value="Health"
+                >
+                  Health
+                </MenuItem>
+                <MenuItem
+                  value="Science"
+                >
+                  Science
+                </MenuItem>
+                <MenuItem
+                  value="Sports"
+                >
+                  Sports
+                </MenuItem>
+                <MenuItem
+                  value="Technology"
+                >
+                  Technology
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+          <Box
+            ml={7}
+            p={2}
+          >
+            <TextField
+              InputLabelProps={
+                Object {
+                  "style": Object {
+                    "color": "#fff",
+                  },
+                }
+              }
+              className="makeStyles-textField-8"
+              fullWidth={true}
+              id="outlined-required"
+              label="Article URL"
+              onChange={[Function]}
+              required={true}
+              value=""
+            />
+          </Box>
+        </Grid>
+        <Grid
+          item={true}
+          xs={1}
+        />
+        <Grid
+          direction="column"
+          item={true}
+          style={
+            Object {
+              "marginTop": 50,
+            }
+          }
+          xs={4.5}
+        >
+          <Box
+            mt={22.5}
+            p={2}
+          >
+            <TextField
+              InputLabelProps={
+                Object {
+                  "style": Object {
+                    "color": "#fff",
+                  },
+                }
+              }
+              className="makeStyles-textField-8"
+              fullWidth={true}
+              id="outlined-multiline-static"
+              label="Body"
+              multiline={true}
+              onChange={[Function]}
+              required={true}
+              rows={10}
+              value=""
+            />
+          </Box>
+          <Box
+            m2={2}
+            p={2}
+          >
+            <Button
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#B18CFF",
+                }
+              }
+              variant="contained"
+            >
+              Submit
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </div>
+  </Paper>
+</div>
+`;
+
+exports[`ThinkPiece component shows error message on failed submission 2`] = `
+<a
+  className="hovered"
+  href="http://www.facebook.com"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  Facebook
+</a>
+`;
+
+exports[`ThinkPiece component shows error message on failed submission 3`] = `
+<a
+  className="normal"
+  href="http://www.facebook.com"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  Facebook
+</a>
+`;
