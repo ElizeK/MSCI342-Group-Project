@@ -20,6 +20,12 @@ export default function PrivateRoute({
 
     <Router history={history}>
       <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="/Landing" exact component={Landing} />
+        <Route path="/ThinkPiece" exact component={ThinkPiece} />
+        <Route path="/Search" exact component={Search} />
+        <Route path="/Profile" exact component={Profile} />
+        <Route path="/SigningUp" exact component={SigningUp} />
       <Route path="/" exact component={Landing} />
       <Route path="/Home" exact component={Home} />
       <Route path="/ThinkPiece" exact component={ThinkPiece} />
@@ -28,7 +34,7 @@ export default function PrivateRoute({
       <Route path="/SigningUp" exact component={SigningUp} />
       <Route path="/Login" exact component={Login} />
 
-      {/* <Route path="/SignIn" exact component={SignIn} />
+        {/* <Route path="/SignIn" exact component={SignIn} />
       <Route path="/SignUp" exact component={SignUp} />
       <Route path="/SignOut" exact component={SignOut} /> */}
       </Switch>

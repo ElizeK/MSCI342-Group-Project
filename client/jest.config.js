@@ -3,6 +3,8 @@ module.exports = {
     transform: {
         '^.+\\.(ts|tsx)?$': 'ts-jest',
         "^.+\\.(js|jsx)$": "babel-jest",
+    }
+};
     },
     moduleFileExtensions: ['js', 'jsx'],
     moduleDirectories: ['node_modules', 'bower_components', 'shared'],
