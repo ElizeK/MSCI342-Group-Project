@@ -293,7 +293,7 @@ const SigningUp = () => {
                         <TextField
                             required
                             fullWidth
-                            id="outlined-basic"
+                            id="tf1"
                             label="Email"
                             value={userEmail}
                             variant="outlined"
@@ -308,7 +308,7 @@ const SigningUp = () => {
                         <TextField
                             required
                             fullWidth
-                            id="outlined-basic"
+                            id="tf3"
                             label="Password"
                             value={password}
                             variant="outlined"
@@ -335,7 +335,7 @@ const SigningUp = () => {
                         <TextField
                             required
                             fullWidth
-                            id="outlined-basic"
+                            id="tf2"
                             label="Username"
                             value={username}
                             variant="outlined"
@@ -351,7 +351,7 @@ const SigningUp = () => {
                         <TextField
                             required
                             fullWidth
-                            id="outlined-basic"
+                            id="tf4"
                             label="Password Confirmation"
                             value={passwordConf}
                             variant="outlined"
@@ -367,8 +367,8 @@ const SigningUp = () => {
                     </Box>
 
 
-                    <Box m2={2} p={2}>
-                        <Button variant="contained" onClick={handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Sign Up!</Button>
+                    <Box m2={2} p={2} id="buttonBox">
+                        <Button id="bt5" variant="contained" onClick={handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Sign Up!</Button>
                     </Box>
 
 
@@ -407,6 +407,7 @@ const PreferenceSelection = ({ preference, setPreference }) => {
             <FormControl fullWidth>
                 <InputLabel style={{ color: "#fff" }}>Preference</InputLabel>
                 <Select
+                    id="dd1"
                     value={preference}
                     label="Preference"
                     // onChange={(e) => setPreference(e.target.value)}                 
@@ -449,6 +450,7 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
             <FormControl fullWidth>
                 <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
                 <Select
+                    id="dd2"
                     value={language}
                     label="Language"
                     onChange={setLanguage}
