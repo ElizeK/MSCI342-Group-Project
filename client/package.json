@@ -60,7 +60,7 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^10.9.0"
+    "cypress": "^10.9.0",
     "@babel/core": "^7.21.0",
     "@babel/plugin-transform-modules-commonjs": "^7.12.13",
     "@babel/preset-env": "^7.20.2",
