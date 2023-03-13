@@ -1,7 +1,7 @@
 # MSCI342-Group-Project
 
 # Pulse News
-Hello world, welcome to our application!
+Hello world, welcome to our super duper cool application!
 
 # The Problem
 
