@@ -226,12 +226,17 @@ const useStyles = makeStyles((theme) => ({
 const ButtonAppBar = () => {
     const classes = useStyles();
     return (
-        <div data-testid="appbar">
+        <div>
             <Toolbar>
                 <Typography style={{ marginRight: 10 }}></Typography>
-                <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    News App
-                </Typography>
+                <Button
+                    color="inherit"
+                    onClick={() => history.push('/Landing')}
+                >
+                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Pulse News
+                    </Typography>
+                </Button>
                 <Typography style={{ marginRight: 50 }}></Typography>
                 <Button
                     color="inherit"
@@ -275,61 +280,99 @@ const ArticleCard = ({ topHeadline }) => {
     const classes = useStyles();
 
     return (
-        // <Grid container spacing = {2}>
-        //     <Grid item xs={4}>
-        <Card variant="outlined" style={{ "width": 500 }} className={classes.ArticleCard} >
-            <div >
-                <img src="./placeholderImage.png" width="500" height="200"></img>
+        // // <Grid container spacing = {2}>
+        // //     <Grid item xs={4}>
+        // <Card variant="outlined" style={{ "width": 500 }} className={classes.ArticleCard} >
+        //     <div >
+        //         <img src="./placeholderImage.png" width="500" height="200"></img>
+        //     </div>
+        //     <CardHeader className={classes.header}
+        //         avatar={
+        //             <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
+        //                 S
+        //             </Avatar>
+        //         }
+        //         action={
+        //             <IconButton aria-label="settings">
+        //                 <MoreVertIcon />
+        //             </IconButton>
+        //         }
+        //         title={topHeadline.title}
+        //         subheader={topHeadline.source?.name + " ● " + topHeadline.publishedAt}
+        //     />
+        //     <CardContent>
+        //         <Typography variant="body2" color="text.secondary" className={classes.header}>
+        //             This text is placeholder for our description field. The content for this field
+        //             will be added in Sprint 2.
+        //         </Typography>
+        //     </CardContent>
+
+        //     <ul>
+        //         {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
+        //         {/* <li> <b>Author: </b>{topHeadline.author}</li> */}
+        //         {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
+        //         {/* <li> <b>Description:</b> {topHeadline.description}</li> */}
+        //         {/* <li> <b>Published at: </b>{topHeadline.publishedAt}</li> */}
+        //         {/* <li> <b>URL:</b> {topHeadline.url}</li> */}
+        //         {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
+        //         {/* <li> TESTING IMAGE </li> */}
+        //         <div
+        //             style={{ justifyContent: 'flex-start' }}>
+        //             <Button
+        //                 className={classes.button}
+        //                 pt={20}
+        //                 variant="outlined"
+        //                 href={topHeadline.url}
+        //                 target="_blank"
+        //                 rel="noreferrer"
+        //                 color="inherit"
+        //                 style={{ cursor: "pointer", float: 'left', backgroundColor: '#712EFF', color: 'white' }}
+        //             >
+        //                 Learn More
+        //             </Button>
+        //         </div>
+        //     </ul>
+        // </Card>
+        // // </Grid>
+        // // </Grid>
+
+        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
+            <div>
+                <img src="./placeholderImage.png" width="400"></img>
+                {/* <img src={topHeadline.urlToImage} width="400" alt='Image not available'></img> */}
+
+
             </div>
             <CardHeader className={classes.header}
-                avatar={
-                    <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
-                        S
-                            </Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
                 title={topHeadline.title}
-                subheader={topHeadline.source?.name + " ● " + topHeadline.publishedAt}
+                subheader={topHeadline.author + " ● " + topHeadline.publishedAt}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary" className={classes.header}>
-                    This text is placeholder for our description field. The content for this field
-                    will be added in Sprint 2.
-                            </Typography>
+                    {topHeadline.description}
+                </Typography>
             </CardContent>
 
             <ul>
-                {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
-                {/* <li> <b>Author: </b>{topHeadline.author}</li> */}
-                {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
-                {/* <li> <b>Description:</b> {topHeadline.description}</li> */}
-                {/* <li> <b>Published at: </b>{topHeadline.publishedAt}</li> */}
-                {/* <li> <b>URL:</b> {topHeadline.url}</li> */}
-                {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
-                {/* <li> TESTING IMAGE </li> */}
-                <div
-                    style={{ justifyContent: 'flex-start' }}>
-                    <Button
-                        className={classes.button}
-                        pt={20}
-                        variant="outlined"
-                        href={topHeadline.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        color="inherit"
-                        style={{ cursor: "pointer", float: 'left', backgroundColor: '#712EFF', color: 'white' }}
-                    >
-                        Learn More
-                        </Button>
-                </div>
+
             </ul>
+
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+                <Button
+                    // color="secondary"
+                    variant="outlined"
+                    href={topHeadline.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    color="inherit"
+                    style={{ cursor: "pointer", float: 'left' }}
+                >
+                    Learn More
+                </Button>
+            </div>
+
         </Card>
-        // </Grid>
-        // </Grid>
 
     )
 }
@@ -422,9 +465,7 @@ const Home = () => {
     return (
         <div  >
             <ButtonAppBar
-                backgroundColor="secondary"
-
-
+                backgroundColor="primary"
             ></ButtonAppBar>
             <Grid
                 container
@@ -450,14 +491,20 @@ const Home = () => {
                             {topHeadlines.map((topHeadline, index) => {
                                 return (
 
-                                    <Grid
-                                        xs={2} sm={4} key={index}
-                                        container spacing={15}
-                                        direction="column"
-                                        className={classes.backgroundColor}
-                                    >
-                                        <ArticleCard topHeadline={topHeadline} data-testid='article-card' />
-                                        <Typography style={{ padding: 30 }}></Typography>
+                                    // <Grid
+                                    //     xs={2} sm={4} key={index}
+                                    //     container spacing={15}
+                                    //     direction="column"
+                                    //     className={classes.backgroundColor}
+                                    // >
+                                    //     <ArticleCard topHeadline={topHeadline} data-testid='article-card' />
+                                    //     <Typography style={{ padding: 30 }}></Typography>
+
+
+                                    // </Grid>
+                                    <Grid xs={4} sm={4} md={4} key={index}>
+                                        <ArticleCard topHeadline={topHeadline} data-testid='article-card'/>
+                                        <Typography style={{ padding: 20 }}></Typography>
                                     </Grid>
                                 )
                             })}
@@ -476,15 +523,13 @@ const Homes = () => {
 
     return (
         <MuiThemeProvider theme={theme} >
-            <div>
-                <CssBaseline />
-                <Paper>
-                    {/* className={classes.paper}
+            <CssBaseline />
+            <Paper>
+                {/* className={classes.paper}
                     > */}
-                    <Home />
-                </Paper>
+                <Home />
+            </Paper>
 
-            </div>
 
         </MuiThemeProvider >
     );

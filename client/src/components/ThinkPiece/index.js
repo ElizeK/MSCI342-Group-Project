@@ -128,9 +128,14 @@ const ButtonAppBar = () => {
         <div>
             <Toolbar>
                 <Typography style={{ marginRight: 10 }}></Typography>
-                <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    News App
-                </Typography>
+                <Button
+                    color="inherit"
+                    onClick={() => history.push('/Landing')}
+                >
+                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Pulse News
+                    </Typography>
+                </Button>
                 <Typography style={{ marginRight: 50 }}></Typography>
                 <Button
                     color="inherit"
