@@ -275,9 +275,64 @@ const ButtonAppBar = () => {
     );
 }
 
+// const FavouriteArticles = () => {
+
+// }
+
 
 const ArticleCard = ({ topHeadline }) => {
     const classes = useStyles();
+
+    const [articleId, setArticleId] = useState(1);
+    const [favourite, setFavourite] = React.useState(false);
+    const [author, setAuthor] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [articleUrl, setUrl] = useState('');
+    const [date, setDate] = useState('');
+    
+    // setTitle(topHeadline.title)
+    // setAuthor(topHeadline.author)
+    // setDescription(topHeadline.description)
+    // setUrl(topHeadline.url)
+
+    // title = topHeadline.title
+
+    const addFavourite = async () => {
+        await handleFavouriteClick();
+    }
+
+    React.useEffect(() => {
+        setAuthor(topHeadline.author);
+        setTitle(topHeadline.title);
+        setUrl(topHeadline.url);
+        // setDate(topHeadline.publishedAt);
+    }, [topHeadline]);
+
+    const handleFavouriteClick = async () => {
+        const url = '/api/article/favourite';
+        console.log(url)
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify({
+                articleId: articleId,
+                title: title,
+                author: author,
+                articleUrl: articleUrl,
+                // publishedAt: date
+            })
+        });
+        console.log(response)
+        const body = await response.json();
+        console.log(body);
+        if (response.ok) {
+            setFavourite(true);
+            // setArticleId(articleId + 1);
+        }
+    }
 
     return (
         // // <Grid container spacing = {2}>
@@ -372,6 +427,13 @@ const ArticleCard = ({ topHeadline }) => {
                 </Button>
             </div>
 
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                <Button variant="contained" onClick={addFavourite}>
+                    {favourite ? 'Favourited' : 'Favourite'}
+                </Button>
+            </div>
+
         </Card>
 
     )
@@ -383,12 +445,8 @@ const Home = () => {
     const [expanded, setExpanded] = useState('');
     const [topHeadlines, setTopHeadlines] = useState([]);
     const [userId, setUserId] = useState(1);
-    const [author, setAuthor] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [url, setUrl] = useState('');
     const [category, setCategory] = React.useState("");
-
+    
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
