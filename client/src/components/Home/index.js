@@ -11,6 +11,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/styles';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
@@ -241,62 +242,6 @@ const ArticleCard = ({ topHeadline }) => {
     }
 
     return (
-        // // <Grid container spacing = {2}>
-        // //     <Grid item xs={4}>
-        // <Card variant="outlined" style={{ "width": 500 }} className={classes.ArticleCard} >
-        //     <div >
-        //         <img src="./placeholderImage.png" width="500" height="200"></img>
-        //     </div>
-        //     <CardHeader className={classes.header}
-        //         avatar={
-        //             <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
-        //                 S
-        //             </Avatar>
-        //         }
-        //         action={
-        //             <IconButton aria-label="settings">
-        //                 <MoreVertIcon />
-        //             </IconButton>
-        //         }
-        //         title={topHeadline.title}
-        //         subheader={topHeadline.source?.name + " ● " + topHeadline.publishedAt}
-        //     />
-        //     <CardContent>
-        //         <Typography variant="body2" color="text.secondary" className={classes.header}>
-        //             This text is placeholder for our description field. The content for this field
-        //             will be added in Sprint 2.
-        //         </Typography>
-        //     </CardContent>
-
-        //     <ul>
-        //         {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
-        //         {/* <li> <b>Author: </b>{topHeadline.author}</li> */}
-        //         {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
-        //         {/* <li> <b>Description:</b> {topHeadline.description}</li> */}
-        //         {/* <li> <b>Published at: </b>{topHeadline.publishedAt}</li> */}
-        //         {/* <li> <b>URL:</b> {topHeadline.url}</li> */}
-        //         {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
-        //         {/* <li> TESTING IMAGE </li> */}
-        //         <div
-        //             style={{ justifyContent: 'flex-start' }}>
-        //             <Button
-        //                 className={classes.button}
-        //                 pt={20}
-        //                 variant="outlined"
-        //                 href={topHeadline.url}
-        //                 target="_blank"
-        //                 rel="noreferrer"
-        //                 color="inherit"
-        //                 style={{ cursor: "pointer", float: 'left', backgroundColor: '#712EFF', color: 'white' }}
-        //             >
-        //                 Learn More
-        //             </Button>
-        //         </div>
-        //     </ul>
-        // </Card>
-        // // </Grid>
-        // // </Grid>
-
         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
             <div>
                 <img src="./placeholderImage.png" width="400"></img>
@@ -461,18 +406,6 @@ const Home = () => {
 
                             {topHeadlines.map((topHeadline, index) => {
                                 return (
-
-                                    // <Grid
-                                    //     xs={2} sm={4} key={index}
-                                    //     container spacing={15}
-                                    //     direction="column"
-                                    //     className={classes.backgroundColor}
-                                    // >
-                                    //     <ArticleCard topHeadline={topHeadline} data-testid='article-card' />
-                                    //     <Typography style={{ padding: 30 }}></Typography>
-
-
-                                    // </Grid>
                                     <Grid xs={4} sm={4} md={4} key={index}>
                                         <ArticleCard topHeadline={topHeadline} data-testid='article-card'/>
                                         <Typography style={{ padding: 20 }}></Typography>
