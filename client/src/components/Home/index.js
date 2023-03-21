@@ -1,64 +1,19 @@
-import React, { Component, useState } from 'react';
-import PropTypes from 'prop-types';
-//import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { MenuItem, Typography } from "@material-ui/core";
-import history from "../Navigation/history";
+import { Typography } from "@material-ui/core";
+import NavBar from '../NavBar';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-//import CardActions from '@mui/material/CardActions';
-//import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-//import { green } from '@material-ui/core/colors';
 import Paper from "@material-ui/core/Paper";
-//import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-//import { red } from '@mui/material/colors';
-//import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { makeStyles } from '@material-ui/styles';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
-//import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
-//import { FormControl, InputLabel, Select, TextField, Box } from '@mui/material';
-//import { LastPageOutlined } from '@material-ui/icons';
-//import Stack from '@mui/material/Stack';
-//import { styled } from '@mui/material/styles';
-
-
-//import { deepOrange, deepPurple } from '@mui/material/colors';
-//import { Article } from '@mui/icons-material';
-
-// // interface ExpandMoreProps extends IconButtonProps {
-// //     expand: boolean;
-// // }
-// // const ExpandMore = styled((props: ExpandMoreProps) => {
-// //     const { expand, ...other } = props;
-// //     return <IconButton {...other} />;
-// // })(({ theme, expand }) => ({
-// //     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-// //     marginLeft: 'auto',
-// //     transition: theme.transitions.create('transform', {
-// //         duration: theme.transitions.duration.shortest,
-// //     }),
-// // }));
-
-// // const RecipeReviewCard = () => {
-// //     const [expanded, setExpanded] = React.useState(false);
-
-// //     const handleExpandClick = () => {
-// //         setExpanded(!expanded);
-// //     };
-
 
 
 // // const serverURL = process.env.DB_URL;
@@ -136,6 +91,13 @@ const useStyles = makeStyles((theme) => ({
                 borderColor: "white"
             }
         }
+    },
+
+    root: {
+        "& .MuiPaper-root": {
+            backgroundColor: "#ffff",
+            color: "rgba(0, 0, 0, 0.87)"
+          }
     },
     select: {
         '&:before': {
@@ -217,63 +179,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginTop: 20,
     },
-    textField: {
-        margin: 10,
-        width: '80%',
-    }
 }));
-
-const ButtonAppBar = () => {
-    const classes = useStyles();
-    return (
-        <div>
-            <Toolbar>
-                <Typography style={{ marginRight: 10 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Landing')}
-                >
-                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Pulse News
-                    </Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Home')}
-                >
-                    <Typography className={classes.navbarItem}>Home</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
-
-            </Toolbar>
-        </div>
-
-    );
-}
 
 // const FavouriteArticles = () => {
 
@@ -470,6 +376,7 @@ const Home = () => {
     }
 
     const callApiGetPreferenceCategory = async () => {
+        // console.log("CALLING API")
         const url = '/api/preferenceCategory';
         const response = await fetch(url, {
             method: "POST",
@@ -521,10 +428,10 @@ const Home = () => {
     }
 
     return (
-        <div  >
-            <ButtonAppBar
-                backgroundColor="primary"
-            ></ButtonAppBar>
+        <div>
+            <NavBar
+                backgroundColor="secondary"
+            ></NavBar>
             <Grid
                 container
                 spacing={3}
@@ -581,14 +488,12 @@ const Homes = () => {
 
     return (
         <MuiThemeProvider theme={theme} >
+            <div>
             <CssBaseline />
             <Paper>
-                {/* className={classes.paper}
-                    > */}
                 <Home />
             </Paper>
-
-
+            </div>
         </MuiThemeProvider >
     );
 };

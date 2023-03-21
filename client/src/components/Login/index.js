@@ -1,77 +1,17 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
-import history from "../Navigation/history";
+import NavBar from '../NavBar';
 
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import { green } from '@material-ui/core/colors';
-import Paper from "@material-ui/core/Paper";
-
-import { deepOrange, deepPurple } from '@mui/material/colors';
-
-
-
-
-
-const ButtonAppBar = () => {
-    return (
-        <Toolbar>
-            <Typography style={{ marginRight: 10 }}></Typography>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                News App
-            </Typography>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/')}
-            >
-                Home
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/Search')}
-            >
-                Search
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/ThinkPiece')}
-            >
-                ThinkPiece
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-            <Button
-                color="inherit"
-                style={{ cursor: "pointer" }}
-                onClick={() => history.push('/Profile')}
-            >
-                Profile
-            </Button>
-            <Typography style={{ marginRight: 50 }}></Typography>
-
-        </Toolbar>
-    );
-}
-
-
-const Login = () => {
-
-
+const SignIn = () => {
     return (
         <div>
-            <ButtonAppBar
+            <NavBar
                 backgroundColor="secondary"
-            ></ButtonAppBar>
+            ></NavBar>
             <Grid
                 container
                 spacing={3}
@@ -81,7 +21,7 @@ const Login = () => {
                 style={{ minHeight: '100vh' }}>
 
                 <Typography variant="h3" color="inherit" noWrap>
-                    Pulse News Login Page
+                    Pulse News SignIn Page
                 </Typography>
                 <Typography style={{ margin: 30 }}></Typography>
 
@@ -144,7 +84,7 @@ const styles = theme => ({
     // },
 
 });
-class Logins extends Component {
+class SignIns extends Component {
     // constructor(props) {
     //     super(props);
     //     this.state = {
@@ -166,7 +106,7 @@ class Logins extends Component {
                     {/* <Paper */}
                         {/* className={classes.paper}
                     > */}
-                        <Login />
+                        <SignIn />
                     {/* </Paper> */}
 
                 </div>
@@ -176,8 +116,8 @@ class Logins extends Component {
     }
 }
 
-Logins.propTypes = {
+SignIns.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Logins);
+export default withStyles(styles)(SignIns);
