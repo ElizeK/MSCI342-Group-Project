@@ -1,31 +1,21 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import history from "../Navigation/history";
-
-import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-import { green } from '@material-ui/core/colors';
-import Paper from "@material-ui/core/Paper";
-
-import { deepOrange, deepPurple } from '@mui/material/colors';
-
 import TextField from "@material-ui/core/TextField";
-import FormHelperText from '@material-ui/core/FormHelperText';
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Box from '@mui/material/Box';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { makeStyles } from '@material-ui/core/styles';
+import NavBar from '../NavBar';
 
 
 const theme = createTheme({
@@ -139,59 +129,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ButtonAppBar = () => {
-    const classes = useStyles();
-    return (
-        <div>
-            <Toolbar>
-                <Typography style={{ marginRight: 10 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Landing')}
-                >
-                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Pulse News
-                    </Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Home')}
-                >
-                    <Typography className={classes.navbarItem}>Home</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
-
-            </Toolbar>
-        </div>
-
-    );
-}
-
-
 const SigningUp = () => {
 
     const [userEmail, setUserEmail] = React.useState("");
@@ -272,9 +209,9 @@ const SigningUp = () => {
 
     return (
         <div>
-            <ButtonAppBar
+            <NavBar
                 backgroundColor="secondary"
-            ></ButtonAppBar>
+            ></NavBar>
 
             <Grid
                 container
