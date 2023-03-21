@@ -1,64 +1,20 @@
-import React, { Component, useState } from 'react';
-import PropTypes from 'prop-types';
-//import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { MenuItem, Typography } from "@material-ui/core";
-import history from "../Navigation/history";
+import { Typography } from "@material-ui/core";
+import NavBar from '../NavBar';
 
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-//import CardActions from '@mui/material/CardActions';
-//import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
-//import { green } from '@material-ui/core/colors';
 import Paper from "@material-ui/core/Paper";
-//import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-//import { red } from '@mui/material/colors';
-//import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { makeStyles } from '@material-ui/styles';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
-//import LinkOutlinedIcon from '@mui/icons-material/LinkOutlined';
-//import { FormControl, InputLabel, Select, TextField, Box } from '@mui/material';
-//import { LastPageOutlined } from '@material-ui/icons';
-//import Stack from '@mui/material/Stack';
-//import { styled } from '@mui/material/styles';
-
-
-//import { deepOrange, deepPurple } from '@mui/material/colors';
-//import { Article } from '@mui/icons-material';
-
-// // interface ExpandMoreProps extends IconButtonProps {
-// //     expand: boolean;
-// // }
-// // const ExpandMore = styled((props: ExpandMoreProps) => {
-// //     const { expand, ...other } = props;
-// //     return <IconButton {...other} />;
-// // })(({ theme, expand }) => ({
-// //     transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-// //     marginLeft: 'auto',
-// //     transition: theme.transitions.create('transform', {
-// //         duration: theme.transitions.duration.shortest,
-// //     }),
-// // }));
-
-// // const RecipeReviewCard = () => {
-// //     const [expanded, setExpanded] = React.useState(false);
-
-// //     const handleExpandClick = () => {
-// //         setExpanded(!expanded);
-// //     };
-
 
 
 // // const serverURL = process.env.DB_URL;
@@ -136,6 +92,13 @@ const useStyles = makeStyles((theme) => ({
                 borderColor: "white"
             }
         }
+    },
+
+    root: {
+        "& .MuiPaper-root": {
+            backgroundColor: "#ffff",
+            color: "rgba(0, 0, 0, 0.87)"
+          }
     },
     select: {
         '&:before': {
@@ -217,125 +180,68 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginTop: 20,
     },
-    textField: {
-        margin: 10,
-        width: '80%',
-    }
 }));
 
-const ButtonAppBar = () => {
-    const classes = useStyles();
-    return (
-        <div>
-            <Toolbar>
-                <Typography style={{ marginRight: 10 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Landing')}
-                >
-                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Pulse News
-                    </Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Home')}
-                >
-                    <Typography className={classes.navbarItem}>Home</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
+// const FavouriteArticles = () => {
 
-            </Toolbar>
-        </div>
-
-    );
-}
+// }
 
 
 const ArticleCard = ({ topHeadline }) => {
     const classes = useStyles();
 
+    const [articleId, setArticleId] = useState(1);
+    const [favourite, setFavourite] = React.useState(false);
+    const [author, setAuthor] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [articleUrl, setUrl] = useState('');
+    const [date, setDate] = useState('');
+    
+    // setTitle(topHeadline.title)
+    // setAuthor(topHeadline.author)
+    // setDescription(topHeadline.description)
+    // setUrl(topHeadline.url)
+
+    // title = topHeadline.title
+
+    const addFavourite = async () => {
+        await handleFavouriteClick();
+    }
+
+    React.useEffect(() => {
+        setAuthor(topHeadline.author);
+        setTitle(topHeadline.title);
+        setUrl(topHeadline.url);
+        // setDate(topHeadline.publishedAt);
+    }, [topHeadline]);
+
+    const handleFavouriteClick = async () => {
+        const url = '/api/article/favourite';
+        console.log(url)
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify({
+                articleId: articleId,
+                title: title,
+                author: author,
+                articleUrl: articleUrl,
+                // publishedAt: date
+            })
+        });
+        console.log(response)
+        const body = await response.json();
+        console.log(body);
+        if (response.ok) {
+            setFavourite(true);
+            // setArticleId(articleId + 1);
+        }
+    }
+
     return (
-        // // <Grid container spacing = {2}>
-        // //     <Grid item xs={4}>
-        // <Card variant="outlined" style={{ "width": 500 }} className={classes.ArticleCard} >
-        //     <div >
-        //         <img src="./placeholderImage.png" width="500" height="200"></img>
-        //     </div>
-        //     <CardHeader className={classes.header}
-        //         avatar={
-        //             <Avatar sx={{ bgcolor: 'backgroundColor.backgroundColor' }} aria-label="recipe">
-        //                 S
-        //             </Avatar>
-        //         }
-        //         action={
-        //             <IconButton aria-label="settings">
-        //                 <MoreVertIcon />
-        //             </IconButton>
-        //         }
-        //         title={topHeadline.title}
-        //         subheader={topHeadline.source?.name + " ● " + topHeadline.publishedAt}
-        //     />
-        //     <CardContent>
-        //         <Typography variant="body2" color="text.secondary" className={classes.header}>
-        //             This text is placeholder for our description field. The content for this field
-        //             will be added in Sprint 2.
-        //         </Typography>
-        //     </CardContent>
-
-        //     <ul>
-        //         {/* <li> <b>Source:</b> {topHeadline.source?.name}</li> */}
-        //         {/* <li> <b>Author: </b>{topHeadline.author}</li> */}
-        //         {/* <li> <b>Title:</b> {topHeadline.title}</li> */}
-        //         {/* <li> <b>Description:</b> {topHeadline.description}</li> */}
-        //         {/* <li> <b>Published at: </b>{topHeadline.publishedAt}</li> */}
-        //         {/* <li> <b>URL:</b> {topHeadline.url}</li> */}
-        //         {/* <li> <b>Content:</b> {topHeadline.content}</li> */}
-        //         {/* <li> TESTING IMAGE </li> */}
-        //         <div
-        //             style={{ justifyContent: 'flex-start' }}>
-        //             <Button
-        //                 className={classes.button}
-        //                 pt={20}
-        //                 variant="outlined"
-        //                 href={topHeadline.url}
-        //                 target="_blank"
-        //                 rel="noreferrer"
-        //                 color="inherit"
-        //                 style={{ cursor: "pointer", float: 'left', backgroundColor: '#712EFF', color: 'white' }}
-        //             >
-        //                 Learn More
-        //             </Button>
-        //         </div>
-        //     </ul>
-        // </Card>
-        // // </Grid>
-        // // </Grid>
-
         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
             <div>
                 <img src="./placeholderImage.png" width="400"></img>
@@ -372,6 +278,19 @@ const ArticleCard = ({ topHeadline }) => {
                 </Button>
             </div>
 
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                <Button
+                    variant="outlined"
+                    target="_blank"
+                    color="inherit"
+                    startIcon={<FavoriteIcon />}
+                    style={{ marginLeft: '110px' }}
+                    onClick={addFavourite}>
+                    {favourite ? 'Favourited' : 'Favourite'}
+                </Button>
+            </div>
+
         </Card>
 
     )
@@ -383,12 +302,8 @@ const Home = () => {
     const [expanded, setExpanded] = useState('');
     const [topHeadlines, setTopHeadlines] = useState([]);
     const [userId, setUserId] = useState(1);
-    const [author, setAuthor] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [url, setUrl] = useState('');
     const [category, setCategory] = React.useState("");
-
+    
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -412,6 +327,7 @@ const Home = () => {
     }
 
     const callApiGetPreferenceCategory = async () => {
+        // console.log("CALLING API")
         const url = '/api/preferenceCategory';
         const response = await fetch(url, {
             method: "POST",
@@ -463,10 +379,10 @@ const Home = () => {
     }
 
     return (
-        <div  >
-            <ButtonAppBar
-                backgroundColor="primary"
-            ></ButtonAppBar>
+        <div>
+            <NavBar
+                backgroundColor="secondary"
+            ></NavBar>
             <Grid
                 container
                 spacing={3}
@@ -490,18 +406,6 @@ const Home = () => {
 
                             {topHeadlines.map((topHeadline, index) => {
                                 return (
-
-                                    // <Grid
-                                    //     xs={2} sm={4} key={index}
-                                    //     container spacing={15}
-                                    //     direction="column"
-                                    //     className={classes.backgroundColor}
-                                    // >
-                                    //     <ArticleCard topHeadline={topHeadline} data-testid='article-card' />
-                                    //     <Typography style={{ padding: 30 }}></Typography>
-
-
-                                    // </Grid>
                                     <Grid xs={4} sm={4} md={4} key={index}>
                                         <ArticleCard topHeadline={topHeadline} data-testid='article-card' />
                                         <Typography style={{ padding: 20 }}></Typography>
@@ -523,14 +427,12 @@ const Homes = () => {
 
     return (
         <MuiThemeProvider theme={theme} >
+            <div>
             <CssBaseline />
             <Paper>
-                {/* className={classes.paper}
-                    > */}
                 <Home />
             </Paper>
-
-
+            </div>
         </MuiThemeProvider >
     );
 };

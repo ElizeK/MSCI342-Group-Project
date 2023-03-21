@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 const NewsAPI = require('newsapi');
+const { connect } = require('http2');
 const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
 
 
@@ -86,8 +87,7 @@ app.post('/api/addUser', (req, res) => {
 
 		connection.query(sql, data, (error, results, fields) => {
 			if (error) {
-				return console.error(error.message);
-			}
+				return console.error(error.message)
 
 			let string = JSON.stringify(results);
 			res.send({ express: string });
@@ -120,6 +120,14 @@ app.post('/api/preferenceCategory', (req, res) => {
 	connection.end();
 })
 
+			let string = JSON.stringify(results);
+			res.send({ express: string });
+		});
+		connection.end();
+
+	})
+
+
 app.post('/api/getUserInfo', (req, res) => {
 	// let userID = req.body.userID
 	let connection = mysql.createConnection(config);
@@ -138,9 +146,41 @@ app.post('/api/getUserInfo', (req, res) => {
 		// let obj = JSON.parse(string);
 		res.send({ user_info: results });
 
+
+
 	});
 	connection.end();
 })
+
+app.post('/api/article/favourite', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	// let userID = 1;
+	// console.log
+
+	// let articleId = ;
+	let title = req.body.title;
+	let author = req.body.author;
+	let url = req.body.url
+	// let date = req.body.date_of_publication
+	let sql = `INSERT INTO favourited_articles(title, author, url)
+	VALUES("${title}", "${author}", "${url}")`;
+	// let sql = `INSERT INTO favourited_articles(article_id, title, author) VALUES('${connection.escape(articleId)}', '${connection.escape(title)}', '${connection.escape(author)}')`;
+
+	// let data = [articleId, title, author];
+	// console.log("THIS IS TEST");
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			console.error(error.message)
+			return res.status(500).json({ error: 'Internal Server Error' });
+		}
+		res.send({ favourited_articles: results });
+
+	});
+	connection.end();
+})
+
 
 app.post('/api/news/topHeadlines', (req, res) => {
 	console.log(req.body)
@@ -158,20 +198,44 @@ app.post('/api/news/topHeadlines', (req, res) => {
 		})
 });
 
+// app.post('/api/news/everything', (req, res) => {
+// 	console.log(req.body)
+// 	const query = req.body.query
+// 	const pageSize = req.body.pageSize
+// 	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+// 	fetch(url)
+// 		.then(response => {
+// 			response.json().then(
+// 				data => {
+// 					console.log(data)
+// 					res.send(data) // .send takes the response from our end and sends it 
+// 				})
+// 		})
+// });
+
 app.post('/api/news/everything', (req, res) => {
+	console.log("TESTING")
 	console.log(req.body)
 	const query = req.body.query
 	const pageSize = req.body.pageSize
-	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	const language = req.body.language
+	// const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+
+	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
 	fetch(url)
 		.then(response => {
 			response.json().then(
 				data => {
 					console.log(data)
+					console.log(query)
+					console.log(pageSize)
+					console.log(language)
 					res.send(data) // .send takes the response from our end and sends it 
 				})
 		})
 });
+
+
 
 app.post('/articleHeadlines', (req, res) => {
 	let connection = mysql.createConnection(config);

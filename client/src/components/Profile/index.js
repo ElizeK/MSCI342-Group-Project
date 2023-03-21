@@ -1,10 +1,8 @@
-import React, { Component, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import history from "../Navigation/history";
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
@@ -19,6 +17,9 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 
 
+
+import { Grid, Paper } from '@mui/material';
+import NavBar from '../NavBar';
 
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
@@ -346,6 +347,8 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
 
 }
 
+
+ 
 const Profile = () => {
     const classes = useStyles();
     const [userEmail, setUserEmail] = React.useState("");
@@ -388,6 +391,10 @@ const Profile = () => {
                 backgroundColor="secondary"
             ></ButtonAppBar>
 
+
+            <NavBar
+                backgroundColor="primary"
+            ></NavBar>
             <Grid
                 container
                 direction="row"

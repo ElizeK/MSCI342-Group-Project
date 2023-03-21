@@ -1,14 +1,14 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import history from "../Navigation/history";
 import "@fontsource/oswald";
 import "@fontsource/inter";
-import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
-import { LastPageOutlined } from '@material-ui/icons';
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
+import NavBar from '../NavBar';
+
 
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
@@ -122,59 +122,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ButtonAppBar = () => {
-    const classes = useStyles();
-    return (
-        <div>
-            <Toolbar>
-                <Typography style={{ marginRight: 10 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Landing')}
-                >
-                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Pulse News
-                    </Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/')
-                    }
-                >
-                    <Typography className={classes.navbarItem}>Home</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
-
-            </Toolbar>
-        </div>
-
-    );
-}
-
 
 const ThinkPiece = () => {
     const Categories = {
@@ -234,9 +181,9 @@ const ThinkPiece = () => {
     return (
 
         <div data-testid="think-piece-component">
-            <ButtonAppBar
+            <NavBar
                 backgroundColor="secondary"
-            ></ButtonAppBar>
+            ></NavBar>
             <Grid
                 container
                 direction="row"

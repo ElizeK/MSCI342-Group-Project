@@ -1,22 +1,15 @@
-import React, { Component, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import history from "../Navigation/history";
 import "@fontsource/oswald";
 import "@fontsource/inter";
-import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
-import { LastPageOutlined } from '@material-ui/icons';
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
+import NavBar from '../NavBar';
 
 
 
@@ -158,58 +151,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ButtonAppBar = () => {
-    const classes = useStyles();
-    return (
-        <div>
-            <Toolbar>
-                <Typography style={{ marginRight: 10 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Landing')}
-                >
-                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Pulse News
-                    </Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Home')}
-                >
-                    <Typography className={classes.navbarItem}>Home</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
-
-            </Toolbar>
-        </div>
-
-    );
-}
-
 const ArticleCard = ({ article }) => {
     const classes = useStyles();
     return (
@@ -232,15 +173,6 @@ const ArticleCard = ({ article }) => {
             </CardContent>
 
             <ul>
-                {/* <li> <b>Source:</b> {article.source?.name}</li> */}
-                {/* <li> <b>Author: </b>{article.author}</li> */}
-                {/* <li> <b>Title:</b> {article.title}</li> */}
-                {/* <li> <b>Description:</b> {article.description}</li> */}
-                {/* <li> <b>Published at: </b>{article.publishedAt}</li> */}
-                {/* <li> <b>URL:</b> {article.url}</li> */}
-                {/* <li> <b>Content:</b> {article.content}</li> */}
-                {/* <li> <b>URL Image:</b> {article.urlToImage}</li> */}
-                {/* <img src={article.urlToImage}></img> */}
 
             </ul>
 
@@ -260,27 +192,34 @@ const ArticleCard = ({ article }) => {
             </div>
 
         </Card>
-
-        // <Card variant="outlined" style={{ "width": 500 }} className={classes.article}>
-        //     <ul>
-        //         <img src="./placeholderImage.png" width="400" height="200"></img>
-
-        //         <li> <h3><b></b> {article.title}</h3></li>
-        //         <li> {article.urlToImage}</li>
-        //         <b>Source:</b> {article.source?.name}
-        //         <li> <b>Author: </b>{article.author}</li>
-        //         <li> <b>Description:</b> {article.description}</li>
-        //         <li> <b>URL:</b> <a>{article.url}</a></li>
-        //         <li> <b>Published at: </b>{article.publishedAt}</li>
-        //         <li> <b>Content:</b> {article.content}</li>
-        //     </ul>
-        // </Card>
     )
 }
 
 const Search = () => {
     const [query, setQuery] = useState("");
     const [articles, setArticles] = useState([]);
+    const Languages = {
+        ar: "Arabic",
+        de: "German",
+        en: "English",
+        es: "Spanish",
+        fr: "French",
+        he: "Hebrew",
+        it: "Italian",
+        nl: "Dutch",
+        no: "Norwegian",
+        pt: "Portuguese",
+        ru: "Russian",
+        sv: "Swedish",
+        zh: "Chinese",
+        null: "None"
+    }
+    const Sources = {};
+
+    const [source, setSource] = useState([]);
+
+
+    const [language, setLanguage] = useState(Languages.GENERAL)
 
     const classes = useStyles();
 
@@ -303,7 +242,8 @@ const Search = () => {
             },
             body: JSON.stringify({
                 query: query,
-                pageSize: 15
+                pageSize: 15,
+                language: language
             })
         });
         const body = await response.json();
@@ -318,9 +258,9 @@ const Search = () => {
 
     return (
         <div data-testid='search' >
-            <ButtonAppBar
+            <NavBar
                 backgroundColor="primary"
-            ></ButtonAppBar>
+            ></NavBar>
             <Grid
                 container direction="row"
                 className={classes.backgroundColor}
@@ -377,6 +317,80 @@ const Search = () => {
                         </Stack>
                     </Box>
                 </Grid>
+            </Grid>
+
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                className={classes.backgroundColor}
+            >
+                <Box ml={7} p={2}>
+                    <FormControl style={{ "width": 200 }} >
+                        <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
+                        <Select
+                            value={language}
+                            label="Language"
+                            onChange={(e) => setLanguage(e.target.value)}
+                            className={classes.select}
+                            style={{ color: "#fff" }}
+                            required
+                            data-testid='Language'
+                            // defaultValue={""}
+                        >
+                            {/* <MenuItem value={""}>None</MenuItem> */}
+                            <MenuItem value={"ar"}>Arabic</MenuItem>
+                            <MenuItem value={"de"}>German</MenuItem>
+                            <MenuItem value={"en"}>English</MenuItem>
+                            <MenuItem value={"es"}>Spanish</MenuItem>
+                            <MenuItem value={"fr"}>French</MenuItem>
+                            <MenuItem value={"he"}>Hebrew</MenuItem>
+                            <MenuItem value={"it"}>Italian</MenuItem>
+                            <MenuItem value={"nl"}>Dutch</MenuItem>
+                            <MenuItem value={"no"}>Norwegian</MenuItem>
+                            <MenuItem value={"pt"}>Portuguese</MenuItem>
+                            <MenuItem value={"ru"}>Russian</MenuItem>
+                            <MenuItem value={'sv'}>Swedish</MenuItem>
+                            <MenuItem value={"zh"}>Chinese</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                {/* <Box ml={7} p={2}>
+                    <FormControl style={{ "width": 200 }} >
+                        <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
+                        <Select
+                            value={language}
+                            label="Language"
+                            onChange={(e) => setLanguage(e.target.value)}
+                            className={classes.select}
+                            style={{ color: "#fff" }}
+                            required
+                            data-testid='Language'
+                        >
+                            {Object.keys(Languages).map(key => Languages[key]).map((languageName) =>
+                                <MenuItem value={languageName}>{languageName}</MenuItem>
+                            )}
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box ml={7} p={2}>
+                    <FormControl style={{ "width": 200 }} >
+                        <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
+                        <Select
+                            value={language}
+                            label="Language"
+                            onChange={(e) => setLanguage(e.target.value)}
+                            className={classes.select}
+                            style={{ color: "#fff" }}
+                            required
+                            data-testid='Language'
+                        >
+                            {Object.keys(Languages).map(key => Languages[key]).map((languageName) =>
+                                <MenuItem value={languageName}>{languageName}</MenuItem>
+                            )}
+                        </Select>
+                    </FormControl>
+                </Box> */}
             </Grid>
             <Grid
                 container
