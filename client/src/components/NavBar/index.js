@@ -5,6 +5,7 @@ import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Toolbar, Button } from '@mui/material';
 import { makeStyles } from '@material-ui/styles';
+import { Grid, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
 
 const opacityValue = 1;
 
@@ -150,6 +151,13 @@ const NavBar = () => {
     }));
 
     const classes = useStyles();
+
+    const [chosenOption, setChosenOption] = React.useState('');
+
+    const handleChosenOption = (e) => {
+        setChosenOption(e.target.value);
+    };
+
     return (
         <div>
             <Toolbar>
@@ -185,6 +193,10 @@ const NavBar = () => {
                     onClick={() => history.push('/ThinkPiece')}
                 >
                     <Typography className={classes.navbarItem}>Thinkpiece</Typography>
+                    <Select value={chosenOption} onChange={setChosenOption}>
+                        <MenuItem value="Create Think Piece">Create Think Piece</MenuItem>
+                        <MenuItem value="View Think Pieces">View Think Pieces</MenuItem>
+                    </Select>
                 </Button>
                 <Typography style={{ marginRight: 50 }}></Typography>
                 <Button
