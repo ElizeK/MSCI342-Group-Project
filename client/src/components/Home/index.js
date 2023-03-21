@@ -429,7 +429,13 @@ const ArticleCard = ({ topHeadline }) => {
 
             <div
                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
-                <Button variant="contained" onClick={addFavourite}>
+                <Button
+                    variant="outlined"
+                    target="_blank"
+                    color="inherit"
+                    startIcon={<FavoriteIcon />}
+                    style={{ marginLeft: '110px' }}
+                    onClick={addFavourite}>
                     {favourite ? 'Favourited' : 'Favourite'}
                 </Button>
             </div>
