@@ -192,7 +192,7 @@ const SignUpBar = () => {
                 <Button
                     variant="contained"
                     // color="inherit"
-                    style={{ backgroundColor: "#B18CFF", minWidth: '100px', minHeight: '40px' }}
+                    style={{ backgroundColor: "#B18CFF", minWidth: '300px', minHeight: '40px' }}
                     onClick={() => history.push('/SigningUp')}
                 >
                     <Typography className={classes.navbarItem}>Sign Up</Typography>
@@ -200,7 +200,7 @@ const SignUpBar = () => {
                 <Button
                     variant="contained"
                     // color="inherit"
-                    style={{ backgroundColor: "#B18CFF", minWidth: '100px', minHeight: '40px' }}
+                    style={{ backgroundColor: "#B18CFF", minWidth: '300px', minHeight: '40px' }}
                     onClick={() => history.push('/SigningUp')}
                 >
                     <Typography className={classes.navbarItem}>Login</Typography>
@@ -248,7 +248,7 @@ const Landing = () => {
                 <Grid item xs={1}></Grid>
                 <Grid item direction="column" xs={4.5} style={{ marginTop: 50 }}>
                     <Box m2={3} p={2}>
-                    <img src = "./news.png" width="400" height="500"></img>
+                        <img src="./news.png" width="400" height="500"></img>
 
                     </Box>
                 </Grid>
