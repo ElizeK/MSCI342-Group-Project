@@ -88,7 +88,7 @@ app.post('/api/addUser', (req, res) => {
 		connection.query(sql, data, (error, results, fields) => {
 			if (error) {
 				return console.error(error.message)
-
+			}
 			let string = JSON.stringify(results);
 			res.send({ express: string });
 		});
@@ -119,14 +119,6 @@ app.post('/api/preferenceCategory', (req, res) => {
 	});
 	connection.end();
 })
-
-			let string = JSON.stringify(results);
-			res.send({ express: string });
-		});
-		connection.end();
-
-	})
-
 
 app.post('/api/getUserInfo', (req, res) => {
 	// let userID = req.body.userID
