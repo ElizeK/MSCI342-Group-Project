@@ -407,7 +407,7 @@ const Home = () => {
                             {topHeadlines.map((topHeadline, index) => {
                                 return (
                                     <Grid xs={4} sm={4} md={4} key={index}>
-                                        <ArticleCard topHeadline={topHeadline} data-testid='article-card'/>
+                                        <ArticleCard topHeadline={topHeadline} data-testid='article-card' />
                                         <Typography style={{ padding: 20 }}></Typography>
                                     </Grid>
                                 )

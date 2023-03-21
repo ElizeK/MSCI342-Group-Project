@@ -87,8 +87,7 @@ app.post('/api/addUser', (req, res) => {
 
 		connection.query(sql, data, (error, results, fields) => {
 			if (error) {
-				return console.error(error.message);
-			}
+				return console.error(error.message)
 
 			let string = JSON.stringify(results);
 			res.send({ express: string });
@@ -121,6 +120,38 @@ app.post('/api/preferenceCategory', (req, res) => {
 	connection.end();
 })
 
+			let string = JSON.stringify(results);
+			res.send({ express: string });
+		});
+		connection.end();
+
+	})
+
+
+app.post('/api/getUserInfo', (req, res) => {
+	// let userID = req.body.userID
+	let connection = mysql.createConnection(config);
+	let userID = 1;
+	console.log("UserID: ", userID);
+	// let sql = `SELECT preference_category FROM user_info WHERE user_id = ("${userID}%")`;
+	let sql = `SELECT preference_category FROM user_info WHERE user_id = (${userID})`
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+
+		}
+		// let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		res.send({ user_info: results });
+
+
+
+	});
+	connection.end();
+})
+
 app.post('/api/article/favourite', (req, res) => {
 
 	let connection = mysql.createConnection(config);
@@ -145,6 +176,7 @@ app.post('/api/article/favourite', (req, res) => {
 			return res.status(500).json({ error: 'Internal Server Error' });
 		}
 		res.send({ favourited_articles: results });
+
 	});
 	connection.end();
 })
