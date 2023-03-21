@@ -9,6 +9,7 @@ import "@fontsource/inter";
 import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
 import NavBar from '../NavBar';
 
+
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
     palette: {
@@ -120,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
     }
 }));
+
 
 const ThinkPiece = () => {
     const Categories = {
