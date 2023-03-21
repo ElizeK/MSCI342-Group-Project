@@ -6,19 +6,8 @@ import { Typography } from "@material-ui/core";
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
-import { LastPageOutlined } from '@material-ui/icons';
-import Stack from '@mui/material/Stack';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-
-
-
-import { Grid, Paper } from '@mui/material';
 import NavBar from '../NavBar';
 
 // This theme sets the background color for when you scroll behind the screen
@@ -159,57 +148,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ButtonAppBar = () => {
-    const classes = useStyles();
-    return (
-        <div>
-            <Toolbar>
-                <Typography style={{ marginRight: 10 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Landing')}
-                >
-                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Pulse News
-                    </Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    onClick={() => history.push('/Home')}
-                >
-                    <Typography className={classes.navbarItem}>Home</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
-
-            </Toolbar>
-        </div>
-
-    );
-}
 
 const ArticleCard = ({ article }) => {
     const classes = useStyles();
@@ -348,7 +286,7 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
 }
 
 
- 
+
 const Profile = () => {
     const classes = useStyles();
     const [userEmail, setUserEmail] = React.useState("");
@@ -387,13 +325,8 @@ const Profile = () => {
 
     return (
         <div>
-            <ButtonAppBar
-                backgroundColor="secondary"
-            ></ButtonAppBar>
-
-
             <NavBar
-                backgroundColor="primary"
+                backgroundColor="secondary"
             ></NavBar>
             <Grid
                 container
