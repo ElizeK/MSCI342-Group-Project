@@ -140,7 +140,7 @@ const SignUpBar = () => {
                     variant="contained"
                     // color="inherit"
                     style={{ backgroundColor: "#B18CFF", minWidth: '300px', minHeight: '40px' }}
-                    onClick={() => history.push('/SigningUp')}
+                    onClick={() => history.push('/Login')}
                 >
                     <Typography className={classes.navbarItem}>Login</Typography>
                 </Button>
