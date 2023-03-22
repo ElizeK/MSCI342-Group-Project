@@ -196,32 +196,14 @@ const ArticleCard = ({ article }) => {
 }
 
 const Search = () => {
+    const classes = useStyles();
+
     const [query, setQuery] = useState("");
     const [articles, setArticles] = useState([]);
-    const Languages = {
-        ar: "Arabic",
-        de: "German",
-        en: "English",
-        es: "Spanish",
-        fr: "French",
-        he: "Hebrew",
-        it: "Italian",
-        nl: "Dutch",
-        no: "Norwegian",
-        pt: "Portuguese",
-        ru: "Russian",
-        sv: "Swedish",
-        zh: "Chinese",
-        null: "None"
-    }
-    const Sources = {};
+    const [source, setSource] = useState("");
+    const [language, setLanguage] = useState("");
+    const [sortBy, setSortBy] = useState("");
 
-    const [source, setSource] = useState([]);
-
-
-    const [language, setLanguage] = useState(Languages.GENERAL)
-
-    const classes = useStyles();
 
     const getArticles = () => {
         if (query === "") return
@@ -243,9 +225,12 @@ const Search = () => {
             body: JSON.stringify({
                 query: query,
                 pageSize: 15,
-                language: language
+                language: language,
+                source: source,
+                sortBy: sortBy
             })
         });
+        console.log(query + " " + language + " " + source + " " + sortBy);
         const body = await response.json();
 
         if (response.status !== 200) throw Error(body.message);
@@ -327,6 +312,99 @@ const Search = () => {
             >
                 <Box ml={7} p={2}>
                     <FormControl style={{ "width": 200 }} >
+                        <InputLabel style={{ color: "#fff" }}>Source</InputLabel>
+                        <Select
+                            value={source}
+                            label="News Source"
+                            onChange={(e) => setSource(e.target.value)}
+                            className={classes.select}
+                            style={{ color: "#fff" }}
+                            required
+                            data-testid='Source'
+                            defaultValue={""}
+                        >
+                            <MenuItem value={""}>None</MenuItem>
+                            <MenuItem value={"abc-news"}>ABC News</MenuItem>
+                            <MenuItem value={"abc-news-au"}>ABC News Australia</MenuItem>
+                            <MenuItem value={"aftenposten"}>Aftenposten</MenuItem>
+                            <MenuItem value={"al-jazeera-english"}>Al Jazeera English</MenuItem>
+                            <MenuItem value={"ansa"}>ANSA.it</MenuItem>
+                            <MenuItem value={"argaam"}>Argaam</MenuItem>
+                            <MenuItem value={"ars-technica"}>Ars Technica</MenuItem>
+                            <MenuItem value={"ary-news"}>Ary News</MenuItem>
+                            <MenuItem value={"associated-press"}>Associated Press</MenuItem>
+                            <MenuItem value={"australian-financial-review"}>Australian Financial Review</MenuItem>
+                            <MenuItem value={"axios"}>Axios</MenuItem>
+                            <MenuItem value={'bbc-news'}>BBC News</MenuItem>
+                            <MenuItem value={"bbc-sport"}>BBC Sport</MenuItem>
+                            <MenuItem value={"bild"}>Bild</MenuItem>
+                            <MenuItem value={"blasting-news-br"}>Blasting News (BR)</MenuItem>
+                            <MenuItem value={"bleacher-report"}>Bleacher Report</MenuItem>
+                            <MenuItem value={"bloomberg"}>Bloomberg</MenuItem>
+                            <MenuItem value={'business-insider'}>Business Insider</MenuItem>
+                            <MenuItem value={"business-insider-uk"}>Business Insider (UK)</MenuItem>
+                            <MenuItem value={"buzzfeed"}>Buzzfeed</MenuItem>
+                            <MenuItem value={"cbc-news"}>CBC News</MenuItem>
+                            <MenuItem value={"cbs-news"}>CBS news</MenuItem>
+                            <MenuItem value={"cnn"}>CNN</MenuItem>
+                            <MenuItem value={'cnn-es'}>CNN Spanish</MenuItem>
+                            <MenuItem value={"crypto-coins-news"}>Crypto Coins News</MenuItem>
+                            <MenuItem value={"engadget"}>Engadget</MenuItem>
+                            <MenuItem value={"entertainment-weekly"}>Entertainment Weekly</MenuItem>
+                            <MenuItem value={"espn"}>ESPN</MenuItem>
+                            <MenuItem value={"espn-cric-info"}>ESPN Cric Info</MenuItem>
+                            <MenuItem value={'financial-post'}>Financial Post</MenuItem>
+                            <MenuItem value={"focus"}>Focus</MenuItem>
+                            <MenuItem value={"football-italia"}>Football Italia</MenuItem>
+                            <MenuItem value={"fortune"}>Fortune</MenuItem>
+                            <MenuItem value={'four-four-two'}>FourFourTwo</MenuItem>
+                            <MenuItem value={"fox-news"}>Fox News</MenuItem>
+                            <MenuItem value={"fox-sports"}>Fox Sports</MenuItem>
+                            <MenuItem value={"google-news"}>Google News</MenuItem>
+                            <MenuItem value={"google-news-ca"}>Google News (Canada)</MenuItem>
+                            <MenuItem value={"google-news-uk"}>Google News (UK)</MenuItem>
+                            <MenuItem value={'hacker-news'}>Hacker News</MenuItem>
+                            <MenuItem value={"ign"}>IGN</MenuItem>
+                            <MenuItem value={"independent"}>Independent</MenuItem>
+                            <MenuItem value={"le-monde"}>Le Monde</MenuItem>
+                            <MenuItem value={'medical-news-today'}>Medical News Today</MenuItem>
+                            <MenuItem value={"mtv-news"}>MTV News</MenuItem>
+                            <MenuItem value={"mtv-news-uk"}>MTV News (UK)</MenuItem>
+                            <MenuItem value={"national-geographic"}>National Geographic</MenuItem>
+                            <MenuItem value={"national-review"}>National Review</MenuItem>
+                            <MenuItem value={"nbc-news"}>NBC News</MenuItem>
+                            <MenuItem value={'new-scientist'}>New Scientist</MenuItem>
+                            <MenuItem value={"news-com-au"}>News.com.au</MenuItem>
+                            <MenuItem value={'new-york-magazine'}>New York Magazine</MenuItem>
+                            <MenuItem value={"next-big-future"}>Next Big Future</MenuItem>
+                            <MenuItem value={"nfl-news"}>NFL News</MenuItem>
+                            <MenuItem value={"nhl-news"}>NHL News</MenuItem>
+                            <MenuItem value={"polygon"}>Polygon</MenuItem>
+                            <MenuItem value={"recode"}>Recode</MenuItem>
+                            <MenuItem value={'reddit-r-all'}>Reddit /r/all</MenuItem>
+                            <MenuItem value={"reuters"}>Reuters</MenuItem>
+                            <MenuItem value={'talksport'}>TalkSport</MenuItem>
+                            <MenuItem value={"techcrunch"}>TechCrunch</MenuItem>
+                            <MenuItem value={"techcrunch-cn"}>TechCrunch (CN)</MenuItem>
+                            <MenuItem value={"techradar"}>TechRadar</MenuItem>
+                            <MenuItem value={"the-globe-and-mail"}>The Globe And Mail</MenuItem>
+                            <MenuItem value={"the-hindu"}>The Hindu</MenuItem>
+                            <MenuItem value={'the-huffington-post'}>The Huffington Post</MenuItem>
+                            <MenuItem value={"the-irish-times"}>The Irish Times</MenuItem>
+                            <MenuItem value={'the-verge'}>The Verge</MenuItem>
+                            <MenuItem value={"the-wall-street-journal"}>The Wall Street Journal</MenuItem>
+                            <MenuItem value={'the-washington-post'}>The Washington Post</MenuItem>
+                            <MenuItem value={"the-washington-times"}>The Washington Times</MenuItem>
+                            <MenuItem value={"time"}>Time</MenuItem>
+                            <MenuItem value={"usa-today"}>USA Today</MenuItem>
+                            <MenuItem value={"wired"}>Wired</MenuItem>
+                            <MenuItem value={"wired-de"}>Wired.de</MenuItem>
+                            
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box ml={7} p={2}>
+                    <FormControl style={{ "width": 200 }} >
                         <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
                         <Select
                             value={language}
@@ -336,9 +414,9 @@ const Search = () => {
                             style={{ color: "#fff" }}
                             required
                             data-testid='Language'
-                            // defaultValue={""}
+                            defaultValue={""}
                         >
-                            {/* <MenuItem value={""}>None</MenuItem> */}
+                            <MenuItem value={""}>None</MenuItem>
                             <MenuItem value={"ar"}>Arabic</MenuItem>
                             <MenuItem value={"de"}>German</MenuItem>
                             <MenuItem value={"en"}>English</MenuItem>
@@ -355,42 +433,26 @@ const Search = () => {
                         </Select>
                     </FormControl>
                 </Box>
-                {/* <Box ml={7} p={2}>
+                <Box ml={7} p={2}>
                     <FormControl style={{ "width": 200 }} >
-                        <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
+                        <InputLabel style={{ color: "#fff" }}>Sort By</InputLabel>
                         <Select
-                            value={language}
-                            label="Language"
-                            onChange={(e) => setLanguage(e.target.value)}
+                            value={sortBy}
+                            label="Sort By"
+                            onChange={(e) => setSortBy(e.target.value)}
                             className={classes.select}
                             style={{ color: "#fff" }}
                             required
-                            data-testid='Language'
+                            data-testid='Sort By'
+                            defaultValue={"publishedAt"}
                         >
-                            {Object.keys(Languages).map(key => Languages[key]).map((languageName) =>
-                                <MenuItem value={languageName}>{languageName}</MenuItem>
-                            )}
+                            <MenuItem value={"relevancy"}>Relevancy</MenuItem>
+                            <MenuItem value={"popularity"}>Popularity</MenuItem>
+                            <MenuItem value={"publishedAt"}>Published At</MenuItem>
+                            
                         </Select>
                     </FormControl>
                 </Box>
-                <Box ml={7} p={2}>
-                    <FormControl style={{ "width": 200 }} >
-                        <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
-                        <Select
-                            value={language}
-                            label="Language"
-                            onChange={(e) => setLanguage(e.target.value)}
-                            className={classes.select}
-                            style={{ color: "#fff" }}
-                            required
-                            data-testid='Language'
-                        >
-                            {Object.keys(Languages).map(key => Languages[key]).map((languageName) =>
-                                <MenuItem value={languageName}>{languageName}</MenuItem>
-                            )}
-                        </Select>
-                    </FormControl>
-                </Box> */}
             </Grid>
             <Grid
                 container
