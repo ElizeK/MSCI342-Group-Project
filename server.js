@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 const NewsAPI = require('newsapi');
 const { connect } = require('http2');
+const { user } = require('./config.js');
 const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
 
 
@@ -97,6 +98,22 @@ app.post('/api/addUser', (req, res) => {
 	})
 
 });
+
+app.post('/api/viewThinkPiece', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let userID = 1;
+
+	let sql = `SELECT * FROM think_pieces WHERE user_id = (${userID})`
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		res.send({ think_pieces: results });
+	});
+	connection.end();
+})
 
 app.post('/api/preferenceCategory', (req, res) => {
 	// let userID = req.body.userID
