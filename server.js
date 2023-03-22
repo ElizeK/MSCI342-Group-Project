@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 const NewsAPI = require('newsapi');
 const { connect } = require('http2');
+const { user } = require('./config.js');
 const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
 
 
@@ -103,6 +104,22 @@ VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`
 	});
 	connection.end();
 
+})
+
+app.post('/api/viewThinkPiece', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let userID = 1;
+
+	let sql = `SELECT * FROM think_pieces WHERE user_id = (${userID})`
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		res.send({ think_pieces: results });
+	});
+	connection.end();
 })
 
 app.post('/api/preferenceCategory', (req, res) => {
@@ -218,9 +235,20 @@ app.post('/api/news/everything', (req, res) => {
 	const query = req.body.query
 	const pageSize = req.body.pageSize
 	const language = req.body.language
-	// const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	const source = req.body.source
+	const sortBy = req.body.sortBy
+	let url = "";
 
-	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	if (language == "" && source == "") {
+		 url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	} else if (language == "") {
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	} else if (source == "") {
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	} else {
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&language=${language}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	}
+
 	fetch(url)
 		.then(response => {
 			response.json().then(
