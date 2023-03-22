@@ -53,50 +53,57 @@ app.post('/api/loadUserSettings', (req, res) => {
 });
 
 app.post('/api/addUser', (req, res) => {
-
-	console.log("/api/addUser");
 	let connection = mysql.createConnection(config);
-	//let userId = req.body.userId;
+	let userId = req.body.userId;
 	let username = req.body.username;
 	let userEmail = req.body.userEmail;
 	let password = req.body.password;
 	let preference = req.body.preference;
 	let language = req.body.language;
-	userId = 1;
+	let firebaseUuid = req.body.firebaseUuid;
 	let data = [userId];
 
-	let sql = `INSERT INTO user_info( username, email_address, user_password, preference_category, user_language)
-	VALUES("${username}", "${userEmail}", "${password}", "${preference}", "${language}")`;
-	app.post('/api/thinkpieces', (req, res) => {
+	let sql = `INSERT INTO user_info( username, email_address, user_password, preference_category, user_language, firebase_uuid)
+	VALUES("${username}", "${userEmail}", "${password}", "${preference}", "${language}", "${firebaseUuid}")`;
 
-		let connection = mysql.createConnection(config);
-		let userId = req.body.userId;
-		//console.log(userId)
-		let title = req.body.title;
-		let content = req.body.content;
-		let summary = req.body.summary;
-		let topic = req.body.topic;
-		let url = req.body.url;
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
 
-		userId = 1;
-
-		let data = [userId];
-
-		let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url)
-	VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`;
-
-		connection.query(sql, data, (error, results, fields) => {
-			if (error) {
-				return console.error(error.message)
-			}
-			let string = JSON.stringify(results);
-			res.send({ express: string });
-		});
-		connection.end();
-
-	})
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
 
 });
+
+app.post('/api/thinkpieces', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	let userId = req.body.userId;
+	//console.log(userId)
+	let title = req.body.title;
+	let content = req.body.content;
+	let summary = req.body.summary;
+	let topic = req.body.topic;
+	let url = req.body.url;
+
+	let data = [userId];
+
+	let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url)
+VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`;
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message)
+		}
+		let string = JSON.stringify(results);
+		res.send({ express: string });
+	});
+	connection.end();
+
+})
 
 app.post('/api/preferenceCategory', (req, res) => {
 	// let userID = req.body.userID

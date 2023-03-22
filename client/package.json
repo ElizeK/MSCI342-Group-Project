@@ -18,6 +18,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "faker": "^6.6.6",
+    "firebase": "^9.18.0",
     "install": "^0.12.2",
     "mathjs": "^5.10.3",
     "mysql2": "^3.2.0",
