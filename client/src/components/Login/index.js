@@ -9,8 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Button, Paper, TextField, Box } from '@mui/material';
 import NavBar from '../NavBar';
 import history from "../Navigation/history";
-
-
+import auth from "../Firebase/firebase"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const theme = createTheme({
     palette: {
@@ -123,74 +123,39 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Login = () => {
 
+const Login = () => {
     const [userEmail, setUserEmail] = React.useState("");
-    const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     
-
-    const handleUserEmail = (event) => {
-        setUserEmail(event.target.value);
-
-    };
-
-    const handleUsername = (event) => {
-        setUsername(event.target.value);
-
-    };
-
-    const handlePassword = (event) => {
-        setPassword(event.target.value);
-
-    };
-
-
     const classes = useStyles();
 
+    const handleFirebaseLogin = () => {
+        signInWithEmailAndPassword(getAuth(), userEmail, password)
+        .then((userCredential) => {
+            console.log("LOG IN SUCCESFUL")
+            // Signed in 
+            const user = userCredential.user
+        })
+        .catch((error) => {
+            console.log("LOG IN FAIL")
+            const errorCode = error.code
+            const errorMessage = error.message
+            console.log(errorCode + ": " + errorMessage)
+        })
+    }
 
-
-    // const addUser = async () => {
-    //     const url = "/api/addUser";
-    //     // console.log(url);
-
-    //     const response = await fetch(url, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-
-    //         },
-    //         body: JSON.stringify({
-    //             userEmail: userEmail,
-    //             username: username,
-    //             password: password,
-    //             preference: preference,
-    //             language: language
-    //         })
-
-
-    //     });
-
-    //     const body = await response.json();
-    //     if (response.status !== 200) throw Error(body.message);
-    // }
-
-    const handleSignUpButton = (event) => {
-        console.log("submitted");
-
+    const handleLogin = (event) => {
         event.preventDefault()
-        //addUser();
+        handleFirebaseLogin()
         history.push('/')
-
     };
-
 
     return (
         <div>
             <NavBar
                 backgroundColor="secondary"
             ></NavBar>
-
             <Grid
                 container
                 direction="row"
@@ -198,10 +163,7 @@ const Login = () => {
                 style={{ minWidth: '100vh' }}
                 className={classes.backgroundColor}
             >
-
-
                 <Grid item style={{ marginTop: 50 }} xs={5}>
-
                     <Box ml={7} p={2}>
                         <Typography variant="h4" noWrap className={classes.heading}>
                             Login Page
@@ -239,47 +201,15 @@ const Login = () => {
                             }}
                         />
                     </Box>
-
-                    
-
                 </Grid>
-
                 <Grid item xs={1}></Grid>
-
                 <Grid item direction="column" xs={5} style={{ marginTop: 50 }}>
-
-
-                    <Box mt={25.5} p={2}>
-                        <TextField
-                            required
-                            fullWidth
-                            id="tf2"
-                            label="Username"
-                            value={username}
-                            variant="outlined"
-                            className={classes.textField}
-                            onChange={(e) => setUsername(e.target.value)}
-                            InputLabelProps={{
-                                style: { color: '#fff' },
-                            }}
-                        />
-                    </Box>
-
-
                     <Box m2={2} p={2} id="buttonBox">
-                        <Button id="bt5" variant="contained" onClick = {handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Login!</Button>
+                        <Button id="bt5" variant="contained" onClick = {handleLogin} style={{ backgroundColor: "#B18CFF" }}>Login!</Button>
                     </Box>
-
 
                 </Grid>
-
-
-
-
             </Grid >
-
-
-
         </div >
 
     )

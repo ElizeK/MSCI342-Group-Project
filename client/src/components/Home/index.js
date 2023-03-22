@@ -321,13 +321,11 @@ const Home = () => {
     const getCategory = () => {
         callApiGetPreferenceCategory()
             .then(res => {
-                // callApiGetArticles(res.user_info) 
                 setCategory(res.user_info[0].preference_category)
             })
     }
 
     const callApiGetPreferenceCategory = async () => {
-        // console.log("CALLING API")
         const url = '/api/preferenceCategory';
         const response = await fetch(url, {
             method: "POST",
