@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 import history from "../Navigation/history";
-import Button from '@mui/material/Button';
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Box from '@mui/material/Box';
-
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../NavBar';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 const theme = createTheme({
@@ -130,29 +124,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SigningUp = () => {
-
     const [userEmail, setUserEmail] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [preference, setPreference] = React.useState("");
     const [language, setLanguage] = React.useState("");
     const [passwordConf, setPasswordConf] = React.useState("");
+    const [firebaseUuid, setFirebaseUuid] = React.useState("")
 
     const handleUserEmail = (event) => {
         setUserEmail(event.target.value);
-
     };
-
     const handleUsername = (event) => {
         setUsername(event.target.value);
-
     };
-
     const handlePassword = (event) => {
         setPassword(event.target.value);
-
     };
-
+    
     const handlePreference = (event) => {
         setPreference(event.target.value);
 
@@ -163,19 +152,20 @@ const SigningUp = () => {
 
     };
 
-    const handlePasswordConf = (event) => {
-        setPasswordConf(event.target.value);
+    React.useEffect(() =>{
+        addUser();
+    }, [firebaseUuid] )
 
-    };
+    // const handleFirebase = (event) => {
+    //     setFirebaseUuid(event.target.value);
+
+    // };
+
 
     const classes = useStyles();
 
-
-
     const addUser = async () => {
         const url = "/api/addUser";
-        // console.log(url);
-
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -187,32 +177,52 @@ const SigningUp = () => {
                 username: username,
                 password: password,
                 preference: preference,
-                language: language
+                language: language,
+                firebaseUuid: firebaseUuid
             })
 
-
         });
-
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
     }
 
-    const handleSignUpButton = (event) => {
-        console.log("submitted");
-
-        event.preventDefault()
-        addUser();
-        history.push('/')
-
+    const handleFirebaseSignup = () => {
+        console.log("IN HANDLE FIREBASE SIGNUP")
+        createUserWithEmailAndPassword(getAuth(), userEmail, password)
+        .then((userCredential) => {
+            console.log("SIGN UP SUCCESSFUL")
+            // Signed in
+            // const user = (userCredential.user)
+            setFirebaseUuid(userCredential.user.uid)
+            console.log(firebaseUuid + " is firebase useruid")
+            console.log(userCredential.user.uid + " is firebase useruid")
+             // move addUser call here
+    
+        })
+        .catch((error) => {
+            console.log("SIGN UP FAIL")
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode + ": " +errorMessage)
+        })
     };
 
+    const handleSignUpButton = (event) => {
+        console.log("submitted");
+        event.preventDefault()
+        handleFirebaseSignup();
+        addUser();
+       console.log(firebaseUuid + "is being added")
+        console.log("ADD USER success")
+        history.push('/')
+    };
+    
 
     return (
         <div>
             <NavBar
                 backgroundColor="secondary"
             ></NavBar>
-
             <Grid
                 container
                 direction="row"
@@ -220,17 +230,13 @@ const SigningUp = () => {
                 style={{ minWidth: '100vh' }}
                 className={classes.backgroundColor}
             >
-
-
                 <Grid item style={{ marginTop: 50 }} xs={5}>
-
                     <Box ml={7} p={2}>
                         <Typography variant="h4" noWrap className={classes.heading}>
                             Sign Up Page
                         </Typography>
                         <Typography className={classes.subHeading}>Create your account below</Typography>
                     </Box>
-
                     <Box ml={7} p={2}>
                         <TextField
                             required
@@ -265,14 +271,9 @@ const SigningUp = () => {
                     <Box ml={7} p={2}>
                         <PreferenceSelection preference={preference} setPreference={handlePreference} />
                     </Box>
-
                 </Grid>
-
                 <Grid item xs={1}></Grid>
-
                 <Grid item direction="column" xs={5} style={{ marginTop: 50 }}>
-
-
                     <Box mt={25.5} p={2}>
                         <TextField
                             required
@@ -288,7 +289,6 @@ const SigningUp = () => {
                             }}
                         />
                     </Box>
-
                     <Box mt={0} p={2}>
                         <TextField
                             required
@@ -307,45 +307,21 @@ const SigningUp = () => {
                     <Box mt={0} p={2}>
                         <LanguageSelection value={language} setLanguage={handleLanguage} />
                     </Box>
-
-
                     <Box m2={2} p={2} id="buttonBox">
                         <Button id="bt5" variant="contained" onClick={handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Sign Up!</Button>
                     </Box>
-
-
                 </Grid>
-
-
-
-
             </Grid >
-
-
-
         </div >
-
     )
 }
-
-
-
-
-
 
 //select topic preference from drop down options 
 const PreferenceSelection = ({ preference, setPreference }) => {
     const classes = useStyles();
     console.log("chose a topic successfuly")
-
     return (
-
-
-
         < Grid item >
-
-
-
             <FormControl fullWidth>
                 <InputLabel style={{ color: "#fff" }}>Preference</InputLabel>
                 <Select
@@ -354,12 +330,10 @@ const PreferenceSelection = ({ preference, setPreference }) => {
                     label="Preference"
                     // onChange={(e) => setPreference(e.target.value)}                 
                     onChange={setPreference}
-
                     className={classes.select}
                     style={{ color: "#fff" }}
                     required
                 >
-
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={'Business'}>Business</MenuItem>
                     <MenuItem value={'Entertainement'}>Entertainement</MenuItem>
@@ -368,16 +342,10 @@ const PreferenceSelection = ({ preference, setPreference }) => {
                     <MenuItem value={'Science'}>Science</MenuItem>
                     <MenuItem value={'Sports'}>Sports</MenuItem>
                     <MenuItem value={'Technology'}>Technology</MenuItem>
-
-
-
                 </Select>
-
             </FormControl>
-
         </Grid >
     )
-
 }
 
 
@@ -385,10 +353,7 @@ const PreferenceSelection = ({ preference, setPreference }) => {
 const LanguageSelection = ({ language, setLanguage, news }) => {
     const classes = useStyles();
     return (
-
         <Box>
-
-
             <FormControl fullWidth>
                 <InputLabel style={{ color: "#fff" }}>Language</InputLabel>
                 <Select
@@ -400,7 +365,6 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
                     style={{ color: "#fff" }}
                     required
                 >
-
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={'ar'}>Arabic</MenuItem>
                     <MenuItem value={'de'}>German</MenuItem>
@@ -409,16 +373,10 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
                     <MenuItem value={'fr'}>French</MenuItem>
                     <MenuItem value={'it'}>Italian</MenuItem>
                     <MenuItem value={'ru'}>Russian</MenuItem>
-
-
-
                 </Select>
-
             </FormControl>
-
         </Box>
     )
-
 }
 
 const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3054"; //enable for deployed mode; Change PORT to the port number given to you;
@@ -442,17 +400,13 @@ class SigningUps extends Component {
 
         return (
             <MuiThemeProvider theme={theme}>
-                <div >
-                    {/* <CssBaseline /> */}
-                    {/* <Paper */}
-                    {/* className={classes.paper}
-                    > */}
+            <div>
+                <CssBaseline />
+                <Paper>
                     <SigningUp />
-                    {/* </Paper> */}
-
-                </div>
-
-            </MuiThemeProvider>
+                </Paper>
+            </div>
+        </MuiThemeProvider>
         );
     }
 }
