@@ -164,7 +164,7 @@ const SigningUp = () => {
 
     const classes = useStyles();
 
-    const addUser = async () => {
+    const addUser = async (firebaseUuid) => {
         const url = "/api/addUser";
         const response = await fetch(url, {
             method: "POST",
@@ -196,6 +196,7 @@ const SigningUp = () => {
             setFirebaseUuid(userCredential.user.uid)
             console.log(firebaseUuid + " is firebase useruid")
             console.log(userCredential.user.uid + " is firebase useruid")
+            addUser(userCredential.user.uid)
              // move addUser call here
     
         })
@@ -211,7 +212,6 @@ const SigningUp = () => {
         console.log("submitted");
         event.preventDefault()
         handleFirebaseSignup();
-        addUser();
        console.log(firebaseUuid + "is being added")
         console.log("ADD USER success")
         history.push('/')
