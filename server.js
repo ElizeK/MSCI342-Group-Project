@@ -228,9 +228,20 @@ app.post('/api/news/everything', (req, res) => {
 	const query = req.body.query
 	const pageSize = req.body.pageSize
 	const language = req.body.language
-	// const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	const source = req.body.source
+	const sortBy = req.body.sortBy
+	let url = "";
 
-	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=popularity&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	if (language == "" && source == "") {
+		 url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	} else if (language == "") {
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	} else if (source == "") {
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	} else {
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&language=${language}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+	}
+
 	fetch(url)
 		.then(response => {
 			response.json().then(
