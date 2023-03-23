@@ -8,6 +8,7 @@ import Profile from '../Profile';
 import SigningUp from "../SigningUp";
 import Login from "../Login";
 import ViewThinkPiece from "../ViewThinkPiece"
+import ViewOtherThinkPiece from "../ViewOtherThinkPiece"
 // import SignIn from '.../SignIn';
 // import SignUp from '.../SignUp';
 // import SignOut from '.../SignOut';
@@ -35,6 +36,8 @@ export default function PrivateRoute({
       <Route path="/SigningUp" exact component={SigningUp} />
       <Route path="/Login" exact component={Login} />
       <Route path="/ViewThinkPiece" exact component={ViewThinkPiece} />
+      <Route path="/ViewOtherThinkPiece" exact component={ViewOtherThinkPiece} />
+
       
 
         {/* <Route path="/SignIn" exact component={SignIn} />

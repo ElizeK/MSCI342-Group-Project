@@ -226,6 +226,10 @@ const NavBar = () => {
                             history.push('/ViewThinkPiece')
                             handleClose()
                         }}>View my ThinkPieces</MenuItem>
+                         <MenuItem onClick={() => {
+                            history.push('/ViewOtherThinkPiece')
+                            handleClose()
+                        }}>View Public ThinkPieces</MenuItem>
                     </Menu>
                 </div>
                 <Typography style={{ marginRight: 50 }}></Typography>
