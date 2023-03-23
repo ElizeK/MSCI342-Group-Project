@@ -6,11 +6,11 @@ import history from "../Navigation/history";
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { makeStyles } from '@material-ui/core/styles';
-import NavBar from '../NavBar';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import Alert from '@material-ui/lab/Alert'
+import NavBarSignedOut from '../NavBarSignedOut';
 
 
 const theme = createTheme({
@@ -246,9 +246,9 @@ const SigningUp = () => {
 
     return (
         <div>
-            <NavBar
+            <NavBarSignedOut
                 backgroundColor="secondary"
-            ></NavBar>
+            ></NavBarSignedOut>
             <Grid
                 container
                 direction="row"
