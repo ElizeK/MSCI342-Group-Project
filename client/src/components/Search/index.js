@@ -10,6 +10,8 @@ import Stack from '@mui/material/Stack';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 
 
 
@@ -153,12 +155,47 @@ const useStyles = makeStyles((theme) => ({
 
 const ArticleCard = ({ article }) => {
     const classes = useStyles();
+    const [articleId, setArticleId] = useState(1);
+    const [favourite, setFavourite] = React.useState(false);
+    const [author, setAuthor] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [articleUrl, setUrl] = useState('');
+    const [date, setDate] = useState('');
+    const addFavourite = async () => {
+        await handleFavouriteClick();
+    }
+    const handleFavouriteClick = async () => {
+        const url = '/api/article/favourite';
+        console.log(url)
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify({
+                articleId: articleId,
+                title: title,
+                author: author,
+                articleUrl: articleUrl,
+                // publishedAt: date
+            })
+        });
+        console.log(response)
+        const body = await response.json();
+        console.log(body);
+        if (response.ok) {
+            setFavourite(true);
+            // setArticleId(articleId + 1);
+        }
+    }
     return (
 
         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
             <div>
                 {/* <img src="./placeholderImage.png" width="400"></img> */}
-                <img src={article.urlToImage} width="400" alt='Image not available'></img>
+                {/* <img src={article.urlToImage} width="400" alt='Image not available'></img> */}
+                <img src={article.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
 
 
             </div>
@@ -167,14 +204,11 @@ const ArticleCard = ({ article }) => {
                 subheader={article.author + " ● " + article.publishedAt}
             />
             <CardContent>
-                <Typography variant="body2" color="text.secondary" className={classes.header}>
+                <Typography variant="body2"  className={classes.header}>
                     {article.description}
                 </Typography>
             </CardContent>
 
-            <ul>
-
-            </ul>
 
             <div
                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
@@ -190,6 +224,18 @@ const ArticleCard = ({ article }) => {
                     Learn More
                 </Button>
             </div>
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                <Button
+                    variant="outlined"
+                    target="_blank"
+                    color="inherit"
+                    startIcon={<FavoriteIcon />}
+                    style={{ marginLeft: '110px' }}
+                    onClick={addFavourite}>
+                    {favourite ? 'Favourited' : 'Favourite'}
+                </Button>
+            </div>
 
         </Card>
     )
@@ -203,6 +249,7 @@ const Search = () => {
     const [source, setSource] = useState("");
     const [language, setLanguage] = useState("");
     const [sortBy, setSortBy] = useState("");
+    const [totalResults, setTotalResults] = useState(0);
 
 
     const getArticles = () => {
@@ -224,10 +271,11 @@ const Search = () => {
             },
             body: JSON.stringify({
                 query: query,
-                pageSize: 15,
+                pageSize: 100,
                 language: language,
                 source: source,
-                sortBy: sortBy
+                sortBy: sortBy,
+                totalResults: totalResults
             })
         });
         console.log(query + " " + language + " " + source + " " + sortBy);
@@ -238,7 +286,9 @@ const Search = () => {
     }
 
     const handleSubmit = async (e) => {
+        setQuery(query.replaceAll(' ', '-'))
         getArticles()
+
     }
 
     return (
@@ -454,6 +504,20 @@ const Search = () => {
                     </FormControl>
                 </Box>
             </Grid>
+            {/* <Grid
+                container
+                // direction="column"
+                justifyContent="center"
+                className={classes.backgroundColor}
+            >
+                <Grid item >
+                    <Box ml={7} p={2}>
+                        <Typography className={classes.subHeading}>{totalResults} Results</Typography>
+                    </Box>
+                </Grid>
+
+            </Grid> */}
+            {console.log(totalResults)}
             <Grid
                 container
                 // direction="column"
@@ -462,6 +526,9 @@ const Search = () => {
                 alignItems="center"
                 className={classes.backgroundColor}
             >
+                <Box ml={7} p={2}>
+                        <Typography className={classes.subHeading}>{articles.length} Results</Typography>
+                    </Box>
 
                 <Grid item>
 
@@ -480,7 +547,7 @@ const Search = () => {
 
                                     {articles.map((article, index) => {
                                         return (
-                                            <Grid xs={4} sm={4} md={4} key={index}>
+                                            <Grid sm={4} md={4} key={index}>
                                                 <ArticleCard article={article} />
                                                 <Typography style={{ padding: 20 }}></Typography>
                                             </Grid>

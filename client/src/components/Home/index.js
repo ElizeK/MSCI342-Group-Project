@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
+
+import { Typography, useRadioGroup } from "@material-ui/core";
 import NavBar from '../NavBar';
 
-import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
@@ -98,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
         "& .MuiPaper-root": {
             backgroundColor: "#ffff",
             color: "rgba(0, 0, 0, 0.87)"
-          }
+        }
     },
     select: {
         '&:before': {
@@ -187,17 +186,126 @@ const useStyles = makeStyles((theme) => ({
 // }
 
 
+// const ArticleCard = ({ topHeadline }) => {
+//     const classes = useStyles();
+
+//     const [articleId, setArticleId] = useState(1);
+//     const [favourite, setFavourite] = React.useState(false);
+//     const [author, setAuthor] = useState('');
+//     const [title, setTitle] = useState('');
+//     const [description, setDescription] = useState('');
+//     const [articleUrl, setUrl] = useState('');
+//     const [date, setDate] = useState('');
+
+//     // setTitle(topHeadline.title)
+//     // setAuthor(topHeadline.author)
+//     // setDescription(topHeadline.description)
+//     // setUrl(topHeadline.url)
+
+//     // title = topHeadline.title
+
+//     const addFavourite = async () => {
+//         await handleFavouriteClick();
+//     }
+
+//     React.useEffect(() => {
+//         setAuthor(topHeadline.author);
+//         setTitle(topHeadline.title);
+//         setUrl(topHeadline.url);
+//         // setDate(topHeadline.publishedAt);
+//     }, [topHeadline]);
+
+//     const handleFavouriteClick = async () => {
+//         const url = '/api/article/favourite';
+//         console.log(url)
+//         const response = await fetch(url, {
+//             method: "POST",
+//             headers: {
+//                 'Content-Type': "application/json",
+//             },
+//             body: JSON.stringify({
+//                 articleId: articleId,
+//                 title: title,
+//                 author: author,
+//                 articleUrl: articleUrl,
+//                 // publishedAt: date
+//             })
+//         });
+//         console.log(response)
+//         const body = await response.json();
+//         console.log(body);
+//         if (response.ok) {
+//             setFavourite(true);
+//             // setArticleId(articleId + 1);
+//         }
+//     }
+
+//     return (
+//         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
+//             <div>
+//                 <img src="./placeholderImage.png" width="400"></img>
+//                 {/* <img src={topHeadline.urlToImage} width="400" alt='Image not available'></img> */}
+
+
+//             </div>
+//             <CardHeader className={classes.header}
+//                 title={topHeadline.title}
+//                 subheader={topHeadline.author + " ● " + topHeadline.publishedAt}
+//             />
+//             <CardContent>
+//                 <Typography variant="body2" color="text.secondary" className={classes.header}>
+//                     {topHeadline.description}
+//                 </Typography>
+//             </CardContent>
+
+//             <ul>
+
+//             </ul>
+
+//             <div
+//                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+//                 <Button
+//                     // color="secondary"
+//                     variant="outlined"
+//                     href={topHeadline.url}
+//                     target="_blank"
+//                     rel="noreferrer"
+//                     color="inherit"
+//                     style={{ cursor: "pointer", float: 'left' }}
+//                 >
+//                     Learn More
+//                 </Button>
+//             </div>
+
+//             <div
+//                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+//                 <Button
+//                     variant="outlined"
+//                     target="_blank"
+//                     color="inherit"
+//                     startIcon={<FavoriteIcon />}
+//                     style={{ marginLeft: '110px' }}
+//                     onClick={addFavourite}>
+//                     {favourite ? 'Favourited' : 'Favourite'}
+//                 </Button>
+//             </div>
+
+//         </Card>
+
+//     )
+// }
+
 const ArticleCard = ({ topHeadline }) => {
     const classes = useStyles();
-
-    const [articleId, setArticleId] = useState(1);
+    const [topHeadlineId, settopHeadlineId] = useState(1);
     const [favourite, setFavourite] = React.useState(false);
     const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [articleUrl, setUrl] = useState('');
+    const [topHeadlineUrl, setUrl] = useState('');
     const [date, setDate] = useState('');
-    
+    // const [articleUrl, setUrl] = useState('');
+
     // setTitle(topHeadline.title)
     // setAuthor(topHeadline.author)
     // setDescription(topHeadline.description)
@@ -208,16 +316,8 @@ const ArticleCard = ({ topHeadline }) => {
     const addFavourite = async () => {
         await handleFavouriteClick();
     }
-
-    React.useEffect(() => {
-        setAuthor(topHeadline.author);
-        setTitle(topHeadline.title);
-        setUrl(topHeadline.url);
-        // setDate(topHeadline.publishedAt);
-    }, [topHeadline]);
-
     const handleFavouriteClick = async () => {
-        const url = '/api/article/favourite';
+        const url = '/api/topHeadline/favourite';
         console.log(url)
         const response = await fetch(url, {
             method: "POST",
@@ -225,10 +325,10 @@ const ArticleCard = ({ topHeadline }) => {
                 'Content-Type': "application/json",
             },
             body: JSON.stringify({
-                articleId: articleId,
+                topHeadlineId: topHeadlineId,
                 title: title,
                 author: author,
-                articleUrl: articleUrl,
+                topHeadlineUrl: topHeadlineUrl,
                 // publishedAt: date
             })
         });
@@ -237,31 +337,30 @@ const ArticleCard = ({ topHeadline }) => {
         console.log(body);
         if (response.ok) {
             setFavourite(true);
-            // setArticleId(articleId + 1);
+            // settopHeadlineId(topHeadlineId + 1);
         }
+
     }
-
     return (
-        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
+        
+
+        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.topHeadlineCard} color="backgroundColor">
             <div>
-                <img src="./placeholderImage.png" width="400"></img>
-                {/* <img src={topHeadline.urlToImage} width="400" alt='Image not available'></img> */}
-
-
+                
+                {/* <img src="./placeholderImage.png" width="400"></img> */}
+                <img src={topHeadline.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
+        
             </div>
             <CardHeader className={classes.header}
                 title={topHeadline.title}
                 subheader={topHeadline.author + " ● " + topHeadline.publishedAt}
             />
             <CardContent>
-                <Typography variant="body2" color="text.secondary" className={classes.header}>
+                <Typography variant="body2" className={classes.header}>
                     {topHeadline.description}
                 </Typography>
             </CardContent>
 
-            <ul>
-
-            </ul>
 
             <div
                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
@@ -277,9 +376,8 @@ const ArticleCard = ({ topHeadline }) => {
                     Learn More
                 </Button>
             </div>
-
             <div
-                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
                 <Button
                     variant="outlined"
                     target="_blank"
@@ -292,31 +390,45 @@ const ArticleCard = ({ topHeadline }) => {
             </div>
 
         </Card>
-
     )
 }
 const Home = () => {
     const classes = useStyles();
 
-    const [article, setArticle] = useState([]);
-    const [expanded, setExpanded] = useState('');
     const [topHeadlines, setTopHeadlines] = useState([]);
     const [userId, setUserId] = useState(1);
     const [category, setCategory] = React.useState("");
-    
+    const [sortBy, setSortBy] = useState("");
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
+
+    // const handleExpandClick = () => {
+    //     setExpanded(!expanded);
+    // };
+    const [uuid, setUuid] = useState("");
+
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            console.log(JSON.stringify(user))
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+
+    //on update of uuid call getCategory
     React.useEffect(() => {
         getCategory();
-    }, [userId]);
+    }, [uuid]);
 
     React.useEffect(() => {
         console.log(category)
         getTopHeadlines();
-    }, [category])
+    }, [category, sortBy])
 
     const getCategory = () => {
         callApiGetPreferenceCategory()
@@ -325,6 +437,7 @@ const Home = () => {
             })
     }
 
+    //pass uuid 
     const callApiGetPreferenceCategory = async () => {
         const url = '/api/preferenceCategory';
         const response = await fetch(url, {
@@ -333,8 +446,7 @@ const Home = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                userID: userId,
-                category: category
+                uuid: uuid,
             })
         });
         const body = await response.json();
@@ -367,7 +479,8 @@ const Home = () => {
             },
             body: JSON.stringify({
                 category: category,
-                pageSize: 15
+                pageSize: 15,
+                sortBy: sortBy
             })
         });
         const body = await response.json();
@@ -396,6 +509,32 @@ const Home = () => {
                 <Typography variant="h5" color="inherit" noWrap className={classes.subHeading} >
                     Preference category is <b>{category}</b>
                 </Typography>
+                <Typography style={{ padding: 20 }}></Typography>
+                <Grid item
+                    justifyContent="center">
+                    <Box ml={7} p={2}>
+                        <FormControl style={{ "width": 200 }} >
+                            <InputLabel style={{ color: "#fff" }}>Sort By</InputLabel>
+                            <Select
+                                value={sortBy}
+                                label="Sort By"
+                                onChange={(e) => setSortBy(e.target.value)}
+                                className={classes.select}
+                                style={{ color: "#fff" }}
+                                required
+                                data-testid='Sort By'
+                                defaultValue={"publishedAt"}
+                            >
+                                <MenuItem value={"relevancy"}>Relevancy</MenuItem>
+                                <MenuItem value={"popularity"}>Popularity</MenuItem>
+                                <MenuItem value={"publishedAt"}>Published At</MenuItem>
+
+                            </Select>
+                        </FormControl>
+                    </Box>
+                </Grid>
+                <Typography style={{ padding: 20 }}></Typography>
+
 
                 {
                     topHeadlines.length > 0 ?
@@ -426,10 +565,10 @@ const Homes = () => {
     return (
         <MuiThemeProvider theme={theme} >
             <div>
-            <CssBaseline />
-            <Paper>
-                <Home />
-            </Paper>
+                <CssBaseline />
+                <Paper>
+                    <Home />
+                </Paper>
             </div>
         </MuiThemeProvider >
     );

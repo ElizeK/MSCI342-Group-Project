@@ -5,12 +5,11 @@ import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Toolbar, Button } from '@mui/material';
 import { makeStyles } from '@material-ui/styles';
-import { MenuItem, Menu } from '@mui/material';
-import { getAuth, signOut } from "firebase/auth";
+import { Grid, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Menu } from '@mui/material';
 
 const opacityValue = 1;
 
-const NavBar = () => {
+const NavBarSignedOut = () => {
     const useStyles = makeStyles((theme) => ({
         body: {
             backgroundColor: "#1b1b1b",
@@ -153,6 +152,11 @@ const NavBar = () => {
 
     const classes = useStyles();
 
+    const [chosenOption, setChosenOption] = React.useState('');
+
+    const handleChosenOption = (e) => {
+        setChosenOption(e.target.value);
+    };
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -162,96 +166,24 @@ const NavBar = () => {
         setAnchorEl(null);
     };
 
-    const handleFirebaseSignout = () => {
-        signOut(getAuth()).then(() => {
-            // Sign-out successful.
-            // console.log("SIGN OUT SUCCESS")
-            history.push('/Landing')
-        }).catch((error) => {
-            // An error happened.
-            // console.log("SIGN OUT FAIL")
-        });
-    }
-
-    const handleSignout = () => {
-        handleFirebaseSignout()
-    }
-
     return (
         <div>
             <Toolbar>
                 <Typography style={{ marginRight: 10 }}></Typography>
                 <Button
                     color="inherit"
-                    onClick={() => history.push('/')
-                    }
+                    onClick={() => history.push('/Landing')}
                 >
-                    <Typography className={classes.navbarItem}>Home</Typography>
+                    <Typography className={classes.navbarItem} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Pulse News
+                    </Typography>
                 </Button>
                 <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Search')}
-                >
-                    <Typography className={classes.navbarItem}>Search</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <div>
-                    <Button
-                        color="inherit"
-                        id="basic-button"
-                        aria-controls={open ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
-                    >
-                        <Typography className={classes.navbarItem}>ThinkPiece</Typography>
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                        }}
-                    >
-                        <MenuItem onClick={() => {
-                            history.push('/ThinkPiece')
-                            handleClose()
-                        }
-                        }>Create a ThinkPiece</MenuItem>
-                        <MenuItem onClick={() => {
-                            history.push('/ViewThinkPiece')
-                            handleClose()
-                        }}>View my ThinkPieces</MenuItem>
-                         <MenuItem onClick={() => {
-                            history.push('/ViewOtherThinkPiece')
-                            handleClose()
-                        }}>View Public ThinkPieces</MenuItem>
-                    </Menu>
-                </div>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/Profile')}
-                >
-                    <Typography className={classes.navbarItem}>Profile</Typography>
-                </Button>
-                <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={handleSignout}
-                >
-                    <Typography className={classes.navbarItem}>Sign Out</Typography>
-                </Button>
+
             </Toolbar>
         </div>
 
     );
 }
 
-export default NavBar;
+export default NavBarSignedOut;

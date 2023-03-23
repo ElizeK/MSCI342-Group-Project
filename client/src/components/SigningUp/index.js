@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Snackbar } from "@material-ui/core";
 import history from "../Navigation/history";
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { makeStyles } from '@material-ui/core/styles';
-import NavBar from '../NavBar';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import Alert from '@material-ui/lab/Alert'
+import NavBarSignedOut from '../NavBarSignedOut';
 
 
 const theme = createTheme({
@@ -130,7 +131,9 @@ const SigningUp = () => {
     const [preference, setPreference] = React.useState("");
     const [language, setLanguage] = React.useState("");
     const [passwordConf, setPasswordConf] = React.useState("");
-    const [firebaseUuid, setFirebaseUuid] = React.useState("")
+    const [firebaseUuid, setFirebaseUuid] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("error");
+    const [snack, setSnack] = React.useState(false)
 
     const handleUserEmail = (event) => {
         setUserEmail(event.target.value);
@@ -164,7 +167,7 @@ const SigningUp = () => {
 
     const classes = useStyles();
 
-    const addUser = async () => {
+    const addUser = async (firebaseUuid) => {
         const url = "/api/addUser";
         const response = await fetch(url, {
             method: "POST",
@@ -198,14 +201,26 @@ const SigningUp = () => {
                 console.log(userCredential.user.uid + " is firebase useruid")
                 // move addUser call here
 
+
+                addUser(userCredential.user.uid)
+                // move addUser call here
+
+                history.push('/')
+
             })
             .catch((error) => {
                 console.log("SIGN UP FAIL")
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode + ": " + errorMessage)
+
+                setErrorMessage(errorMessage)
+                setSnack(true)
+
             })
     };
+
+
 
     const handleSignUpButton = (event) => {
         console.log("submitted");
@@ -217,12 +232,36 @@ const SigningUp = () => {
         history.push('/')
     };
 
+        if (username.length == 0 || userEmail.length == 0 || preference.length == 0 || language.length == 0) {
+            setErrorMessage("Fill in all fields in form")
+            setSnack(true)
+        } else if (password !== passwordConf) {
+            setErrorMessage("Ensure passwords match")
+            setSnack(true)
+        }
+        else if (passwordConf.length < 6 || password.length < 6) {
+            setErrorMessage("Ensure passwords are greater than 6 characters")
+            setSnack(true)
+        } else {
+            console.log("submitted");
+            event.preventDefault()
+            handleFirebaseSignup();
+            //console.log(firebaseUuid + "is being added")
+            console.log("ADD USER success")
+            history.push('/')
+        }
+    };
+
+    const handleClose = () => {
+        setSnack(false)
+    }
+
 
     return (
         <div>
-            <NavBar
+            <NavBarSignedOut
                 backgroundColor="secondary"
-            ></NavBar>
+            ></NavBarSignedOut>
             <Grid
                 container
                 direction="row"
@@ -259,12 +298,15 @@ const SigningUp = () => {
                             id="tf3"
                             label="Password"
                             value={password}
+                            type="password"
                             variant="outlined"
                             className={classes.textField}
                             onChange={(e) => setPassword(e.target.value)}
                             InputLabelProps={{
                                 style: { color: '#fff' },
-                            }}
+                            }
+                            }
+
                         />
                     </Box>
 
@@ -295,6 +337,7 @@ const SigningUp = () => {
                             fullWidth
                             id="tf4"
                             label="Password Confirmation"
+                            type="password"
                             value={passwordConf}
                             variant="outlined"
                             className={classes.textField}
@@ -311,7 +354,13 @@ const SigningUp = () => {
                         <Button id="bt5" variant="contained" onClick={handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Sign Up!</Button>
                     </Box>
                 </Grid>
+
             </Grid >
+            <Snackbar open={snack} onClose={handleClose} autoHideDuration={100000}>
+
+                <Alert severity="error">{errorMessage}</Alert>
+
+            </Snackbar>
         </div >
     )
 }

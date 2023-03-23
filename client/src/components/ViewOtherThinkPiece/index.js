@@ -226,7 +226,7 @@ const ThinkPieceCard = ({ thinkpiece }) => {
     )
 }
 
-const ViewThinkPiece = () => {
+const ViewOtherThinkPiece = () => {
     const classes = useStyles();
 
     const [userId, setUserId] = React.useState(1);
@@ -296,7 +296,7 @@ const ViewThinkPiece = () => {
                 className={classes.backgroundColor}>
 
                 <Typography className={classes.heading} >
-                    View Your Think Pieces!
+                    View Public Think Pieces!
                 </Typography>
 
                     <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
@@ -318,14 +318,14 @@ const ViewThinkPiece = () => {
     )
 }
 
-const ViewThinkPieces = () => {
+const ViewOtherThinkPieces = () => {
 
     return (
         <MuiThemeProvider theme={theme}>
             <div>
                 <CssBaseline />
                 <Paper>
-                    <ViewThinkPiece />
+                    <ViewOtherThinkPiece />
                 </Paper>
             </div>
         </MuiThemeProvider>
@@ -333,4 +333,4 @@ const ViewThinkPieces = () => {
 
 };
 
-export default ViewThinkPieces;
+export default ViewOtherThinkPieces;

@@ -4,7 +4,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import history from "../Navigation/history";
-import NavBar from '../NavBar';
+import NavBarSignedOut from '../NavBarSignedOut';
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Grid, Button, Paper, Box } from '@mui/material';
@@ -161,9 +161,9 @@ const Landing = () => {
 
     return (
         <div>
-            <NavBar
+            <NavBarSignedOut
                 backgroundColor="primary"
-            ></NavBar>
+            ></NavBarSignedOut>
 
             <Grid
                 container
