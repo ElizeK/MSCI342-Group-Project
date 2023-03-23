@@ -122,14 +122,14 @@ app.post('/api/viewThinkPiece', (req, res) => {
 	connection.end();
 })
 
+
 app.post('/api/preferenceCategory', (req, res) => {
-	// let userID = req.body.userID
+	console.log("MADE IT TO API")
 	let connection = mysql.createConnection(config);
-	let userID = 1;
-	console.log("UserID: ", userID);
+	let uuid = req.body.uuid;
+	console.log("uuid: ", uuid);
 	// let sql = `SELECT preference_category FROM user_info WHERE user_id = ("${userID}%")`;
-	let sql = `SELECT preference_category FROM user_info WHERE user_id = (${userID})`
-	console.log(sql);
+	let sql = `SELECT preference_category FROM user_info WHERE firebase_uuid = ("${uuid}")`
 
 	connection.query(sql, (error, results, fields) => {
 		if (error) {
@@ -138,6 +138,7 @@ app.post('/api/preferenceCategory', (req, res) => {
 		}
 		// let string = JSON.stringify(results);
 		// let obj = JSON.parse(string);
+		console.log(JSON.stringify(results))
 		res.send({ user_info: results });
 
 	});
@@ -242,7 +243,7 @@ app.post('/api/news/everything', (req, res) => {
 	let url = "";
 
 	if (language == "" && source == "") {
-		 url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
 	} else if (language == "") {
 		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
 	} else if (source == "") {
