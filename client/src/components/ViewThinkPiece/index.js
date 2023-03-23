@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { IconButton } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
@@ -175,7 +177,54 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         marginTop: 20,
     },
+    ArticleCard: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        backgroundColor: "#1b1b1b",
+        overflow: "hidden",
+        color: "#1b1b1b"
+        // cursor: "pointer"
+    },
+    header: {
+        fontFamily: 'Oswald',
+        fontStyle: "normal",
+        fontWeight: 200,
+        fontSize: 20,
+        color: '#712EFF'
+    },
 }));
+
+const ThinkPieceCard = ({ thinkpiece }) => {
+    const classes = useStyles();
+
+    return (
+        <Card variant="outlined" style={{ "width": 400, "height": 400 }} className={classes.ArticleCard} color="backgroundColor">
+            <CardHeader
+                className={classes.header}
+                title={thinkpiece.title}
+                subheader={thinkpiece.topic}
+            />
+
+            <CardContent>
+                <Typography variant="body2" color="text.secondary" className={classes.header}>
+                    {thinkpiece.summary}
+                    {thinkpiece.content}
+                </Typography>
+            </CardContent>
+
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+                <IconButton href={thinkpiece.url}>
+                    <Link />
+                </IconButton>
+
+            </div>
+
+        </Card>
+    )
+}
 
 const ViewThinkPiece = () => {
     const classes = useStyles();
@@ -193,7 +242,7 @@ const ViewThinkPiece = () => {
     }, [userId]);
 
     const getThinkPiece = () => {
-        callApiViewThinkPieces()   
+        callApiViewThinkPieces()
             .then(res => {
                 setView(res.think_pieces);
             })
@@ -201,19 +250,19 @@ const ViewThinkPiece = () => {
 
     const callApiViewThinkPieces = async () => {
         const url = '/api/viewThinkPiece';
-        const response = await fetch (url, {
+        const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             }
             // body: JSON.stringify({
-                // userID: userId,
-                // title: title,
-                // content: content,
-                // summary: symmary,
-                // topic: topic,
-                // url: url     
-            
+            // userID: userId,
+            // title: title,
+            // content: content,
+            // summary: symmary,
+            // topic: topic,
+            // url: url     
+
         });
         const body = await response.json();
         console.log(body);
@@ -223,18 +272,49 @@ const ViewThinkPiece = () => {
 
     return (
         <div>
-            {view.map(item => (
-                <div key = {item.id}>
+            <NavBar
+                backgroundColor="secondary"
+            ></NavBar>
+            {/* {view.map(thinkpiece => (
+                <div key = {thinkpiece.id}>
                     <li>
-                        {item.title}
-                        {item.content}
-                        {item.summary}
-                        {item.topic}
-                        {item.url}
+                        {thinkpiece.title}
+                        {thinkpiece.content}
+                        {thinkpiece.summary}
+                        {thinkpiece.topic}
+                        {thinkpiece.url}
                     </li>
                 </div>
-            ))}
-        </div>
+            ))} */}
+            <Grid
+                container
+                spacing={3}
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                style={{ minHeight: '100vh' }}
+                className={classes.backgroundColor}>
+
+                <Typography className={classes.heading} >
+                    View Your Think Pieces!
+                </Typography>
+
+                    <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
+
+                        {view.map((thinkpiece, index) => {
+                                return (
+                                    <Grid xs={4} sm={4} md={4} key={index}>
+                                        <ThinkPieceCard thinkpiece={thinkpiece}></ThinkPieceCard>
+                                        <Typography style={{ padding: 20 }}></Typography>
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+                    : <></>
+        
+            </Grid>
+        </div >
     )
 }
 
