@@ -5,7 +5,7 @@ import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Toolbar, Button } from '@mui/material';
 import { makeStyles } from '@material-ui/styles';
-import { Grid, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
+import { Grid, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Menu } from '@mui/material';
 
 const opacityValue = 1;
 
@@ -39,11 +39,11 @@ const NavBar = () => {
             margin: '0 2px',
             transform: 'scale(0.8)',
         },
-    
+
         button: {
             paddingTop: theme.spacing(5),
         },
-    
+
         textField: {
             "& .MuiInputBase-root": {
                 color: 'white'
@@ -89,14 +89,14 @@ const NavBar = () => {
             fontFamily: "Oswald",
             fontSize: 55
         },
-    
+
         subHeading: {
             color: "white",
             fontFamily: "Inter",
             fontSize: 22,
             fontStyle: "normal",
             fontWeight: 300
-    
+
         },
         navbarItem: {
             fontFamily: 'Inter',
@@ -118,7 +118,7 @@ const NavBar = () => {
         inputLabelRoot: {
             color: "white",
         },
-    
+
         header: {
             fontFamily: 'Oswald',
             fontStyle: "normal",
@@ -126,7 +126,7 @@ const NavBar = () => {
             fontSize: 20,
             color: '#712EFF'
         },
-    
+
         card: {
             maxWidth: 345,
             margin: 'auto',
@@ -156,6 +156,14 @@ const NavBar = () => {
 
     const handleChosenOption = (e) => {
         setChosenOption(e.target.value);
+    };
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -187,17 +195,37 @@ const NavBar = () => {
                     <Typography className={classes.navbarItem}>Search</Typography>
                 </Button>
                 <Typography style={{ marginRight: 50 }}></Typography>
-                <Button
-                    color="inherit"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push('/ThinkPiece')}
-                >
-                    <Typography className={classes.navbarItem}>Thinkpiece</Typography>
-                    <Select value={chosenOption} onChange={setChosenOption}>
-                        <MenuItem value="Create Think Piece">Create Think Piece</MenuItem>
-                        <MenuItem value="View Think Pieces">View Think Pieces</MenuItem>
-                    </Select>
-                </Button>
+                <div>
+                    <Button
+                        color="inherit"
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        ThinkPiece
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem onClick={() => {
+                            history.push('/ThinkPiece')
+                            handleClose()
+                        }
+                        }>Create a ThinkPiece</MenuItem>
+                        <MenuItem onClick={() => {
+                            history.push('/ViewThinkPiece')
+                            handleClose()
+                        }}>View my ThinkPieces</MenuItem>
+                    </Menu>
+                </div>
                 <Typography style={{ marginRight: 50 }}></Typography>
                 <Button
                     color="inherit"
