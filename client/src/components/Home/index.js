@@ -354,7 +354,7 @@ const ArticleCard = ({ topHeadline }) => {
                 subheader={topHeadline.author + " ● " + topHeadline.publishedAt}
             />
             <CardContent>
-                <Typography variant="body2"  className={classes.header}>
+                <Typography variant="body2" className={classes.header}>
                     {topHeadline.description}
                 </Typography>
             </CardContent>
@@ -400,9 +400,9 @@ const Home = () => {
 
 
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    // const handleExpandClick = () => {
+    //     setExpanded(!expanded);
+    // };
     const [uuid, setUuid] = useState("");
 
     onAuthStateChanged(getAuth(), (user) => {
