@@ -237,6 +237,8 @@ app.post('/api/news/everything', (req, res) => {
 	const language = req.body.language
 	const source = req.body.source
 	const sortBy = req.body.sortBy
+	console.log(query)
+
 	let url = "";
 
 	if (language == "" && source == "") {
@@ -253,10 +255,14 @@ app.post('/api/news/everything', (req, res) => {
 		.then(response => {
 			response.json().then(
 				data => {
+					const totalResults = data.totalResults
 					console.log(data)
 					console.log(query)
 					console.log(pageSize)
 					console.log(language)
+					console.log(source)
+					console.log(sortBy)
+					console.log(totalResults)
 					res.send(data) // .send takes the response from our end and sends it 
 				})
 		})
