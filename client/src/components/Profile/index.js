@@ -343,7 +343,6 @@ const Profile = () => {
                         <Typography variant="h3" noWrap className={classes.heading}>
                             My Profile
                         </Typography>
-                        <Typography className={classes.subHeading}>Balls in ur jaw</Typography>
                     </Box>
 
 
