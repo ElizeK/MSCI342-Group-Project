@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Snackbar } from "@material-ui/core";
 import history from "../Navigation/history";
 import "@fontsource/oswald";
 import "@fontsource/inter";
@@ -10,6 +10,7 @@ import NavBar from '../NavBar';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import Alert from '@material-ui/lab/Alert'
 
 
 const theme = createTheme({
@@ -130,7 +131,9 @@ const SigningUp = () => {
     const [preference, setPreference] = React.useState("");
     const [language, setLanguage] = React.useState("");
     const [passwordConf, setPasswordConf] = React.useState("");
-    const [firebaseUuid, setFirebaseUuid] = React.useState("")
+    const [firebaseUuid, setFirebaseUuid] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("error");
+    const [snack, setSnack] = React.useState(false)
 
     const handleUserEmail = (event) => {
         setUserEmail(event.target.value);
@@ -141,7 +144,7 @@ const SigningUp = () => {
     const handlePassword = (event) => {
         setPassword(event.target.value);
     };
-    
+
     const handlePreference = (event) => {
         setPreference(event.target.value);
 
@@ -152,9 +155,9 @@ const SigningUp = () => {
 
     };
 
-    React.useEffect(() =>{
+    React.useEffect(() => {
         addUser();
-    }, [firebaseUuid] )
+    }, [firebaseUuid])
 
     // const handleFirebase = (event) => {
     //     setFirebaseUuid(event.target.value);
@@ -189,34 +192,57 @@ const SigningUp = () => {
     const handleFirebaseSignup = () => {
         console.log("IN HANDLE FIREBASE SIGNUP")
         createUserWithEmailAndPassword(getAuth(), userEmail, password)
-        .then((userCredential) => {
-            console.log("SIGN UP SUCCESSFUL")
-            // Signed in
-            // const user = (userCredential.user)
-            setFirebaseUuid(userCredential.user.uid)
-            console.log(firebaseUuid + " is firebase useruid")
-            console.log(userCredential.user.uid + " is firebase useruid")
-            addUser(userCredential.user.uid)
-             // move addUser call here
-    
-        })
-        .catch((error) => {
-            console.log("SIGN UP FAIL")
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode + ": " +errorMessage)
-        })
+            .then((userCredential) => {
+                console.log("SIGN UP SUCCESSFUL")
+                // Signed in
+                // const user = (userCredential.user)
+                setFirebaseUuid(userCredential.user.uid)
+                console.log(firebaseUuid + " is firebase useruid")
+                console.log(userCredential.user.uid + " is firebase useruid")
+                addUser(userCredential.user.uid)
+                // move addUser call here
+
+                history.push('/')
+
+            })
+            .catch((error) => {
+                console.log("SIGN UP FAIL")
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode + ": " + errorMessage)
+                setErrorMessage(errorMessage)
+                setSnack(true)
+
+            })
     };
 
+
+
     const handleSignUpButton = (event) => {
-        console.log("submitted");
-        event.preventDefault()
-        handleFirebaseSignup();
-       console.log(firebaseUuid + "is being added")
-        console.log("ADD USER success")
-        history.push('/')
+        if (username.length == 0 || userEmail.length == 0 || preference.length == 0 || language.length == 0) {
+            setErrorMessage("Fill in all fields in form")
+            setSnack(true)
+        } else if (password !== passwordConf) {
+            setErrorMessage("Ensure passwords match")
+            setSnack(true)
+        }
+        else if (passwordConf.length < 6 || password.length < 6) {
+            setErrorMessage("Ensure passwords are greater than 6 characters")
+            setSnack(true)
+        } else {
+            console.log("submitted");
+            event.preventDefault()
+            handleFirebaseSignup();
+            //console.log(firebaseUuid + "is being added")
+            console.log("ADD USER success")
+            history.push('/')
+        }
     };
-    
+
+    const handleClose = () => {
+        setSnack(false)
+    }
+
 
     return (
         <div>
@@ -259,12 +285,15 @@ const SigningUp = () => {
                             id="tf3"
                             label="Password"
                             value={password}
+                            type="password"
                             variant="outlined"
                             className={classes.textField}
                             onChange={(e) => setPassword(e.target.value)}
                             InputLabelProps={{
                                 style: { color: '#fff' },
-                            }}
+                            }
+                            }
+
                         />
                     </Box>
 
@@ -295,6 +324,7 @@ const SigningUp = () => {
                             fullWidth
                             id="tf4"
                             label="Password Confirmation"
+                            type="password"
                             value={passwordConf}
                             variant="outlined"
                             className={classes.textField}
@@ -311,7 +341,13 @@ const SigningUp = () => {
                         <Button id="bt5" variant="contained" onClick={handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Sign Up!</Button>
                     </Box>
                 </Grid>
+
             </Grid >
+            <Snackbar open={snack} onClose={handleClose} autoHideDuration={100000}>
+
+                <Alert severity="error">{errorMessage}</Alert>
+
+            </Snackbar>
         </div >
     )
 }
@@ -400,13 +436,13 @@ class SigningUps extends Component {
 
         return (
             <MuiThemeProvider theme={theme}>
-            <div>
-                <CssBaseline />
-                <Paper>
-                    <SigningUp />
-                </Paper>
-            </div>
-        </MuiThemeProvider>
+                <div>
+                    <CssBaseline />
+                    <Paper>
+                        <SigningUp />
+                    </Paper>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }

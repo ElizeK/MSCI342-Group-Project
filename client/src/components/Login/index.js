@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Snackbar } from "@material-ui/core";
 import "@fontsource/oswald";
 import "@fontsource/inter";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,6 +11,8 @@ import NavBar from '../NavBar';
 import history from "../Navigation/history";
 import auth from "../Firebase/firebase"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Alert from '@material-ui/lab/Alert'
+
 
 const theme = createTheme({
     palette: {
@@ -127,6 +129,8 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
     const [userEmail, setUserEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [errorMessage, setErrorMessage] = React.useState("error");
+    const [snack, setSnack] = React.useState(false)
     
     const classes = useStyles();
 
@@ -136,20 +140,33 @@ const Login = () => {
             console.log("LOG IN SUCCESFUL")
             // Signed in 
             const user = userCredential.user
+            history.push('/')
         })
         .catch((error) => {
             console.log("LOG IN FAIL")
             const errorCode = error.code
             const errorMessage = error.message
             console.log(errorCode + ": " + errorMessage)
+            setErrorMessage(errorMessage)
+            setSnack(true)
         })
     }
 
     const handleLogin = (event) => {
+        if( password.length < 6 || userEmail.length == 0 ){
+        setErrorMessage("Fill in all fields in form correctly")
+        setSnack(true)
+    }
+        
+        else {
         event.preventDefault()
         handleFirebaseLogin()
-        history.push('/')
+        }
     };
+
+    const handleClose = () => {
+        setSnack(false)
+       }
 
     return (
         <div>
@@ -193,6 +210,7 @@ const Login = () => {
                             id="tf3"
                             label="Password"
                             value={password}
+                             type="password"
                             variant="outlined"
                             className={classes.textField}
                             onChange={(e) => setPassword(e.target.value)}
@@ -210,6 +228,11 @@ const Login = () => {
 
                 </Grid>
             </Grid >
+            <Snackbar open={snack} onClose={handleClose} autoHideDuration={100000}>
+
+                    <Alert severity="error">{errorMessage}</Alert>
+
+                </Snackbar>
         </div >
 
     )
