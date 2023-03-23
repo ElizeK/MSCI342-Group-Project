@@ -141,7 +141,7 @@ const SigningUp = () => {
     const handlePassword = (event) => {
         setPassword(event.target.value);
     };
-    
+
     const handlePreference = (event) => {
         setPreference(event.target.value);
 
@@ -152,9 +152,9 @@ const SigningUp = () => {
 
     };
 
-    React.useEffect(() =>{
+    React.useEffect(() => {
         addUser();
-    }, [firebaseUuid] )
+    }, [firebaseUuid])
 
     // const handleFirebase = (event) => {
     //     setFirebaseUuid(event.target.value);
@@ -189,22 +189,22 @@ const SigningUp = () => {
     const handleFirebaseSignup = () => {
         console.log("IN HANDLE FIREBASE SIGNUP")
         createUserWithEmailAndPassword(getAuth(), userEmail, password)
-        .then((userCredential) => {
-            console.log("SIGN UP SUCCESSFUL")
-            // Signed in
-            // const user = (userCredential.user)
-            setFirebaseUuid(userCredential.user.uid)
-            console.log(firebaseUuid + " is firebase useruid")
-            console.log(userCredential.user.uid + " is firebase useruid")
-             // move addUser call here
-    
-        })
-        .catch((error) => {
-            console.log("SIGN UP FAIL")
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode + ": " +errorMessage)
-        })
+            .then((userCredential) => {
+                console.log("SIGN UP SUCCESSFUL")
+                // Signed in
+                // const user = (userCredential.user)
+                setFirebaseUuid(userCredential.user.uid)
+                console.log(firebaseUuid + " is firebase useruid")
+                console.log(userCredential.user.uid + " is firebase useruid")
+                // move addUser call here
+
+            })
+            .catch((error) => {
+                console.log("SIGN UP FAIL")
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode + ": " + errorMessage)
+            })
     };
 
     const handleSignUpButton = (event) => {
@@ -212,11 +212,11 @@ const SigningUp = () => {
         event.preventDefault()
         handleFirebaseSignup();
         addUser();
-       console.log(firebaseUuid + "is being added")
+        console.log(firebaseUuid + "is being added")
         console.log("ADD USER success")
         history.push('/')
     };
-    
+
 
     return (
         <div>
@@ -365,14 +365,20 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
                     style={{ color: "#fff" }}
                     required
                 >
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value={'ar'}>Arabic</MenuItem>
-                    <MenuItem value={'de'}>German</MenuItem>
-                    <MenuItem value={'en'}>English</MenuItem>
-                    <MenuItem value={'es'}>Spanish</MenuItem>
-                    <MenuItem value={'fr'}>French</MenuItem>
-                    <MenuItem value={'it'}>Italian</MenuItem>
-                    <MenuItem value={'ru'}>Russian</MenuItem>
+                    <MenuItem value={""}>None</MenuItem>
+                    <MenuItem value={"ar"}>Arabic</MenuItem>
+                    <MenuItem value={"de"}>German</MenuItem>
+                    <MenuItem value={"en"}>English</MenuItem>
+                    <MenuItem value={"es"}>Spanish</MenuItem>
+                    <MenuItem value={"fr"}>French</MenuItem>
+                    <MenuItem value={"he"}>Hebrew</MenuItem>
+                    <MenuItem value={"it"}>Italian</MenuItem>
+                    <MenuItem value={"nl"}>Dutch</MenuItem>
+                    <MenuItem value={"no"}>Norwegian</MenuItem>
+                    <MenuItem value={"pt"}>Portuguese</MenuItem>
+                    <MenuItem value={"ru"}>Russian</MenuItem>
+                    <MenuItem value={'sv'}>Swedish</MenuItem>
+                    <MenuItem value={"zh"}>Chinese</MenuItem>
                 </Select>
             </FormControl>
         </Box>
@@ -400,13 +406,13 @@ class SigningUps extends Component {
 
         return (
             <MuiThemeProvider theme={theme}>
-            <div>
-                <CssBaseline />
-                <Paper>
-                    <SigningUp />
-                </Paper>
-            </div>
-        </MuiThemeProvider>
+                <div>
+                    <CssBaseline />
+                    <Paper>
+                        <SigningUp />
+                    </Paper>
+                </div>
+            </MuiThemeProvider>
         );
     }
 }
