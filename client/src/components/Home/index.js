@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
+import { Typography, useRadioGroup } from "@material-ui/core";
 import NavBar from '../NavBar';
 
 import Card from '@mui/material/Card';
@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
@@ -98,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
         "& .MuiPaper-root": {
             backgroundColor: "#ffff",
             color: "rgba(0, 0, 0, 0.87)"
-          }
+        }
     },
     select: {
         '&:before': {
@@ -194,10 +195,8 @@ const ArticleCard = ({ topHeadline }) => {
     const [favourite, setFavourite] = React.useState(false);
     const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
     const [articleUrl, setUrl] = useState('');
-    const [date, setDate] = useState('');
-    
+
     // setTitle(topHeadline.title)
     // setAuthor(topHeadline.author)
     // setDescription(topHeadline.description)
@@ -279,7 +278,7 @@ const ArticleCard = ({ topHeadline }) => {
             </div>
 
             <div
-                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
                 <Button
                     variant="outlined"
                     target="_blank"
@@ -298,20 +297,28 @@ const ArticleCard = ({ topHeadline }) => {
 const Home = () => {
     const classes = useStyles();
 
-    const [article, setArticle] = useState([]);
-    const [expanded, setExpanded] = useState('');
     const [topHeadlines, setTopHeadlines] = useState([]);
     const [userId, setUserId] = useState(1);
     const [category, setCategory] = React.useState("");
-    
+    const [uuid, setUuid] = useState("");
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            console.log(JSON.stringify(user))
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
 
+    //on update of uuid call getCategory
     React.useEffect(() => {
         getCategory();
-    }, [userId]);
+    }, [uuid]);
 
     React.useEffect(() => {
         console.log(category)
@@ -325,6 +332,7 @@ const Home = () => {
             })
     }
 
+    //pass uuid 
     const callApiGetPreferenceCategory = async () => {
         const url = '/api/preferenceCategory';
         const response = await fetch(url, {
@@ -333,8 +341,7 @@ const Home = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                userID: userId,
-                category: category
+                uuid: uuid,
             })
         });
         const body = await response.json();
@@ -426,10 +433,10 @@ const Homes = () => {
     return (
         <MuiThemeProvider theme={theme} >
             <div>
-            <CssBaseline />
-            <Paper>
-                <Home />
-            </Paper>
+                <CssBaseline />
+                <Paper>
+                    <Home />
+                </Paper>
             </div>
         </MuiThemeProvider >
     );
