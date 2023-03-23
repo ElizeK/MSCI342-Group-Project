@@ -194,7 +194,8 @@ const ArticleCard = ({ article }) => {
         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
             <div>
                 {/* <img src="./placeholderImage.png" width="400"></img> */}
-                <img src={article.urlToImage} width="400" alt='Image not available'></img>
+                {/* <img src={article.urlToImage} width="400" alt='Image not available'></img> */}
+                <img src={article.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
 
 
             </div>

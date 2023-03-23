@@ -339,15 +339,17 @@ const ArticleCard = ({ topHeadline }) => {
             setFavourite(true);
             // settopHeadlineId(topHeadlineId + 1);
         }
+
     }
     return (
+        
 
         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.topHeadlineCard} color="backgroundColor">
             <div>
+                
                 {/* <img src="./placeholderImage.png" width="400"></img> */}
-                <img src={topHeadline.urlToImage} width="400" alt='Image not available'></img>
-
-
+                <img src={topHeadline.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
+        
             </div>
             <CardHeader className={classes.header}
                 title={topHeadline.title}
