@@ -9,6 +9,7 @@ import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
+import { Password } from '@mui/icons-material';
 
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
@@ -211,8 +212,7 @@ const PreferenceSelection = ({ preference, setPreference }) => {
                     id="dd1"
                     value={preference}
                     label="Preference"
-                    defaultValue="Default Email"
-
+                    // defaultValue={currentPreference}
                     // onChange={(e) => setPreference(e.target.value)}                 
                     onChange={setPreference}
 
@@ -246,6 +246,8 @@ const PreferenceSelection = ({ preference, setPreference }) => {
 //select topic preference from drop down options 
 const LanguageSelection = ({ language, setLanguage, news }) => {
     const classes = useStyles();
+    console.log("chose a language successfuly")
+
     return (
 
         <Box>
@@ -290,8 +292,13 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
 const Profile = () => {
     const classes = useStyles();
     const [userEmail, setUserEmail] = React.useState("");
+    // const [password, setPassword] = React.useState("");
     const [preference, setPreference] = React.useState("");
     const [language, setLanguage] = React.useState("");
+
+    const [userData, setUserData] = React.useState([]);
+    // const [userDataObj, setUserDataObj] = React.useState({});
+
 
 
     const handlePreference = (event) => {
@@ -304,9 +311,53 @@ const Profile = () => {
 
     };
 
+    const handleUpdateButton = (event) => {
+        handlePreference();
+        handleLanguage();
+
+        console.log("handleUpdateButton ran")
+
+
+        //add confirmation popup
+    }
+
+
+    React.useEffect(() => {
+        console.log("user info api runs")
+        getUserInfo();
+    }, [])
+
+    const getUserInfo = () => {
+        callApiGetUserInfo()
+            .then(res => {
+                // callApiGetArticles(res.user_info) 
+                // setCategory(res.user_info[0].preference_category)
+
+
+                // setUserEmail(res.user_info[5].user_email)
+                // setPreference(res.user_info[5].preference_category)
+                // setLanguage(res.user_info[5].user_language)
+                // setUserData(res.user_info)
+
+
+                setUserData(res.user_info[0])
+                setPreference(res.user_info[0].preference_category)
+                setLanguage(res.user_info[0].user_language)
+
+
+                // setUserEmail(userData.email_address)
+                // setPreference(userData.category_preference)
+                // setLanguage(userData.user_language)
+
+
+            })
+    }
+
+
 
     const callApiGetUserInfo = async () => {
-        const url = '/api/UserInfo';
+
+        const url = '/api/GetUserInfo';
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -320,7 +371,14 @@ const Profile = () => {
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
+
+
+        console.log("callApiGetUserInfo ran")
+        console.log(body)
         return body;
+
+
+
     }
 
     return (
@@ -328,6 +386,7 @@ const Profile = () => {
             <NavBar
                 backgroundColor="secondary"
             ></NavBar>
+
             <Grid
                 container
                 direction="row"
@@ -343,39 +402,58 @@ const Profile = () => {
                         <Typography variant="h3" noWrap className={classes.heading}>
                             My Profile
                         </Typography>
+                        <Typography className={classes.subHeading}></Typography>
+
                     </Box>
 
 
                     <Box ml={7} p={2}>
-                        <Typography variant="h5" noWrap className={classes.heading}>
+                        <Typography variant="h5" noWrap className={classes.subHeading}>
                             My Settings
                         </Typography>
                     </Box>
 
                     <Box ml={7} p={2}>
-                        <TextField
+                        {/* <TextField
                             style={{ minWidth: 223 }}
                             required
                             id="tf1"
                             label="Email"
                             value={userEmail}
-                            defaultValue="Default Email"
+                            // defaultValue="Default Email"
                             variant="outlined"
                             className={classes.textField}
                             onChange={(e) => setUserEmail(e.target.value)}
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
-                        />
+                        /> */}
+
+                        <Typography variant="h5" noWrap className={classes.subHeading}>
+                            Your email is: {userData.email_address}
+
+                        </Typography>
+
                     </Box>
 
                     <Box ml={7} p={2}>
-                        <PreferenceSelection preference={preference} setPreference={handlePreference} />
+
+
+                        <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
                     </Box>
 
                     <Box ml={7} p={2}>
-                        <LanguageSelection value={language} setLanguage={handleLanguage} />
+                        <LanguageSelection language={language} setLanguage={handleLanguage} />
                     </Box>
+
+                    <Box ml={7} p={2} id="buttonBox">
+                        <Button id="" variant="contained" onClick={() => {
+                            LanguageSelection()
+                            handlePreference()
+                        }}
+                            style={{ backgroundColor: "#B18CFF" }}>Update My Info</Button>
+                    </Box>
+
 
 
 

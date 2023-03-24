@@ -199,6 +199,9 @@ const SigningUp = () => {
                 setFirebaseUuid(userCredential.user.uid)
                 console.log(firebaseUuid + " is firebase useruid")
                 console.log(userCredential.user.uid + " is firebase useruid")
+                // move addUser call here
+
+
                 addUser(userCredential.user.uid)
                 // move addUser call here
 
@@ -210,6 +213,7 @@ const SigningUp = () => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode + ": " + errorMessage)
+
                 setErrorMessage(errorMessage)
                 setSnack(true)
 
@@ -219,6 +223,15 @@ const SigningUp = () => {
 
 
     const handleSignUpButton = (event) => {
+        console.log("submitted");
+        event.preventDefault()
+        handleFirebaseSignup();
+        addUser();
+        console.log(firebaseUuid + "is being added")
+        console.log("ADD USER success")
+        history.push('/')
+    };
+
         if (username.length == 0 || userEmail.length == 0 || preference.length == 0 || language.length == 0) {
             setErrorMessage("Fill in all fields in form")
             setSnack(true)
@@ -401,14 +414,20 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
                     style={{ color: "#fff" }}
                     required
                 >
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value={'ar'}>Arabic</MenuItem>
-                    <MenuItem value={'de'}>German</MenuItem>
-                    <MenuItem value={'en'}>English</MenuItem>
-                    <MenuItem value={'es'}>Spanish</MenuItem>
-                    <MenuItem value={'fr'}>French</MenuItem>
-                    <MenuItem value={'it'}>Italian</MenuItem>
-                    <MenuItem value={'ru'}>Russian</MenuItem>
+                    <MenuItem value={""}>None</MenuItem>
+                    <MenuItem value={"ar"}>Arabic</MenuItem>
+                    <MenuItem value={"de"}>German</MenuItem>
+                    <MenuItem value={"en"}>English</MenuItem>
+                    <MenuItem value={"es"}>Spanish</MenuItem>
+                    <MenuItem value={"fr"}>French</MenuItem>
+                    <MenuItem value={"he"}>Hebrew</MenuItem>
+                    <MenuItem value={"it"}>Italian</MenuItem>
+                    <MenuItem value={"nl"}>Dutch</MenuItem>
+                    <MenuItem value={"no"}>Norwegian</MenuItem>
+                    <MenuItem value={"pt"}>Portuguese</MenuItem>
+                    <MenuItem value={"ru"}>Russian</MenuItem>
+                    <MenuItem value={'sv'}>Swedish</MenuItem>
+                    <MenuItem value={"zh"}>Chinese</MenuItem>
                 </Select>
             </FormControl>
         </Box>
