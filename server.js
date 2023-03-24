@@ -169,6 +169,37 @@ app.post('/api/getUserInfo', (req, res) => {
 	connection.end();
 })
 
+
+
+app.post('/api/updateUserInfo', (req, res) => {
+	// let userID = req.body.userID
+	let connection = mysql.createConnection(config);
+	let userID = 5;
+	let preference = req.body.preference
+	let language = req.body.language
+
+	console.log("UserID: ", userID);
+
+	let sql = `UPDATE user_info SET preference_category = '${preference}',  user_language = '${language}' WHERE user_id = ${userID}`;
+
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+
+		}
+		// let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		res.send({ user_info: results });
+
+
+
+	});
+	connection.end();
+})
+
+
 app.post('/api/article/favourite', (req, res) => {
 
 	let connection = mysql.createConnection(config);
@@ -217,36 +248,36 @@ app.post('/api/article/favourite', (req, res) => {
 // });
 app.post('/api/news/topHeadlines', (req, res) => {
 	console.log(req.body);
-	
+
 	const category = req.body.category;
 	const pageSize = req.body.pageSize;
 	const sortBy = req.body.sortBy;
-	
+
 	const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`;
-	
+
 	fetch(topHeadlinesUrl)
-	  .then(response => {
-		response.json().then(topHeadlinesData => {
-		  console.log(topHeadlinesData);
-	
-		  const query = topHeadlinesData.articles.map(article => {
-			const title = article.title.substring(0, 20).replace(/\s+/g, '-');
-			return `(${title})`;
-		  }).join(' OR ');
-		  const everythingUrl = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`;
-	
-		  fetch(everythingUrl)
-			.then(response => {
-			  response.json().then(everythingData => {
-				console.log(everythingData);
-				res.send(everythingData);
-			  });
+		.then(response => {
+			response.json().then(topHeadlinesData => {
+				console.log(topHeadlinesData);
+
+				const query = topHeadlinesData.articles.map(article => {
+					const title = article.title.substring(0, 20).replace(/\s+/g, '-');
+					return `(${title})`;
+				}).join(' OR ');
+				const everythingUrl = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`;
+
+				fetch(everythingUrl)
+					.then(response => {
+						response.json().then(everythingData => {
+							console.log(everythingData);
+							res.send(everythingData);
+						});
+					});
 			});
 		});
-	  });
-  });
-  
-  
+});
+
+
 // app.post('/api/news/everything', (req, res) => {
 // 	console.log(req.body)
 // 	const query = req.body.query
