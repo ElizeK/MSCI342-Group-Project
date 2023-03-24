@@ -167,6 +167,40 @@ app.post('/api/getUserInfo', (req, res) => {
 	});
 	connection.end();
 })
+
+
+
+
+app.post('/api/updateUserInfo', (req, res) => {
+	// let userID = req.body.userID
+	let connection = mysql.createConnection(config);
+	let userID = 5;
+	let preference = req.body.preference
+	let language = req.body.language
+
+	console.log("UserID: ", userID);
+
+	let sql = `UPDATE user_info SET preference_category = '${preference}',  user_language = '${language}' WHERE user_id = ${userID}`;
+
+	console.log(sql);
+
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+
+		}
+		// let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		res.send({ user_info: results });
+
+
+
+	});
+	connection.end();
+})
+
+
+
 //does not handle stuff with quotes 
 app.post('/api/article/favourite', (req, res) => {
 

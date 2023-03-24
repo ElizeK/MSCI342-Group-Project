@@ -355,6 +355,7 @@ const Profile = () => {
 
 
 
+
     const callApiGetUserInfo = async () => {
 
         const url = '/api/GetUserInfo';
@@ -378,6 +379,35 @@ const Profile = () => {
         return body;
 
 
+
+
+    }
+
+    const updateUserInfo = () => {
+        callApiUpdateUserInfo()
+        //add confirmation  
+    }
+
+    const callApiUpdateUserInfo = async () => {
+        const url = "/api/updateUserInfo";
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+
+            },
+            body: JSON.stringify({
+
+                preference: preference,
+                language: language,
+            })
+
+        });
+
+        console.log("updated information succesffully")
+
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
 
     }
 
@@ -448,6 +478,7 @@ const Profile = () => {
 
                     <Box ml={7} p={2} id="buttonBox">
                         <Button id="" variant="contained" onClick={() => {
+                            updateUserInfo()
                             LanguageSelection()
                             handlePreference()
                         }}
