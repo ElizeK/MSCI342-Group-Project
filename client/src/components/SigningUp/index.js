@@ -27,9 +27,7 @@ const theme = createTheme({
         },
     },
 });
-
 const opacityValue = 1;
-
 const useStyles = makeStyles((theme) => ({
     body: {
         backgroundColor: "#1b1b1b",
@@ -110,7 +108,6 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 22,
         fontStyle: "normal",
         fontWeight: 300
-
     },
     navbarItem: {
         fontFamily: 'Inter',
@@ -123,7 +120,6 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
     }
 }));
-
 const SigningUp = () => {
     const [userEmail, setUserEmail] = React.useState("");
     const [username, setUsername] = React.useState("");
@@ -134,7 +130,6 @@ const SigningUp = () => {
     const [firebaseUuid, setFirebaseUuid] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("error");
     const [snack, setSnack] = React.useState(false)
-
     const handleUserEmail = (event) => {
         setUserEmail(event.target.value);
     };
@@ -144,36 +139,25 @@ const SigningUp = () => {
     const handlePassword = (event) => {
         setPassword(event.target.value);
     };
-
     const handlePreference = (event) => {
         setPreference(event.target.value);
-
     };
-
     const handleLanguage = (event) => {
         setLanguage(event.target.value);
-
     };
-
     React.useEffect(() => {
         addUser();
     }, [firebaseUuid])
-
     // const handleFirebase = (event) => {
     //     setFirebaseUuid(event.target.value);
-
     // };
-
-
     const classes = useStyles();
-
     const addUser = async (firebaseUuid) => {
         const url = "/api/addUser";
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-
             },
             body: JSON.stringify({
                 userEmail: userEmail,
@@ -183,12 +167,10 @@ const SigningUp = () => {
                 language: language,
                 firebaseUuid: firebaseUuid
             })
-
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
     }
-
     const handleFirebaseSignup = () => {
         console.log("IN HANDLE FIREBASE SIGNUP")
         createUserWithEmailAndPassword(getAuth(), userEmail, password)
@@ -199,39 +181,20 @@ const SigningUp = () => {
                 setFirebaseUuid(userCredential.user.uid)
                 console.log(firebaseUuid + " is firebase useruid")
                 console.log(userCredential.user.uid + " is firebase useruid")
-                // move addUser call here
-
-
                 addUser(userCredential.user.uid)
                 // move addUser call here
-
                 history.push('/')
-
             })
             .catch((error) => {
                 console.log("SIGN UP FAIL")
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode + ": " + errorMessage)
-
                 setErrorMessage(errorMessage)
                 setSnack(true)
-
             })
     };
-
-
-
     const handleSignUpButton = (event) => {
-        console.log("submitted");
-        event.preventDefault()
-        handleFirebaseSignup();
-        addUser();
-        console.log(firebaseUuid + "is being added")
-        console.log("ADD USER success")
-        history.push('/')
-    };
-
         if (username.length == 0 || userEmail.length == 0 || preference.length == 0 || language.length == 0) {
             setErrorMessage("Fill in all fields in form")
             setSnack(true)
@@ -251,11 +214,9 @@ const SigningUp = () => {
             history.push('/')
         }
     };
-
     const handleClose = () => {
         setSnack(false)
     }
-
 
     return (
         <div>
@@ -306,10 +267,8 @@ const SigningUp = () => {
                                 style: { color: '#fff' },
                             }
                             }
-
                         />
                     </Box>
-
                     <Box ml={7} p={2}>
                         <PreferenceSelection preference={preference} setPreference={handlePreference} />
                     </Box>
@@ -354,17 +313,13 @@ const SigningUp = () => {
                         <Button id="bt5" variant="contained" onClick={handleSignUpButton} style={{ backgroundColor: "#B18CFF" }}>Sign Up!</Button>
                     </Box>
                 </Grid>
-
             </Grid >
             <Snackbar open={snack} onClose={handleClose} autoHideDuration={100000}>
-
                 <Alert severity="error">{errorMessage}</Alert>
-
             </Snackbar>
         </div >
     )
 }
-
 //select topic preference from drop down options 
 const PreferenceSelection = ({ preference, setPreference }) => {
     const classes = useStyles();
@@ -396,8 +351,6 @@ const PreferenceSelection = ({ preference, setPreference }) => {
         </Grid >
     )
 }
-
-
 //select topic preference from drop down options 
 const LanguageSelection = ({ language, setLanguage, news }) => {
     const classes = useStyles();
@@ -433,11 +386,7 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
         </Box>
     )
 }
-
 const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3054"; //enable for deployed mode; Change PORT to the port number given to you;
-
-
-
 class SigningUps extends Component {
     // constructor(props) {
     //     super(props);
@@ -449,10 +398,8 @@ class SigningUps extends Component {
     // componentDidMount() {
     //     //this.loadUserSettings();
     // }
-
     render() {
         const { classes } = this.props;
-
         return (
             <MuiThemeProvider theme={theme}>
                 <div>
@@ -465,9 +412,7 @@ class SigningUps extends Component {
         );
     }
 }
-
 SigningUps.propTypes = {
     classes: PropTypes.object.isRequired
 };
-
 export default SigningUps;
