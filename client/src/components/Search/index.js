@@ -167,7 +167,10 @@ const ArticleCard = ({ article }) => {
     }
     const handleFavouriteClick = async () => {
         const url = '/api/article/favourite';
-        console.log(url)
+        console.log("article id: " + articleId);
+        console.log("article url: " + articleUrl);
+        console.log("title: " + title);
+        console.log("author: " + author);
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -204,7 +207,7 @@ const ArticleCard = ({ article }) => {
                 subheader={article.author + " ● " + article.publishedAt}
             />
             <CardContent>
-                <Typography variant="body2"  className={classes.header}>
+                <Typography variant="body2" className={classes.header}>
                     {article.description}
                 </Typography>
             </CardContent>
@@ -225,7 +228,7 @@ const ArticleCard = ({ article }) => {
                 </Button>
             </div>
             <div
-                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
                 <Button
                     variant="outlined"
                     target="_blank"
@@ -449,7 +452,7 @@ const Search = () => {
                             <MenuItem value={"usa-today"}>USA Today</MenuItem>
                             <MenuItem value={"wired"}>Wired</MenuItem>
                             <MenuItem value={"wired-de"}>Wired.de</MenuItem>
-                            
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -499,7 +502,7 @@ const Search = () => {
                             <MenuItem value={"relevancy"}>Relevancy</MenuItem>
                             <MenuItem value={"popularity"}>Popularity</MenuItem>
                             <MenuItem value={"publishedAt"}>Published At</MenuItem>
-                            
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -527,8 +530,8 @@ const Search = () => {
                 className={classes.backgroundColor}
             >
                 <Box ml={7} p={2}>
-                        <Typography className={classes.subHeading}>{articles.length} Results</Typography>
-                    </Box>
+                    <Typography className={classes.subHeading}>{articles.length} Results</Typography>
+                </Box>
 
                 <Grid item>
 
