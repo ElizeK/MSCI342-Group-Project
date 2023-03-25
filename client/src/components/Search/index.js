@@ -167,7 +167,7 @@ const ArticleCard = ({ article }) => {
     }
     const handleFavouriteClick = async () => {
         const url = '/api/article/favourite';
-        console.log(url)
+        // console.log(url)
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -181,9 +181,9 @@ const ArticleCard = ({ article }) => {
                 // publishedAt: date
             })
         });
-        console.log(response)
+        // console.log(response)
         const body = await response.json();
-        console.log(body);
+        // console.log(body);
         if (response.ok) {
             setFavourite(true);
             // setArticleId(articleId + 1);
@@ -204,7 +204,7 @@ const ArticleCard = ({ article }) => {
                 subheader={article.author + " ● " + article.publishedAt}
             />
             <CardContent>
-                <Typography variant="body2"  className={classes.header}>
+                <Typography variant="body2" className={classes.header}>
                     {article.description}
                 </Typography>
             </CardContent>
@@ -225,7 +225,7 @@ const ArticleCard = ({ article }) => {
                 </Button>
             </div>
             <div
-                style={{ justifyContent: 'flex-start', marginLeft: 10 }}> 
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
                 <Button
                     variant="outlined"
                     target="_blank"
@@ -257,7 +257,7 @@ const Search = () => {
 
         callApiGetArticles()
             .then(res => {
-                console.log("callGetArticles returned: ", res);
+                // console.log("callGetArticles returned: ", res);
                 setArticles(res.articles)
             })
     }
@@ -278,7 +278,7 @@ const Search = () => {
                 totalResults: totalResults
             })
         });
-        console.log(query + " " + language + " " + source + " " + sortBy);
+        // console.log(query + " " + language + " " + source + " " + sortBy);
         const body = await response.json();
 
         if (response.status !== 200) throw Error(body.message);
@@ -347,7 +347,8 @@ const Search = () => {
                                 data-testid='searchbox'
                             />
                             <Box p={2}></Box>
-                            <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit}>Search</Button>
+                            <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit} data-testid='search-button'
+                            >Search</Button>
 
                         </Stack>
                     </Box>
@@ -449,7 +450,7 @@ const Search = () => {
                             <MenuItem value={"usa-today"}>USA Today</MenuItem>
                             <MenuItem value={"wired"}>Wired</MenuItem>
                             <MenuItem value={"wired-de"}>Wired.de</MenuItem>
-                            
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -499,7 +500,7 @@ const Search = () => {
                             <MenuItem value={"relevancy"}>Relevancy</MenuItem>
                             <MenuItem value={"popularity"}>Popularity</MenuItem>
                             <MenuItem value={"publishedAt"}>Published At</MenuItem>
-                            
+
                         </Select>
                     </FormControl>
                 </Box>
@@ -517,7 +518,7 @@ const Search = () => {
                 </Grid>
 
             </Grid> */}
-            {console.log(totalResults)}
+            {/* {console.log(totalResults)} */}
             <Grid
                 container
                 // direction="column"
@@ -527,8 +528,8 @@ const Search = () => {
                 className={classes.backgroundColor}
             >
                 <Box ml={7} p={2}>
-                        <Typography className={classes.subHeading}>{articles.length} Results</Typography>
-                    </Box>
+                    <Typography className={classes.subHeading}>{articles.length} Results</Typography>
+                </Box>
 
                 <Grid item>
 
