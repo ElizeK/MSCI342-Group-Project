@@ -11,6 +11,8 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 
 
@@ -155,52 +157,56 @@ const useStyles = makeStyles((theme) => ({
 
 const ArticleCard = ({ article }) => {
     const classes = useStyles();
-    const [articleId, setArticleId] = useState(1);
     const [favourite, setFavourite] = React.useState(false);
-    const [author, setAuthor] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [articleUrl, setUrl] = useState('');
-    const [date, setDate] = useState('');
+    const [uuid, setUuid] = useState("");
+
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+
     const addFavourite = async () => {
         await handleFavouriteClick();
     }
     const handleFavouriteClick = async () => {
         const url = '/api/article/favourite';
-        // console.log(url)
-        console.log("article id: " + articleId);
-        console.log("article url: " + articleUrl);
-        console.log("title: " + title);
-        console.log("author: " + author);
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 'Content-Type': "application/json",
             },
             body: JSON.stringify({
-                articleId: articleId,
-                title: title,
-                author: author,
-                articleUrl: articleUrl,
-                // publishedAt: date
+                firebaseUuid: uuid,
+                title: article.title,
+                author: article.author,
+                url: article.url,
+                urlToImage: article.urlToImage,
+                description: article.description,
+                publishedAt: article.publishedAt,
+                publisher: article.source.name
             })
         });
-        // console.log(response)
+
         const body = await response.json();
-        // console.log(body);
+
         if (response.ok) {
             setFavourite(true);
-            // setArticleId(articleId + 1);
         }
     }
+
     return (
-
-        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
+        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.articleCard} color="backgroundColor">
             <div>
-                {/* <img src="./placeholderImage.png" width="400"></img> */}
-                {/* <img src={article.urlToImage} width="400" alt='Image not available'></img> */}
-                <img src={article.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
 
+                {/* <img src="./placeholderImage.png" width="400"></img> */}
+                <img src={article.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
 
             </div>
             <CardHeader className={classes.header}
