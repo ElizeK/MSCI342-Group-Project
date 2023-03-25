@@ -10,6 +10,9 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
+
 
 
 // This theme sets the background color for when you scroll behind the screen
@@ -303,6 +306,8 @@ const Profile = () => {
 
     const [uuid, setUuid] = React.useState("");
 
+    const [showSuccess, setShowSuccess] = React.useState(false);
+
     console.log("uid of users is" + uuid);
 
     onAuthStateChanged(getAuth(), (user) => {
@@ -369,6 +374,15 @@ const Profile = () => {
     const updateUserInfo = () => {
         callApiUpdateUserInfo()
         //add confirmation  
+
+        setShowSuccess(true);
+
+        // return (
+        //     <Alert severity="success">
+        //         <AlertTitle>Success</AlertTitle>
+        //         This is a success alert — <strong>check it out!</strong>
+        //     </Alert>
+        // )
     }
 
     const callApiUpdateUserInfo = async () => {
@@ -423,10 +437,13 @@ const Profile = () => {
                     </Box>
 
 
+
                     <Box ml={7} p={2}>
                         <Typography variant="h5" noWrap className={classes.subHeading}>
                             My Settings
                         </Typography>
+
+
                     </Box>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -442,10 +459,25 @@ const Profile = () => {
                         <Box ml={7} p={2}>
                             <LanguageSelection language={language} setLanguage={handleLanguage} />
                         </Box>
+
                         <Box ml={7} p={2}>
                             <Button id="" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", width: '200px' }}>Update My Info</Button>
                         </Box>
+
+                        <Box ml={7} p={2}>
+                            {showSuccess && (
+                                <Alert severity="success" style={{ width: '300px' }}>
+                                    <AlertTitle>Success!</AlertTitle>
+                                    <strong>Your Settings have been updated </strong>
+                                </Alert>
+                            )}
+                        </Box>
+
+
+
                     </div>
+
+
 
                 </Grid>
             </Grid>
