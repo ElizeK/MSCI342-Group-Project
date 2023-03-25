@@ -10,34 +10,15 @@ import PrivateRoute from '../Navigation/PrivateRoute.js';
 
 
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      //
-    };
-  }
-
-  componentDidMount() {
-    //
-  }
-
-
-  componentWillUnmount() {
-    this.listener();
-  }
-
-
-  render() {
-    return (
-	  <Router>
-	    <div>
-        <PrivateRoute exact path="/" component={Home}/>
-	    </div>
-	  </Router>
-    );
-  }
+const App = () => {
+  return (
+    <Router>
+      <div>
+        <PrivateRoute exact path="/" component={Home} />
+      </div>
+    </Router>
+  );
 }
+
 
 export default App;
