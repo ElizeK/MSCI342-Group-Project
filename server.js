@@ -89,11 +89,12 @@ app.post('/api/thinkpieces', (req, res) => {
 	let summary = req.body.summary;
 	let topic = req.body.topic;
 	let url = req.body.url;
+	let firebaseUuid = req.body.firebaseUuid;
 
 	let data = [userId];
 
-	let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url)
-VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`;
+	let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url, firebase_uuid)
+VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}", "${firebaseUuid}")`;
 
 	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
@@ -108,10 +109,11 @@ VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`
 
 app.post('/api/viewThinkPiece', (req, res) => {
 	let connection = mysql.createConnection(config);
-	let userID = 1;
+	let uuid = req.body.uuid;
 
-	let sql = `SELECT * FROM think_pieces WHERE user_id = (${userID})`
+	let sql = `SELECT * FROM think_pieces WHERE firebase_uuid = ("${uuid}")`
 
+	console.log(sql)
 	connection.query(sql, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
@@ -246,7 +248,7 @@ app.post('/api/article/favourite', (req, res) => {
 // 		})
 // });
 app.post('/api/news/topHeadlines', (req, res) => {
-	console.log(req.body);
+	// console.log(req.body);
 
 	const category = req.body.category;
 	const pageSize = req.body.pageSize;

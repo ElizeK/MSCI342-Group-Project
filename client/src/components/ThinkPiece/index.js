@@ -8,6 +8,7 @@ import "@fontsource/oswald";
 import "@fontsource/inter";
 import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box } from '@mui/material';
 import NavBar from '../NavBar';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 // This theme sets the background color for when you scroll behind the screen
@@ -139,8 +140,21 @@ const ThinkPiece = () => {
     const [summary, setSummary] = useState("");
     const [url, setUrl] = useState("");
     const [content, setContent] = useState("");
+    const [uuid, setUuid] = useState("");
 
     const classes = useStyles();
+
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -161,7 +175,9 @@ const ThinkPiece = () => {
                 content: content,
                 summary: summary,
                 topic: topic,
-                url: url
+                url: url,
+                firebaseUuid: uuid,
+                
             })
         });
 
