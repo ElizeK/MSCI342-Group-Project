@@ -168,6 +168,10 @@ const ArticleCard = ({ article }) => {
     const handleFavouriteClick = async () => {
         const url = '/api/article/favourite';
         // console.log(url)
+        console.log("article id: " + articleId);
+        console.log("article url: " + articleUrl);
+        console.log("title: " + title);
+        console.log("author: " + author);
         const response = await fetch(url, {
             method: "POST",
             headers: {
