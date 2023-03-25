@@ -16,6 +16,8 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import LinkIcon from '@mui/icons-material/Link';
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import "@fontsource/oswald";
 import "@fontsource/inter";
 
@@ -242,17 +244,35 @@ const ViewThinkPiece = () => {
     // const [topic, setTopic] = React.useState('');
     // const [url, setUrl] = React.useState('');
     const [view, setView] = React.useState([]);
+    const [uuid, setUuid] = useState("");
+
+    console.log("uid of users is" + uuid);
+
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+
 
     React.useEffect(() => {
         getThinkPiece();
-    }, [userId]);
+    }, [uuid]);
 
     const getThinkPiece = () => {
         callApiViewThinkPieces()
             .then(res => {
+                console.log(res);
                 setView(res.think_pieces);
             })
     }
+    
 
     const callApiViewThinkPieces = async () => {
         const url = '/api/viewThinkPiece';
@@ -260,7 +280,10 @@ const ViewThinkPiece = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
+            },
+            body: JSON.stringify({
+                uuid: uuid,
+            })
             // body: JSON.stringify({
             // userID: userId,
             // title: title,
@@ -317,7 +340,7 @@ const ViewThinkPiece = () => {
                             })
                         }
                     </Grid>
-                    : <></>
+                    {/* : <></> */}
         
             </Grid>
         </div >
