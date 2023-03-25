@@ -16,7 +16,8 @@ app.use(express.static(path.join(__dirname, "client/build")));
 const NewsAPI = require('newsapi');
 const { connect } = require('http2');
 const { user } = require('./config.js');
-const newsapi = new NewsAPI('24f5ebf9cc7b40cabd16b6e0c5633d1a');
+const API_KEY = "6b7b0836496b456f93fbce243cb33ae1";
+const newsapi = new NewsAPI(API_KEY);
 
 
 app.post('/news', (req, res) => {
@@ -234,7 +235,7 @@ app.post('/api/article/favourite', (req, res) => {
 // 	const pageSize = req.body.pageSize;
 // 	const sortBy = req.body.sortBy
 
-// 	const url = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+// 	const url = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`
 // 	fetch(url)
 // 		.then(response => {
 // 			response.json().then(
@@ -251,7 +252,7 @@ app.post('/api/news/topHeadlines', (req, res) => {
 	const pageSize = req.body.pageSize;
 	const sortBy = req.body.sortBy;
 
-	const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`;
+	const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
 
 	fetch(topHeadlinesUrl)
 		.then(response => {
@@ -262,7 +263,7 @@ app.post('/api/news/topHeadlines', (req, res) => {
 					const title = article.title.substring(0, 20).replace(/\s+/g, '-');
 					return `(${title})`;
 				}).join(' OR ') : "";
-				const everythingUrl = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`;
+				const everythingUrl = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
 
 				fetch(everythingUrl)
 					.then(response => {
@@ -284,7 +285,7 @@ app.post('/api/news/topHeadlines', (req, res) => {
 // 	const query = req.body.query
 // 	const pageSize = req.body.pageSize
 // 	const sortBy = req.body.sortBy
-// 	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+// 	const url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`
 // 	fetch(url)
 // 		.then(response => {
 // 			response.json().then(
@@ -308,13 +309,13 @@ app.post('/api/news/everything', (req, res) => {
 	let url = "";
 
 	if (language == "" && source == "") {
-		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`
 	} else if (language == "") {
-		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&sortBy=${sortBy}&apiKey=${API_KEY}`
 	} else if (source == "") {
-		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&language=${language}&sortBy=${sortBy}&apiKey=${API_KEY}`
 	} else {
-		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&language=${language}&sortBy=${sortBy}&apiKey=24f5ebf9cc7b40cabd16b6e0c5633d1a`
+		url = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sources=${source}&language=${language}&sortBy=${sortBy}&apiKey=${API_KEY}`
 	}
 
 	fetch(url)
