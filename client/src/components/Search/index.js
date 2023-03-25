@@ -167,6 +167,7 @@ const ArticleCard = ({ article }) => {
     }
     const handleFavouriteClick = async () => {
         const url = '/api/article/favourite';
+        // console.log(url)
         console.log("article id: " + articleId);
         console.log("article url: " + articleUrl);
         console.log("title: " + title);
@@ -184,9 +185,9 @@ const ArticleCard = ({ article }) => {
                 // publishedAt: date
             })
         });
-        console.log(response)
+        // console.log(response)
         const body = await response.json();
-        console.log(body);
+        // console.log(body);
         if (response.ok) {
             setFavourite(true);
             // setArticleId(articleId + 1);
@@ -260,7 +261,7 @@ const Search = () => {
 
         callApiGetArticles()
             .then(res => {
-                console.log("callGetArticles returned: ", res);
+                // console.log("callGetArticles returned: ", res);
                 setArticles(res.articles)
             })
     }
@@ -281,7 +282,7 @@ const Search = () => {
                 totalResults: totalResults
             })
         });
-        console.log(query + " " + language + " " + source + " " + sortBy);
+        // console.log(query + " " + language + " " + source + " " + sortBy);
         const body = await response.json();
 
         if (response.status !== 200) throw Error(body.message);
@@ -350,7 +351,8 @@ const Search = () => {
                                 data-testid='searchbox'
                             />
                             <Box p={2}></Box>
-                            <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit}>Search</Button>
+                            <Button variant="contained" style={{ backgroundColor: "#B18CFF" }} onClick={handleSubmit} data-testid='search-button'
+                            >Search</Button>
 
                         </Stack>
                     </Box>
@@ -520,7 +522,7 @@ const Search = () => {
                 </Grid>
 
             </Grid> */}
-            {console.log(totalResults)}
+            {/* {console.log(totalResults)} */}
             <Grid
                 container
                 // direction="column"
