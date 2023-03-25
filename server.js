@@ -89,11 +89,12 @@ app.post('/api/thinkpieces', (req, res) => {
 	let summary = req.body.summary;
 	let topic = req.body.topic;
 	let url = req.body.url;
+	let firebaseUuid = req.body.firebaseUuid;
 
 	let data = [userId];
 
-	let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url)
-VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`;
+	let sql = `INSERT INTO think_pieces(user_id, title, content, summary, topic, url, firebase_uuid)
+VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}", "${firebaseUuid}")`;
 
 	connection.query(sql, data, (error, results, fields) => {
 		if (error) {
@@ -108,10 +109,11 @@ VALUES(${userId}, "${title}", "${content}", "${summary}", "${topic}", "${url}")`
 
 app.post('/api/viewThinkPiece', (req, res) => {
 	let connection = mysql.createConnection(config);
-	let userID = 1;
+	let uuid = req.body.uuid;
 
-	let sql = `SELECT * FROM think_pieces WHERE user_id = (${userID})`
+	let sql = `SELECT * FROM think_pieces WHERE firebase_uuid = ("${uuid}")`
 
+	console.log(sql)
 	connection.query(sql, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
@@ -138,7 +140,6 @@ app.post('/api/preferenceCategory', (req, res) => {
 		}
 		// let string = JSON.stringify(results);
 		// let obj = JSON.parse(string);
-		console.log(JSON.stringify(results))
 		res.send({ user_info: results });
 
 	});
@@ -168,6 +169,7 @@ app.post('/api/getUserInfo', (req, res) => {
 	});
 	connection.end();
 })
+
 
 
 
@@ -202,23 +204,22 @@ app.post('/api/updateUserInfo', (req, res) => {
 })
 
 
+
+//does not handle stuff with quotes 
 app.post('/api/article/favourite', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	// let userID = 1;
-	// console.log
 
-	// let articleId = ;
 	let title = req.body.title;
 	let author = req.body.author;
 	let url = req.body.url
-	// let date = req.body.date_of_publication
-	let sql = `INSERT INTO favourited_articles(title, author, url)
-	VALUES("${title}", "${author}", "${url}")`;
-	// let sql = `INSERT INTO favourited_articles(article_id, title, author) VALUES('${connection.escape(articleId)}', '${connection.escape(title)}', '${connection.escape(author)}')`;
-
-	// let data = [articleId, title, author];
-	// console.log("THIS IS TEST");
+	let firebaseUuid = req.body.firebaseUuid;
+	let summary = req.body.description;
+	let urlToImage = req.body.urlToImage;
+	let publisher = req.body.publisher;
+	let publishedAt = new Date(req.body.publishedAt).toISOString().slice(0, 19).replace('T', ' ');;
+	let sql = `INSERT INTO favourited_articles(title, author, url, firebase_uuid, summary, image_url, publisher, date_of_publication)
+	VALUES("${title}", "${author}", "${url}", "${firebaseUuid}", "${summary}", "${urlToImage}", "${publisher}", "${publishedAt}")`;
 
 	connection.query(sql, (error, results, fields) => {
 		if (error) {
@@ -249,7 +250,7 @@ app.post('/api/article/favourite', (req, res) => {
 // 		})
 //});
 app.post('/api/news/topHeadlines', (req, res) => {
-	console.log(req.body);
+	// console.log(req.body);
 
 	const category = req.body.category;
 	const pageSize = req.body.pageSize;

@@ -9,7 +9,9 @@ import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
+
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Password } from '@mui/icons-material';
 
 
 // This theme sets the background color for when you scroll behind the screen
@@ -394,6 +396,7 @@ const Profile = () => {
 
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
+
     }
 
     return (
@@ -420,6 +423,7 @@ const Profile = () => {
                             My Profile
                         </Typography>
                         <Typography className={classes.subHeading}></Typography>
+
                     </Box>
 
 
