@@ -146,12 +146,12 @@ app.post('/api/preferenceCategory', (req, res) => {
 })
 
 app.post('/api/getUserInfo', (req, res) => {
-	// let userID = req.body.userID
 	let connection = mysql.createConnection(config);
-	let userID = 1;
-	console.log("UserID: ", userID);
+	let uuid = req.body.uuid;
+
+	console.log("UUID: ", uuid);
 	// let sql = `SELECT preference_category FROM user_info WHERE user_id = ("${userID}%")`;
-	let sql = `SELECT preference_category FROM user_info WHERE user_id = (${userID})`
+	let sql = `SELECT * FROM user_info WHERE firebase_uuid = ("${uuid}")`
 	console.log(sql);
 
 	connection.query(sql, (error, results, fields) => {
@@ -174,13 +174,15 @@ app.post('/api/getUserInfo', (req, res) => {
 app.post('/api/updateUserInfo', (req, res) => {
 	// let userID = req.body.userID
 	let connection = mysql.createConnection(config);
-	let userID = 5;
+
 	let preference = req.body.preference
 	let language = req.body.language
+	let uuid = req.body.uuid;
 
-	console.log("UserID: ", userID);
 
-	let sql = `UPDATE user_info SET preference_category = '${preference}',  user_language = '${language}' WHERE user_id = ${userID}`;
+	// console.log("UserID: ", userID);
+
+	let sql = `UPDATE user_info SET preference_category = '${preference}',  user_language = '${language}' WHERE firebase_uuid = ("${uuid}")`;
 
 	console.log(sql);
 
@@ -245,7 +247,7 @@ app.post('/api/article/favourite', (req, res) => {
 // 					res.send(data) // .send takes the response from our end and sends it 
 // 				})
 // 		})
-// });
+//});
 app.post('/api/news/topHeadlines', (req, res) => {
 	console.log(req.body);
 
