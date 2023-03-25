@@ -414,11 +414,13 @@ const Profile = () => {
                 backgroundColor="secondary"
             ></NavBar>
 
+
+
             <Grid
                 container
                 direction="row"
                 alignItems="center"
-                style={{ minWidth: '100vh' }}
+                style={{ minWidth: '250vh' }}
                 className={classes.backgroundColor}
             >
 
@@ -439,45 +441,25 @@ const Profile = () => {
                         </Typography>
                     </Box>
 
-                    <Box ml={7} p={2}>
-                        {/* <TextField
-                            style={{ minWidth: 223 }}
-                            required
-                            id="tf1"
-                            label="Email"
-                            value={userEmail}
-                            // defaultValue="Default Email"
-                            variant="outlined"
-                            className={classes.textField}
-                            onChange={(e) => setUserEmail(e.target.value)}
-                            InputLabelProps={{
-                                style: { color: '#fff' },
-                            }}
-                        /> */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                        <Typography variant="h5" noWrap className={classes.subHeading}>
-                            Your email is: {userData.email_address}
-
-                        </Typography>
-
-                    </Box>
-
-                    <Box ml={7} p={2}>
+                        <Box ml={7} p={2}>
+                            <Typography variant="h5" noWrap className={classes.subHeading}>
+                                Your email is: {userData.email_address}
+                            </Typography>
+                        </Box>
+                        <Box ml={10} p={2}>
+                            <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
+                        </Box>
+                        <Box ml={7} p={2}>
+                            <LanguageSelection language={language} setLanguage={handleLanguage} />
+                        </Box>
+                        <Box ml={7} p={2}>
+                            <Button id="" variant="contained" onClick={() => updateUserInfo()} style={{ backgroundColor: "#B18CFF", width: '200px' }}>Update My Info</Button>
+                        </Box>
+                    </div>
 
 
-                        <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
-                    </Box>
-
-                    <Box ml={7} p={2}>
-                        <LanguageSelection language={language} setLanguage={handleLanguage} />
-                    </Box>
-
-                    <Box ml={7} p={2} id="buttonBox">
-                        <Button id="" variant="contained" onClick={() => {
-                            updateUserInfo()
-                        }}
-                            style={{ backgroundColor: "#B18CFF" }}>Update My Info</Button>
-                    </Box>
 
 
 
