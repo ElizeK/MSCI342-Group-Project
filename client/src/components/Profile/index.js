@@ -463,36 +463,6 @@ const Profile = () => {
                         </Box>
                     </div>
 
-
-
-                        </Typography>
-
-                    </Box>
-
-                    <Box ml={7} p={2}>
-
-
-                        <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
-                    </Box>
-
-                    <Box ml={7} p={2}>
-                        <LanguageSelection language={language} setLanguage={handleLanguage} />
-                    </Box>
-
-                    <Box ml={7} p={2} id="buttonBox">
-                        <Button id="" variant="contained" onClick={() => {
-                            updateUserInfo()
-                            LanguageSelection()
-                            handlePreference()
-                        }}
-                            style={{ backgroundColor: "#B18CFF" }}>Update My Info</Button>
-                    </Box>
-
-
-
-
-
-
                 </Grid>
             </Grid>
         </div>
