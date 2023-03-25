@@ -138,7 +138,6 @@ app.post('/api/preferenceCategory', (req, res) => {
 		}
 		// let string = JSON.stringify(results);
 		// let obj = JSON.parse(string);
-		console.log(JSON.stringify(results))
 		res.send({ user_info: results });
 
 	});
@@ -171,6 +170,7 @@ app.post('/api/getUserInfo', (req, res) => {
 
 
 
+
 app.post('/api/updateUserInfo', (req, res) => {
 	// let userID = req.body.userID
 	let connection = mysql.createConnection(config);
@@ -200,23 +200,22 @@ app.post('/api/updateUserInfo', (req, res) => {
 })
 
 
+
+//does not handle stuff with quotes 
 app.post('/api/article/favourite', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	// let userID = 1;
-	// console.log
 
-	// let articleId = ;
 	let title = req.body.title;
 	let author = req.body.author;
 	let url = req.body.url
-	// let date = req.body.date_of_publication
-	let sql = `INSERT INTO favourited_articles(title, author, url)
-	VALUES("${title}", "${author}", "${url}")`;
-	// let sql = `INSERT INTO favourited_articles(article_id, title, author) VALUES('${connection.escape(articleId)}', '${connection.escape(title)}', '${connection.escape(author)}')`;
-
-	// let data = [articleId, title, author];
-	// console.log("THIS IS TEST");
+	let firebaseUuid = req.body.firebaseUuid;
+	let summary = req.body.description;
+	let urlToImage = req.body.urlToImage;
+	let publisher = req.body.publisher;
+	let publishedAt = new Date(req.body.publishedAt).toISOString().slice(0, 19).replace('T', ' ');;
+	let sql = `INSERT INTO favourited_articles(title, author, url, firebase_uuid, summary, image_url, publisher, date_of_publication)
+	VALUES("${title}", "${author}", "${url}", "${firebaseUuid}", "${summary}", "${urlToImage}", "${publisher}", "${publishedAt}")`;
 
 	connection.query(sql, (error, results, fields) => {
 		if (error) {

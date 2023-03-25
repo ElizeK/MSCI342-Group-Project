@@ -13,7 +13,8 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LinkIcon from '@mui/icons-material/Link';
 
 import "@fontsource/oswald";
 import "@fontsource/inter";
@@ -216,11 +217,16 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 
             <div
                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
-                <IconButton href={thinkpiece.url}>
-                    <Link />
+                <IconButton href={thinkpiece.url} target="_blank" rel="noreferrer">
+                    <LinkIcon />
+                    {/* <Link /> */}
                 </IconButton>
 
             </div>
+
+            <Button>
+                Edit think piece
+            </Button>
 
         </Card>
     )

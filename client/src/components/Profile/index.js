@@ -9,6 +9,7 @@ import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
+import { Password } from '@mui/icons-material';
 
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
@@ -379,6 +380,7 @@ const Profile = () => {
 
 
 
+
     }
 
     const updateUserInfo = () => {
@@ -406,6 +408,7 @@ const Profile = () => {
 
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
+
     }
 
     return (
@@ -432,6 +435,7 @@ const Profile = () => {
                             My Profile
                         </Typography>
                         <Typography className={classes.subHeading}></Typography>
+
                     </Box>
 
 
@@ -459,6 +463,30 @@ const Profile = () => {
                         </Box>
                     </div>
 
+
+
+                        </Typography>
+
+                    </Box>
+
+                    <Box ml={7} p={2}>
+
+
+                        <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
+                    </Box>
+
+                    <Box ml={7} p={2}>
+                        <LanguageSelection language={language} setLanguage={handleLanguage} />
+                    </Box>
+
+                    <Box ml={7} p={2} id="buttonBox">
+                        <Button id="" variant="contained" onClick={() => {
+                            updateUserInfo()
+                            LanguageSelection()
+                            handlePreference()
+                        }}
+                            style={{ backgroundColor: "#B18CFF" }}>Update My Info</Button>
+                    </Box>
 
 
 

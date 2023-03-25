@@ -181,175 +181,59 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// const FavouriteArticles = () => {
-
-// }
-
-
-// const ArticleCard = ({ topHeadline }) => {
-//     const classes = useStyles();
-
-//     const [articleId, setArticleId] = useState(1);
-//     const [favourite, setFavourite] = React.useState(false);
-//     const [author, setAuthor] = useState('');
-//     const [title, setTitle] = useState('');
-//     const [description, setDescription] = useState('');
-//     const [articleUrl, setUrl] = useState('');
-//     const [date, setDate] = useState('');
-
-//     // setTitle(topHeadline.title)
-//     // setAuthor(topHeadline.author)
-//     // setDescription(topHeadline.description)
-//     // setUrl(topHeadline.url)
-
-//     // title = topHeadline.title
-
-//     const addFavourite = async () => {
-//         await handleFavouriteClick();
-//     }
-
-//     React.useEffect(() => {
-//         setAuthor(topHeadline.author);
-//         setTitle(topHeadline.title);
-//         setUrl(topHeadline.url);
-//         // setDate(topHeadline.publishedAt);
-//     }, [topHeadline]);
-
-//     const handleFavouriteClick = async () => {
-//         const url = '/api/article/favourite';
-//         console.log(url)
-//         const response = await fetch(url, {
-//             method: "POST",
-//             headers: {
-//                 'Content-Type': "application/json",
-//             },
-//             body: JSON.stringify({
-//                 articleId: articleId,
-//                 title: title,
-//                 author: author,
-//                 articleUrl: articleUrl,
-//                 // publishedAt: date
-//             })
-//         });
-//         console.log(response)
-//         const body = await response.json();
-//         console.log(body);
-//         if (response.ok) {
-//             setFavourite(true);
-//             // setArticleId(articleId + 1);
-//         }
-//     }
-
-//     return (
-//         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
-//             <div>
-//                 <img src="./placeholderImage.png" width="400"></img>
-//                 {/* <img src={topHeadline.urlToImage} width="400" alt='Image not available'></img> */}
-
-
-//             </div>
-//             <CardHeader className={classes.header}
-//                 title={topHeadline.title}
-//                 subheader={topHeadline.author + " ● " + topHeadline.publishedAt}
-//             />
-//             <CardContent>
-//                 <Typography variant="body2" color="text.secondary" className={classes.header}>
-//                     {topHeadline.description}
-//                 </Typography>
-//             </CardContent>
-
-//             <ul>
-
-//             </ul>
-
-//             <div
-//                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
-//                 <Button
-//                     // color="secondary"
-//                     variant="outlined"
-//                     href={topHeadline.url}
-//                     target="_blank"
-//                     rel="noreferrer"
-//                     color="inherit"
-//                     style={{ cursor: "pointer", float: 'left' }}
-//                 >
-//                     Learn More
-//                 </Button>
-//             </div>
-
-//             <div
-//                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
-//                 <Button
-//                     variant="outlined"
-//                     target="_blank"
-//                     color="inherit"
-//                     startIcon={<FavoriteIcon />}
-//                     style={{ marginLeft: '110px' }}
-//                     onClick={addFavourite}>
-//                     {favourite ? 'Favourited' : 'Favourite'}
-//                 </Button>
-//             </div>
-
-//         </Card>
-
-//     )
-// }
-
 const ArticleCard = ({ topHeadline }) => {
     const classes = useStyles();
-    const [topHeadlineId, settopHeadlineId] = useState(1);
     const [favourite, setFavourite] = React.useState(false);
-    const [author, setAuthor] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [topHeadlineUrl, setUrl] = useState('');
-    const [date, setDate] = useState('');
-    // const [articleUrl, setUrl] = useState('');
+    const [uuid, setUuid] = useState("");
 
-    // setTitle(topHeadline.title)
-    // setAuthor(topHeadline.author)
-    // setDescription(topHeadline.description)
-    // setUrl(topHeadline.url)
-
-    // title = topHeadline.title
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
 
     const addFavourite = async () => {
         await handleFavouriteClick();
     }
     const handleFavouriteClick = async () => {
-        const url = '/api/topHeadline/favourite';
-        console.log(url)
+        const url = '/api/article/favourite';
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 'Content-Type': "application/json",
             },
             body: JSON.stringify({
-                topHeadlineId: topHeadlineId,
-                title: title,
-                author: author,
-                topHeadlineUrl: topHeadlineUrl,
-                // publishedAt: date
+                firebaseUuid: uuid,
+                title: topHeadline.title,
+                author: topHeadline.author,
+                url: topHeadline.url,
+                urlToImage: topHeadline.urlToImage,
+                description: topHeadline.description,
+                publishedAt: topHeadline.publishedAt,
+                publisher: topHeadline.source.name
             })
         });
-        console.log(response)
+
         const body = await response.json();
-        console.log(body);
+
         if (response.ok) {
             setFavourite(true);
-            // settopHeadlineId(topHeadlineId + 1);
         }
-
     }
-    return (
-        
 
+    return (
         <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.topHeadlineCard} color="backgroundColor">
             <div>
-                
+
                 {/* <img src="./placeholderImage.png" width="400"></img> */}
                 <img src={topHeadline.urlToImage || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
-        
+
             </div>
             <CardHeader className={classes.header}
                 title={topHeadline.title}
@@ -399,19 +283,12 @@ const Home = () => {
     const [userId, setUserId] = useState(1);
     const [category, setCategory] = React.useState("");
     const [sortBy, setSortBy] = useState("");
-
-
-
-    // const handleExpandClick = () => {
-    //     setExpanded(!expanded);
-    // };
     const [uuid, setUuid] = useState("");
 
     onAuthStateChanged(getAuth(), (user) => {
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
-            console.log(JSON.stringify(user))
             setUuid(user.uid)
             // ...
         } else {
@@ -465,12 +342,6 @@ const Home = () => {
 
     const callApiGetTopHeadlines = async () => {
         const url = 'api/news/topHeadlines'
-
-        console.log("CALL TOP HEADLINESSSSSSS")
-        console.log(JSON.stringify({
-            category: category,
-            pageSize: 15
-        }))
 
         const response = await fetch(url, {
             method: "POST",
