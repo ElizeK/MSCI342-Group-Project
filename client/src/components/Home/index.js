@@ -9,7 +9,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import { makeStyles } from '@material-ui/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card, Alert, Snackbar } from '@mui/material';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import "@fontsource/oswald";
@@ -280,16 +280,22 @@ const Home = () => {
     const classes = useStyles();
 
     const [topHeadlines, setTopHeadlines] = useState([]);
-    const [userId, setUserId] = useState(1);
     const [category, setCategory] = React.useState("");
     const [sortBy, setSortBy] = useState("");
     const [uuid, setUuid] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [snack, setSnack] = useState(false);
+
+    const handleClose = () => {
+        setSnack(false)
+    }
 
     onAuthStateChanged(getAuth(), (user) => {
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
-            setUuid(user.uid)
+
+            getCategory(user.uid);
             // ...
         } else {
             // User is signed out
@@ -298,24 +304,22 @@ const Home = () => {
     });
 
     //on update of uuid call getCategory
-    React.useEffect(() => {
-        getCategory();
-    }, [uuid]);
+
 
     React.useEffect(() => {
         console.log(category)
         getTopHeadlines();
     }, [category, sortBy])
 
-    const getCategory = () => {
-        callApiGetPreferenceCategory()
+    const getCategory = (uuid) => {
+        callApiGetPreferenceCategory(uuid)
             .then(res => {
                 setCategory(res.user_info[0].preference_category)
             })
     }
 
     //pass uuid 
-    const callApiGetPreferenceCategory = async () => {
+    const callApiGetPreferenceCategory = async (uuid) => {
         const url = '/api/preferenceCategory';
         const response = await fetch(url, {
             method: "POST",
@@ -336,7 +340,15 @@ const Home = () => {
         callApiGetTopHeadlines()
             .then(res => {
                 console.log("callGetTopHeadlines returned: ", res);
-                setTopHeadlines(res.articles)
+                if (res.status === "error") {
+                    setErrorMessage(res.message)
+                    setSnack(true)
+                } else {
+                    setTopHeadlines(res.articles)
+                }
+            })
+            .catch((error) => {
+                setErrorMessage(error.message)
             })
     }
 
@@ -408,7 +420,7 @@ const Home = () => {
 
 
                 {
-                    topHeadlines.length > 0 ?
+                    topHeadlines?.length > 0 ?
 
                         <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
 
@@ -423,8 +435,17 @@ const Home = () => {
                         </Grid>
                         : <></>
                 }
+
             </Grid>
-        </div>
+            {
+                errorMessage !== "" ? <Snackbar open={snack} onClose={handleClose} autoHideDuration={100000}>
+
+                    <Alert severity="error">{errorMessage}</Alert>
+
+                </Snackbar> : <></>
+            }
+
+        </div >
     )
 }
 

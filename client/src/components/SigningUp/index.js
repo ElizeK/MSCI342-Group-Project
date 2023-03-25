@@ -146,7 +146,9 @@ const SigningUp = () => {
         setLanguage(event.target.value);
     };
     React.useEffect(() => {
-        addUser();
+        if (firebaseUuid !== "") {
+            addUser();
+        }
     }, [firebaseUuid])
     // const handleFirebase = (event) => {
     //     setFirebaseUuid(event.target.value);
@@ -171,7 +173,7 @@ const SigningUp = () => {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
     }
-    const handleFirebaseSignup = () => {
+    const handleFirebaseSignup = async () => {
         console.log("IN HANDLE FIREBASE SIGNUP")
         createUserWithEmailAndPassword(getAuth(), userEmail, password)
             .then((userCredential) => {
@@ -179,7 +181,6 @@ const SigningUp = () => {
                 // Signed in
                 // const user = (userCredential.user)
                 setFirebaseUuid(userCredential.user.uid)
-                console.log(firebaseUuid + " is firebase useruid")
                 console.log(userCredential.user.uid + " is firebase useruid")
                 addUser(userCredential.user.uid)
                 // move addUser call here
@@ -194,7 +195,7 @@ const SigningUp = () => {
                 setSnack(true)
             })
     };
-    const handleSignUpButton = (event) => {
+    const handleSignUpButton = async (event) => {
         if (username.length == 0 || userEmail.length == 0 || preference.length == 0 || language.length == 0) {
             setErrorMessage("Fill in all fields in form")
             setSnack(true)
@@ -208,7 +209,7 @@ const SigningUp = () => {
         } else {
             console.log("submitted");
             event.preventDefault()
-            handleFirebaseSignup();
+            await handleFirebaseSignup();
             //console.log(firebaseUuid + "is being added")
             console.log("ADD USER success")
             history.push('/')
@@ -340,7 +341,7 @@ const PreferenceSelection = ({ preference, setPreference }) => {
                 >
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={'Business'}>Business</MenuItem>
-                    <MenuItem value={'Entertainement'}>Entertainement</MenuItem>
+                    <MenuItem value={'Entertainment'}>Entertainment</MenuItem>
                     <MenuItem value={'General'}>General</MenuItem>
                     <MenuItem value={'Health'}>Health</MenuItem>
                     <MenuItem value={'Science'}>Science</MenuItem>

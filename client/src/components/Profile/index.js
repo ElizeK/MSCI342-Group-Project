@@ -223,7 +223,7 @@ const PreferenceSelection = ({ preference, setPreference }) => {
 
                     <MenuItem value=""></MenuItem>
                     <MenuItem value={'Business'}>Business</MenuItem>
-                    <MenuItem value={'Entertainement'}>Entertainement</MenuItem>
+                    <MenuItem value={'Entertainment'}>Entertainment</MenuItem>
                     <MenuItem value={'General'}>General</MenuItem>
                     <MenuItem value={'Health'}>Health</MenuItem>
                     <MenuItem value={'Science'}>Science</MenuItem>
