@@ -9,7 +9,10 @@ import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Password } from '@mui/icons-material';
+
+
 
 // This theme sets the background color for when you scroll behind the screen
 const theme = createTheme({
@@ -291,16 +294,36 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
 
 const Profile = () => {
     const classes = useStyles();
-    const [userEmail, setUserEmail] = React.useState("");
+    // const [userEmail, setUserEmail] = React.useState("");
     // const [password, setPassword] = React.useState("");
     const [preference, setPreference] = React.useState("");
     const [language, setLanguage] = React.useState("");
-
+    const [userEmail, setUserEmail] = React.useState("");
     const [userData, setUserData] = React.useState([]);
     // const [userDataObj, setUserDataObj] = React.useState({});
 
 
+    const [uuid, setUuid] = React.useState("");
 
+    console.log("uid of users is" + uuid);
+
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            console.log(JSON.stringify(user.uid))
+            setUuid(user.uid)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+
+    //on update of uuid call getCategory
+    React.useEffect(() => {
+        getUserInfo();
+    }, [uuid]);
     const handlePreference = (event) => {
         setPreference(event.target.value);
 
@@ -311,21 +334,21 @@ const Profile = () => {
 
     };
 
-    const handleUpdateButton = (event) => {
-        handlePreference();
-        handleLanguage();
+    // const handleUpdateButton = (event) => {
+    //     handlePreference();
+    //     handleLanguage();
 
-        console.log("handleUpdateButton ran")
-
-
-        //add confirmation popup
-    }
+    //     console.log("handleUpdateButton ran")
 
 
-    React.useEffect(() => {
-        console.log("user info api runs")
-        getUserInfo();
-    }, [])
+    //     //add confirmation popup
+    // }
+
+
+    // React.useEffect(() => {
+    //     console.log("user info api runs")
+    //     getUserInfo();
+    // }, [])
 
     const getUserInfo = () => {
         callApiGetUserInfo()
@@ -340,10 +363,10 @@ const Profile = () => {
                 // setUserData(res.user_info)
 
 
-                setUserData(res.user_info[0])
+                // setUserData(res.user_info[0])
                 setPreference(res.user_info[0].preference_category)
                 setLanguage(res.user_info[0].user_language)
-
+                setUserEmail(res.user_info[0].email_address)
 
                 // setUserEmail(userData.email_address)
                 // setPreference(userData.category_preference)
@@ -358,16 +381,14 @@ const Profile = () => {
 
     const callApiGetUserInfo = async () => {
 
-        const url = '/api/GetUserInfo';
+        const url = '/api/getUserInfo';
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                userEmail: userEmail,
-                preference: preference,
-                language: language
+                uuid: uuid,
             })
         });
         const body = await response.json();
@@ -397,12 +418,14 @@ const Profile = () => {
 
             },
             body: JSON.stringify({
-
+                uuid: uuid,
                 preference: preference,
                 language: language,
             })
 
         });
+        console.log(preference)
+        console.log(language)
 
         console.log("updated information succesffully")
 
@@ -449,7 +472,7 @@ const Profile = () => {
 
                         <Box ml={7} p={2}>
                             <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Your email is: {userData.email_address}
+                                Your email is: {userEmail}
                             </Typography>
                         </Box>
                         <Box ml={10} p={2}>
@@ -459,7 +482,7 @@ const Profile = () => {
                             <LanguageSelection language={language} setLanguage={handleLanguage} />
                         </Box>
                         <Box ml={7} p={2}>
-                            <Button id="" variant="contained" onClick={() => updateUserInfo()} style={{ backgroundColor: "#B18CFF", width: '200px' }}>Update My Info</Button>
+                            <Button id="" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", width: '200px' }}>Update My Info</Button>
                         </Box>
                     </div>
 
