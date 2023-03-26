@@ -5,12 +5,13 @@ import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import "@fontsource/oswald";
 import "@fontsource/inter";
-import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
+import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card, Chip } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import { Password } from '@mui/icons-material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 // This theme sets the background color for when you scroll behind the screen
@@ -416,6 +417,7 @@ const Profile = () => {
                 setPreference(res.user_info[0].preference_category)
                 setLanguage(res.user_info[0].user_language)
                 setUserEmail(res.user_info[0].email_address)
+                // setUsername(res,user_info[0].username)
 
 
 
@@ -500,6 +502,12 @@ const Profile = () => {
 
                 <Grid item style={{ marginTop: 50 }} xs={5}>
 
+                    {/* <Box ml={7} p={2}>
+                        <AccountCircleIcon sx={{ fontSize: 200 }} 
+                            color='primary'
+                        ></AccountCircleIcon>
+                    </Box> */}
+
                     <Box ml={7} p={2}>
                         <Typography variant="h3" noWrap className={classes.heading}>
                             My Profile
@@ -510,8 +518,10 @@ const Profile = () => {
 
 
                     <Box ml={7} p={2}>
-                        <Typography variant="h5" noWrap className={classes.miniHeading}>
-                            My Settings
+                    
+
+                        <Typography variant="h5" noWrap className={classes.subHeading}>
+                            Welcome To Your Settings
                         </Typography>
                     </Box>
 
@@ -519,7 +529,27 @@ const Profile = () => {
 
                         <Box ml={7} p={2}>
                             <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Your email is: {userEmail}
+                                User Name:  
+                                <Chip color="secondary" label={userEmail} />
+                            </Typography>
+                            <Typography style={{ margin: 20 }}></Typography>
+                            <Typography variant="h5" noWrap className={classes.subHeading}>
+                                Email: 
+                                <Chip color="secondary" label={userEmail} />
+                            </Typography>
+                            <Typography style={{ margin: 20 }}></Typography>
+
+                            <Typography variant="h5" noWrap className={classes.subHeading}>
+                                Preferred Category: 
+                                <Chip color="secondary" label={preference} />
+
+                            </Typography>
+                            <Typography style={{ margin: 20 }}></Typography>
+
+                            <Typography variant="h5" noWrap className={classes.subHeading}>
+                                Preferred language: 
+                                <Chip color="secondary" label={language} />
+
                             </Typography>
                         </Box>
                         <Box ml={10} p={2}>
@@ -529,7 +559,7 @@ const Profile = () => {
                             <LanguageSelection language={language} setLanguage={handleLanguage} />
                         </Box>
                         <Box ml={7} p={2}>
-                            <Button id="" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", width: '200px' }}>Update My Info</Button>
+                            <Button id="" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", height: '55px', width: '200px' }}>Update My Info</Button>
                         </Box>
                     </div>
 

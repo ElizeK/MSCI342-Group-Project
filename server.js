@@ -16,8 +16,9 @@ app.use(express.static(path.join(__dirname, "client/build")));
 const NewsAPI = require('newsapi');
 const { connect } = require('http2');
 const { user } = require('./config.js');
-// const API_KEY = "6b7b0836496b456f93fbce243cb33ae1";
-const API_KEY = "5ae7abb759d7488c966c2013803bdd91";
+const { title } = require('process');
+const API_KEY = "6b7b0836496b456f93fbce243cb33ae1";
+// const API_KEY = "5ae7abb759d7488c966c2013803bdd91";
 const newsapi = new NewsAPI(API_KEY);
 
 
@@ -275,7 +276,9 @@ app.post('/api/news/topHeadlines', (req, res) => {
 	const sortBy = req.body.sortBy;
 
 
-	const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
+	// const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
+
+	const topHeadlinesUrl = `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&sortBy=${sortBy}&language=en&apiKey=${API_KEY}`;
 
 	fetch(topHeadlinesUrl)
 		.then(response => {
@@ -295,10 +298,15 @@ app.post('/api/news/topHeadlines', (req, res) => {
 
 				const query = topHeadlinesData.articles?.length > 0 ? topHeadlinesData.articles.map(article => {
 					const title = encodeURIComponent(article.title.substring(0, 20).replace(/\s+/g, '-'));
+					console.log(title + " is title")
+
 					return `(${title})`;
 				}).join(' OR ') : "";
-				const everythingUrl = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
-
+				// const qInTitle = encodeURIComponent(query);
+				// console.log(title)
+				console.log(query)
+				const everythingUrl = `https://newsapi.org/v2/everything?qInTitle=${encodeURIComponent(query)}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
+				console.log("url is " + everythingUrl)
 
 				fetch(everythingUrl)
 					.then(response => {
