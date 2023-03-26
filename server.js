@@ -124,6 +124,25 @@ app.post('/api/viewThinkPiece', (req, res) => {
 	connection.end();
 })
 
+app.post('/api/viewFavoriteArticles', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let uuid = req.body.uuid;
+
+	console.log("firebase uuid: " + uuid)
+	if (uuid !== "") {
+		let sql = `SELECT * FROM favourited_articles WHERE firebase_uuid = ("${uuid}")`
+		connection.query(sql, (error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+
+			console.log("results are: " + JSON.stringify(results))
+			res.send({ favourited_articles: results });
+		});
+	}
+	connection.end();
+})
+
 
 app.post('/api/preferenceCategory', (req, res) => {
 	console.log("MADE IT TO API")
@@ -262,7 +281,7 @@ app.post('/api/news/topHeadlines', (req, res) => {
 		.then(response => {
 			response.json().then(topHeadlinesData => {
 				console.log(topHeadlinesData);
-			
+
 
 				// const query = topHeadlinesData.articles?.length > 0 ? topHeadlinesData.articles.map(article => {
 				// 	const title = article.title.substring(0, 20).replace(/\s+/g, '-');
@@ -279,7 +298,7 @@ app.post('/api/news/topHeadlines', (req, res) => {
 					return `(${title})`;
 				}).join(' OR ') : "";
 				const everythingUrl = `https://newsapi.org/v2/everything?q=${query}&pageSize=${pageSize}&sortBy=${sortBy}&apiKey=${API_KEY}`;
-				
+
 
 				fetch(everythingUrl)
 					.then(response => {

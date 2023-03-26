@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import "@fontsource/oswald";
 import "@fontsource/inter";
-import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Password } from '@mui/icons-material';
 
 
 
@@ -132,6 +131,12 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: "Oswald",
         fontSize: 55
     },
+
+    miniHeading: {
+        color: "white",
+        fontFamily: "Oswald",
+        fontSize: 35
+    },
     subHeading: {
         color: "white",
         fontFamily: "Inter",
@@ -153,59 +158,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const ArticleCard = ({ article }) => {
-    const classes = useStyles();
-    return (
-
-        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.ArticleCard} color="backgroundColor">
-            <div>
-                {/* <img src="./placeholderImage.png" width="400"></img> */}
-                <img src={article.urlToImage} width="400" alt='Image not available'></img>
-
-
-            </div>
-            <CardHeader className={classes.header}
-                title={article.title}
-                subheader={article.author + " ● " + article.publishedAt}
-            />
-            <CardContent>
-                <Typography variant="body2" color="text.secondary" className={classes.header}>
-                    {article.description}
-                </Typography>
-            </CardContent>
-
-            <ul>
-
-            </ul>
-
-            <div
-                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
-                <Button
-                    // color="secondary"
-                    variant="outlined"
-                    href={article.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    color="inherit"
-                    style={{ cursor: "pointer", float: 'left' }}
-                >
-                    Learn More
-                </Button>
-            </div>
-
-        </Card>
-
-
-    )
-}
-
-
-
 //select topic preference from drop down options 
 const PreferenceSelection = ({ preference, setPreference }) => {
     const classes = useStyles();
-    console.log("chose a topic successfuly")
-
     return (
 
         < Grid item >
@@ -249,7 +204,7 @@ const PreferenceSelection = ({ preference, setPreference }) => {
 //select topic preference from drop down options 
 const LanguageSelection = ({ language, setLanguage, news }) => {
     const classes = useStyles();
-    console.log("chose a language successfuly")
+    // console.log("chose a language successfuly")
 
     return (
 
@@ -290,29 +245,148 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
 
 }
 
+const FavouriteArticles = ({ uuid }) => {
+    const classes = useStyles();
+    const [favArticles, setFavArticles] = useState([]);
+
+    React.useEffect(() => {
+        if (uuid !== "") getFavoriteArticles();
+    }, [uuid]);
+
+    const getFavoriteArticles = () => {
+        callApiFavoriteArticles()
+            .then(res => {
+                // console.log(res);
+                setFavArticles(res.favourited_articles);
+                // console.log(favArticles);
+            })
+    }
+
+
+    const callApiFavoriteArticles = async () => {
+        const url = '/api/viewFavoriteArticles';
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                uuid: uuid,
+            })
+
+        });
+        const body = await response.json();
+        // console.log(body);
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    return (
+        <div>
+            <Grid>
+                {favArticles.length > 0 ?
+                    <Grid container spacing={{ xs: 10, md: 10 }} columns={{ xs: 12, sm: 12, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
+                        {favArticles.map((favorite, index) => {
+                            return (
+                                <Grid xs={3} sm={3} md={3} key={index}>
+                                    <FavoriteArticleCard favorite={favorite}></FavoriteArticleCard>
+                                    <Box ml={7} p={2}></Box>
+                                    <Typography style={{ padding: 20 }}></Typography>
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+                    : <></>
+                }
+            </Grid>
+        </div>
+    )
+
+
+
+
+
+
+}
+
+
+const FavoriteArticleCard = ({ favorite }) => {
+    const classes = useStyles();
+
+    console.log(JSON.stringify(favorite))
+
+    const publishedAt = new Date(favorite.date_of_publication).toLocaleDateString("en-US")
+
+    return (
+        <Card variant="outlined" style={{ "width": 400, "height": 700 }} className={classes.articleCard} color="backgroundColor">
+            <div>
+
+                {/* <img src="./placeholderImage.png" width="400"></img> */}
+                <img src={favorite.image_url || "./placeholderImage.png"} width="400" alt={"No Image Found"}></img>
+
+            </div>
+            <CardHeader className={classes.header}
+                title={favorite.title}
+                subheader={favorite.author + " ● " + publishedAt}
+            />
+            <CardContent>
+                <Typography variant="body2" className={classes.header}>
+                    {favorite.summary}
+                </Typography>
+            </CardContent>
+
+
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+                <Button
+                    // color="secondary"
+                    variant="outlined"
+                    href={favorite.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    color="inherit"
+                    style={{ cursor: "pointer", float: 'left' }}
+                >
+                    Learn More
+                </Button>
+            </div>
+            <div
+                style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+                {/* <Button
+                variant="outlined"
+                target="_blank"
+                color="inherit"
+                startIcon={<FavoriteIcon />}
+                style={{ marginLeft: '110px' }}
+                onClick={addFavourite}>
+                {favourite ? 'Favourited' : 'Favourite'}
+            </Button> */}
+            </div>
+
+        </Card>
+    )
+}
 
 
 const Profile = () => {
     const classes = useStyles();
-    // const [userEmail, setUserEmail] = React.useState("");
-    // const [password, setPassword] = React.useState("");
-    const [preference, setPreference] = React.useState("");
-    const [language, setLanguage] = React.useState("");
-    const [userEmail, setUserEmail] = React.useState("");
-    const [userData, setUserData] = React.useState([]);
-    // const [userDataObj, setUserDataObj] = React.useState({});
-
+    const [preference, setPreference] = useState("");
+    const [language, setLanguage] = useState("");
+    const [userEmail, setUserEmail] = useState("");
+    const [userData, setUserData] = useState([]);
 
     const [uuid, setUuid] = React.useState("");
+    // const [userDataObj, setUserDataObj] = React.useState({});
 
-    console.log("uid of users is" + uuid);
+    // console.log("uid of users is" + uuid);
 
     onAuthStateChanged(getAuth(), (user) => {
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
-            console.log(JSON.stringify(user.uid))
+            // console.log(JSON.stringify(user.uid))
             setUuid(user.uid)
+            console.log(uuid)
             // ...
         } else {
             // User is signed out
@@ -334,43 +408,16 @@ const Profile = () => {
 
     };
 
-    // const handleUpdateButton = (event) => {
-    //     handlePreference();
-    //     handleLanguage();
-
-    //     console.log("handleUpdateButton ran")
-
-
-    //     //add confirmation popup
-    // }
-
-
-    // React.useEffect(() => {
-    //     console.log("user info api runs")
-    //     getUserInfo();
-    // }, [])
 
     const getUserInfo = () => {
         callApiGetUserInfo()
             .then(res => {
-                // callApiGetArticles(res.user_info) 
-                // setCategory(res.user_info[0].preference_category)
 
-
-                // setUserEmail(res.user_info[5].user_email)
-                // setPreference(res.user_info[5].preference_category)
-                // setLanguage(res.user_info[5].user_language)
-                // setUserData(res.user_info)
-
-
-                // setUserData(res.user_info[0])
                 setPreference(res.user_info[0].preference_category)
                 setLanguage(res.user_info[0].user_language)
                 setUserEmail(res.user_info[0].email_address)
 
-                // setUserEmail(userData.email_address)
-                // setPreference(userData.category_preference)
-                // setLanguage(userData.user_language)
+
 
 
             })
@@ -395,8 +442,8 @@ const Profile = () => {
         if (response.status !== 200) throw Error(body.message);
 
 
-        console.log("callApiGetUserInfo ran")
-        console.log(body)
+        // console.log("callApiGetUserInfo ran")
+        // console.log(body)
         return body;
 
 
@@ -424,10 +471,10 @@ const Profile = () => {
             })
 
         });
-        console.log(preference)
-        console.log(language)
+        // console.log(preference)
+        // console.log(language)
 
-        console.log("updated information succesffully")
+        // console.log("updated information succesffully")
 
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
@@ -443,7 +490,7 @@ const Profile = () => {
 
 
             <Grid
-                container
+
                 direction="row"
                 alignItems="center"
                 style={{ minWidth: '250vh' }}
@@ -463,7 +510,7 @@ const Profile = () => {
 
 
                     <Box ml={7} p={2}>
-                        <Typography variant="h5" noWrap className={classes.subHeading}>
+                        <Typography variant="h5" noWrap className={classes.miniHeading}>
                             My Settings
                         </Typography>
                     </Box>
@@ -486,35 +533,33 @@ const Profile = () => {
                         </Box>
                     </div>
 
+                    <Box ml={7} p={2}>
+                        <Typography variant="h3" noWrap className={classes.miniHeading}>
+                            Favorited Articles
+                        </Typography>
+                        <Typography className={classes.subHeading}></Typography>
+
+                    </Box>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Box ml={7} p={2}>
+                            <Typography variant="h5" noWrap className={classes.subHeading}>
+                                View your favorited articles here!
+                            </Typography>
+                        </Box>
+                    </div>
+
+                    <Box ml={7} p={7}></Box>
+                    <Box p={2}>
+                        <FavouriteArticles uuid={uuid}></FavouriteArticles>
+                    </Box>
+
+
                 </Grid>
             </Grid>
         </div>
 
     )
 }
-
-// class Profiles extends Component {
-
-
-//     render() {
-//         const { classes } = this.props;
-
-//         return (
-//             <MuiThemeProvider theme={theme}>
-//                 <div >
-//                     {/* <CssBaseline /> */}
-//                     {/* <Paper */}
-//                     {/* className={classes.paper}
-//                     > */}
-//                     <Profile />
-//                     {/* </Paper> */}
-
-//                 </div>
-
-//             </MuiThemeProvider>
-//         );
-//     }
-// }
 
 const Profiles = () => {
     return (
