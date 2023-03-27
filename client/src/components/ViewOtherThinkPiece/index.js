@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card, Alert, Snackbar } from '@mui/material';
 import { Typography } from "@material-ui/core";
 import NavBar from '../NavBar';
 
-import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
@@ -232,6 +229,9 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 const ViewOtherThinkPiece = () => {
     const classes = useStyles();
     const [publicThinkpieces, setPublicThinkpieces] = React.useState([]);
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
+
     const [uuid, setUuid] = useState("");
 
     onAuthStateChanged(getAuth(), (user) => {
@@ -252,6 +252,33 @@ const ViewOtherThinkPiece = () => {
         }
     });
 
+    React.useEffect(() => {
+       getOtherThinkPiece(uuid); 
+    }, [category, uuid])
+
+    // const getThinkPiece = () => {
+    //     callApiSearchThinkPiece()
+    //         .then(res => {
+    //             setCategory(res.think_pieces);
+    //         })
+    // }
+
+    // const callApiSearchThinkPiece = async () => {
+    //     const url = '/api/searchThinkPiece'
+    //     const response = await fetch(url, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "applciation/json",
+    //         },
+    //         body: JSON.stringify({
+    //             category: category,
+    //         })
+
+    //     });
+        
+    // }
+
+
     const getOtherThinkPiece = (uuid) => {
         callApiViewOtherThinkPieces(uuid)
             .then(res => {
@@ -269,6 +296,7 @@ const ViewOtherThinkPiece = () => {
             },
             body: JSON.stringify({
                 uuid: uuid,
+                category: category,
             }) 
         });
         const body = await response.json();
@@ -294,6 +322,30 @@ const ViewOtherThinkPiece = () => {
                 <Typography className={classes.heading} >
                     View Public Think Pieces!
                 </Typography>
+
+                <Box ml={7} p={2}>
+                    <FormControl style={{ "width": 200 }} >
+                        <InputLabel style={{ color: "#fff" }}>Category</InputLabel>
+                        <Select
+                            value={category}
+                            label="Search Thinkpiece"
+                            onChange={(e) => setCategory(e.target.value)}
+                            className={classes.select}
+                            style={{ color: "#fff" }}
+                            required
+                            data-testid='Category'
+                            defaultValue={""}
+                        >
+                            <MenuItem value={"business"}>Business</MenuItem>
+                            <MenuItem value={"entertainment"}>Entertainment</MenuItem>
+                            <MenuItem value={"general"}>General</MenuItem>
+                            <MenuItem value={"health"}>Health</MenuItem>
+                            <MenuItem value={"science"}>Science</MenuItem>
+                            <MenuItem value={"sports"}>Sports</MenuItem>
+                            <MenuItem value={"technology"}>Technology</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
 
                     <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
 
