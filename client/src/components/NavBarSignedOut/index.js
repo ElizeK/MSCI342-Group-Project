@@ -6,11 +6,25 @@ import "@fontsource/inter";
 import { Toolbar, Button } from '@mui/material';
 import { makeStyles } from '@material-ui/styles';
 import { Grid, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Menu } from '@mui/material';
+import { createTheme } from "@material-ui/core/styles";
 
 const opacityValue = 1;
-
+const theme = createTheme({
+    palette: {
+        type: 'dark',
+        background: {
+            default: "#1b1b1b"
+        },
+        primary: {
+            main: "#FFFFFF",
+        },
+        secondary: {
+            main: "#1b1b1b",
+        },
+    },
+});
 const NavBarSignedOut = () => {
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles(() => ({
         body: {
             backgroundColor: "#1b1b1b",
             overflow: "hidden",
@@ -167,7 +181,7 @@ const NavBarSignedOut = () => {
     };
 
     return (
-        <div>
+        <div data-testid="NavBar">
             <Toolbar>
                 <Typography style={{ marginRight: 10 }}></Typography>
                 <Button
