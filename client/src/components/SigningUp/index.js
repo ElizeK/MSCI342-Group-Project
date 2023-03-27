@@ -220,7 +220,7 @@ const SigningUp = () => {
     }
 
     return (
-        <div>
+        <div data-testid='sign-up-component'>
             <NavBarSignedOut
                 backgroundColor="secondary"
             ></NavBarSignedOut>
@@ -251,6 +251,7 @@ const SigningUp = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='email'
                         />
                     </Box>
                     <Box ml={7} p={2}>
@@ -268,6 +269,7 @@ const SigningUp = () => {
                                 style: { color: '#fff' },
                             }
                             }
+                            data-testid='password'
                         />
                     </Box>
                     <Box ml={7} p={2}>
@@ -289,6 +291,7 @@ const SigningUp = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='username'
                         />
                     </Box>
                     <Box mt={0} p={2}>
@@ -305,6 +308,7 @@ const SigningUp = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='conf'
                         />
                     </Box>
                     <Box mt={0} p={2}>
