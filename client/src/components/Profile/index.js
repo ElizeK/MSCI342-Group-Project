@@ -5,13 +5,12 @@ import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
 import "@fontsource/oswald";
 import "@fontsource/inter";
-import { Grid, Toolbar, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card, Chip } from '@mui/material';
+import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextField, Box, Card, Chip } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Password } from '@mui/icons-material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 
 // This theme sets the background color for when you scroll behind the screen
@@ -377,6 +376,8 @@ const Profile = () => {
     const [userData, setUserData] = useState([]);
 
     const [uuid, setUuid] = React.useState("");
+    const fetch = require('node-fetch');
+
     // const [userDataObj, setUserDataObj] = React.useState({});
 
     // console.log("uid of users is" + uuid);
@@ -484,7 +485,7 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div >
             <NavBar
                 backgroundColor="secondary"
             ></NavBar>
@@ -518,7 +519,7 @@ const Profile = () => {
 
 
                     <Box ml={7} p={2}>
-                    
+
 
                         <Typography variant="h5" noWrap className={classes.subHeading}>
                             Welcome To Your Settings
@@ -529,25 +530,25 @@ const Profile = () => {
 
                         <Box ml={7} p={2}>
                             <Typography variant="h5" noWrap className={classes.subHeading}>
-                                User Name:  
+                                User Name:
                                 <Chip color="secondary" label={userEmail} />
                             </Typography>
                             <Typography style={{ margin: 20 }}></Typography>
                             <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Email: 
+                                Email:
                                 <Chip color="secondary" label={userEmail} />
                             </Typography>
                             <Typography style={{ margin: 20 }}></Typography>
 
                             <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Preferred Category: 
+                                Preferred Category:
                                 <Chip color="secondary" label={preference} />
 
                             </Typography>
                             <Typography style={{ margin: 20 }}></Typography>
 
                             <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Preferred language: 
+                                Preferred language:
                                 <Chip color="secondary" label={language} />
 
                             </Typography>
@@ -570,7 +571,7 @@ const Profile = () => {
                         <Typography className={classes.subHeading}></Typography>
 
                     </Box>
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }} data-testid="profile-component">
                         <Box ml={7} p={2}>
                             <Typography variant="h5" noWrap className={classes.subHeading}>
                                 View your favorited articles here!
