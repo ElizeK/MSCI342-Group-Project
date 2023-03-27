@@ -7,11 +7,27 @@ import { Toolbar, Button } from '@mui/material';
 import { makeStyles } from '@material-ui/styles';
 import { MenuItem, Menu } from '@mui/material';
 import { getAuth, signOut } from "firebase/auth";
+import { createTheme } from "@material-ui/core/styles";
+
 
 const opacityValue = 1;
+const theme = createTheme({
+    palette: {
+        type: 'dark',
+        background: {
+            default: "#1b1b1b"
+        },
+        primary: {
+            main: "#FFFFFF",
+        },
+        secondary: {
+            main: "#1b1b1b",
+        },
+    },
+});
 
 const NavBar = () => {
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles(() => ({
         body: {
             backgroundColor: "#1b1b1b",
             overflow: "hidden",
@@ -178,7 +194,7 @@ const NavBar = () => {
     }
 
     return (
-        <div>
+        <div data-testid="NavBar">
             <Toolbar>
                 <Typography style={{ marginRight: 10 }}></Typography>
                 <Button
@@ -226,7 +242,7 @@ const NavBar = () => {
                             history.push('/ViewThinkPiece')
                             handleClose()
                         }}>View my ThinkPieces</MenuItem>
-                         <MenuItem onClick={() => {
+                        <MenuItem onClick={() => {
                             history.push('/ViewOtherThinkPiece')
                             handleClose()
                         }}>View Public ThinkPieces</MenuItem>
