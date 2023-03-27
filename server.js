@@ -125,15 +125,25 @@ app.post('/api/viewThinkPiece', (req, res) => {
 	connection.end();
 })
 
+
 app.post('/api/viewOtherThinkPieces', (req, res) => {
 	let connection = mysql.createConnection(config);
 	let uuid = req.body.uuid;
 	if (uuid !== "") {
 		let sql = `SELECT * FROM think_pieces WHERE firebase_uuid != ("${uuid}")`
+    
+app.post('/api/viewFavoriteArticles', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let uuid = req.body.uuid;
+
+	console.log("firebase uuid: " + uuid)
+	if (uuid !== "") {
+		let sql = `SELECT * FROM favourited_articles WHERE firebase_uuid = ("${uuid}")`
 		connection.query(sql, (error, results, fields) => {
 			if (error) {
 				return console.error(error.message);
 			}
+
 			console.log("RESULTS FROM API: " + JSON.stringify(results))
 			res.send({ think_pieces: results });
 		});
@@ -166,6 +176,13 @@ app.post('/api/updateThinkPiece', (req, res) => {
 	});
 	connection.end();
 
+})
+
+			console.log("results are: " + JSON.stringify(results))
+			res.send({ favourited_articles: results });
+		});
+	}
+	connection.end();
 })
 
 app.post('/api/preferenceCategory', (req, res) => {
@@ -213,8 +230,6 @@ app.post('/api/getUserInfo', (req, res) => {
 	});
 	connection.end();
 })
-
-
 
 
 app.post('/api/updateUserInfo', (req, res) => {

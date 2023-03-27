@@ -160,7 +160,7 @@ const Landing = () => {
 
 
     return (
-        <div>
+        <div data-testid="landing-component">
             <NavBarSignedOut
                 backgroundColor="primary"
             ></NavBarSignedOut>
