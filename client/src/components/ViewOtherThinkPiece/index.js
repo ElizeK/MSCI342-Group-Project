@@ -209,8 +209,11 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 
             <CardContent>
                 <Typography variant="body2" color="text.secondary" className={classes.header}>
-                    {thinkpiece.summary}
-                    {thinkpiece.content}
+                    Summary: {thinkpiece.summary}
+                </Typography>
+                <Typography style={{ margin: 20 }}></Typography>
+                <Typography variant="body3" color="text.secondary" className={classes.header}>
+                    Content: {thinkpiece.content}
                 </Typography>
             </CardContent>
 
