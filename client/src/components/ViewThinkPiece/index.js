@@ -218,19 +218,34 @@ const ThinkPieceCard = ({ thinkpiece }) => {
     const [topic, setTopic] = useState(thinkpiece.topic)
     const [url, setUrl] = useState(thinkpiece.url)
     const [content, setContent] = useState(thinkpiece.content)
-    const [uuid, setUuid] = useState("");
+    const [piece_id, setPieceId] = useState(thinkpiece.piece_id)
+    const [uuid, setUuid] = useState(thinkpiece.firebase_uuid);
+
+    // let piece_id = thinkpiece.piece_id;
+    // let uuid = thinkpiece.uuid;
+
+    // setPieceId(thinkpiece.piece_id);
+
+    // React.useEffect(() => {
+    //     setPieceId(thinkpiece.piece_id);
+    // }, [title, summary, topic, url, content])
 
     const updateThinkPiece = () => {
         callApiUpdateThinkPiece()
         setEdit(false)
+        
     }
 
     const callApiUpdateThinkPiece = async () => {
+        if (!piece_id) {
+            throw Error("piece_id is undefined");
+          }
         const url = "/api/updateThinkPiece";
+        console.log("ENTERED UPDATE THINK PIECE API")
         const response = await fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json,"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 uuid: uuid,
@@ -238,10 +253,16 @@ const ThinkPieceCard = ({ thinkpiece }) => {
                 summary: summary,
                 topic: topic,
                 content: content,
-                url: url,
+                url: thinkpiece.url,
+                piece_id: thinkpiece.piece_id,
+                uuid: thinkpiece.firebase_uuid,
             })
         })
+        console.log("OIJSDIFJOSF")
         const body = await response.json();
+        console.log("body is" + body)
+        console.log(title)
+        console.log(piece_id)
         if (response.status !== 200) throw Error(body.message);
 
     }
@@ -389,6 +410,7 @@ const ViewThinkPiece = () => {
     // const [url, setUrl] = React.useState('');
     const [view, setView] = React.useState([]);
     const [uuid, setUuid] = useState("");
+    const [pieceid, setPieceId] = useState("");
 
     // console.log("uid of users is" + uuid);
 
@@ -412,8 +434,10 @@ const ViewThinkPiece = () => {
     const getThinkPiece = () => {
         callApiViewThinkPieces()
             .then(res => {
-                // console.log(res);
+                console.log(res);
                 setView(res.think_pieces);
+                // setPieceId(res.think_pieces.piece_id);
+
             })
     }
 
@@ -483,7 +507,12 @@ const ViewThinkPiece = () => {
 
                 <Box m2={2} p={2}></Box>
 
-                <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
+                <Grid 
+                container spacing={{ xs: 10, md: 3 }} 
+                columns={{ xs: 5, sm: 8, md: 12 }} 
+                alignItems="center" 
+                style={{ marginLeft: 50 }}
+                >
 
                     {view.map((thinkpiece, index) => {
                         return (

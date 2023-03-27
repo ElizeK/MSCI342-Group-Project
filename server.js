@@ -200,10 +200,13 @@ app.post('/api/updateThinkPiece', (req, res) => {
 	let topic = req.body.topic;
 	let url = req.body.url;
 	let uuid = req.body.uuid;
-	let piece_id = req.body.pieceid;
+	let piece_id = req.body.piece_id;
+	console.log("piece id = " + piece_id)
+	console.log("uuid = " + uuid)
+
 	
 	let sql = `UPDATE think_pieces SET title = '${title}', content = '${content}', summary = '${summary}', topic = '${topic}', url = '${url}', firebase_uuid = '${uuid}' WHERE piece_id = ${piece_id}`
-	console.log("sql results are" + sql)
+	console.log("sql results are " + sql)
 	connection.query(sql, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);
@@ -211,7 +214,7 @@ app.post('/api/updateThinkPiece', (req, res) => {
 		}
 		// let string = JSON.stringify(results);
 		// let obj = JSON.parse(string);
-		res.send({ user_info: results });
+		res.send({ think_pieces: results });
 	});
 	connection.end();
 
