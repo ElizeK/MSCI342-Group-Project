@@ -12,6 +12,10 @@ import NavBar from '../NavBar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import LanguageIcon from '@mui/icons-material/Language';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import CategoryIcon from '@material-ui/icons/Category';
+import EmailIcon from '@material-ui/icons/Email';
 
 
 
@@ -228,14 +232,19 @@ const LanguageSelection = ({ language, setLanguage, news }) => {
                 >
 
                     <MenuItem value=""></MenuItem>
-                    <MenuItem value={'ar'}>Arabic</MenuItem>
-                    <MenuItem value={'de'}>German</MenuItem>
-                    <MenuItem value={'en'}>English</MenuItem>
-                    <MenuItem value={'es'}>Spanish</MenuItem>
-                    <MenuItem value={'fr'}>French</MenuItem>
-                    <MenuItem value={'it'}>Italian</MenuItem>
-                    <MenuItem value={'ru'}>Russian</MenuItem>
-
+                    <MenuItem value={"ar"}>Arabic</MenuItem>
+                    <MenuItem value={"de"}>German</MenuItem>
+                    <MenuItem value={"en"}>English</MenuItem>
+                    <MenuItem value={"es"}>Spanish</MenuItem>
+                    <MenuItem value={"fr"}>French</MenuItem>
+                    <MenuItem value={"he"}>Hebrew</MenuItem>
+                    <MenuItem value={"it"}>Italian</MenuItem>
+                    <MenuItem value={"nl"}>Dutch</MenuItem>
+                    <MenuItem value={"no"}>Norwegian</MenuItem>
+                    <MenuItem value={"pt"}>Portuguese</MenuItem>
+                    <MenuItem value={"ru"}>Russian</MenuItem>
+                    <MenuItem value={'sv'}>Swedish</MenuItem>
+                    <MenuItem value={"zh"}>Chinese</MenuItem>
 
 
                 </Select>
@@ -505,7 +514,7 @@ const Profile = () => {
             >
 
 
-                <Grid item style={{ marginTop: 50 }} xs={5}>
+                <Grid item  xs={5}>
 
                     {/* <Box ml={7} p={2}>
                         <AccountCircleIcon sx={{ fontSize: 200 }} 
@@ -532,46 +541,61 @@ const Profile = () => {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                        <Box ml={7} p={2}>
-                            <Typography variant="h5" noWrap className={classes.subHeading}>
-                                User Name:
-                                <Chip color="secondary" label={userEmail} />
-                            </Typography>
-                            <Typography style={{ margin: 20 }}></Typography>
-                            <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Email:
-                                <Chip color="secondary" label={userEmail} />
-                            </Typography>
-                            <Typography style={{ margin: 20 }}></Typography>
+                        <Grid container spacing={2}>
+                            <Grid item xs={4}>
+                                <Box ml={7} p={2}>
+                                    <Typography variant="h4" className={classes.subHeading}>
+                                        Profile Information
+                                    </Typography>
+                                    <Typography style={{ margin: "20px 0" }}></Typography>
+                                    <Typography variant="h5" className={classes.subHeading}>
+                                        <AccountCircleIcon style={{ marginRight: 10 }} />
+                                        User Name:
+                                        <Chip color="primary" label={userEmail} />
+                                    </Typography>
+                                    <Typography style={{ margin: 20 }}></Typography>
+                                    <Typography variant="h5" className={classes.subHeading}>
+                                        <EmailIcon style={{ marginRight: 10 }} />
+                                        Email:
+                                        <Chip color="primary" label={userEmail} />
+                                    </Typography>
+                                    <Typography style={{ margin: 20 }}></Typography>
+                                    <Typography variant="h5" className={classes.subHeading}>
+                                        <CategoryIcon style={{ marginRight: 10 }} />
+                                        Preferred Category:
+                                        <Chip color="secondary" label={preference} />
+                                    </Typography>
+                                    <Typography style={{ margin: 20 }}></Typography>
+                                    <Typography variant="h5" className={classes.subHeading}>
+                                        <LanguageIcon style={{ marginRight: 10 }} />
+                                        Preferred language:
+                                        <Chip color="secondary" label={language} />
+                                    </Typography>
+                                </Box>
+                            </Grid>
 
-                            <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Preferred Category:
-                                <Chip color="secondary" label={preference} />
 
-                            </Typography>
-                            <Typography style={{ margin: 20 }}></Typography>
+                            <Grid item xs={4}>
+                                <Box ml={2} p={1}>
+                                    <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
+                                </Box>
+                                <Box ml={2} p={1}>
+                                    <LanguageSelection language={language} setLanguage={handleLanguage} />
+                                </Box>
+                                <Box ml={2} p={2}>
+                                    <Button id="update-preferences" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", height: '55px', width: '200px' }}>Update My Info</Button>
+                                    {showSuccess && (
+                                        <Alert severity="success" style={{ width: '300px' }}>
+                                            <AlertTitle>Success!</AlertTitle>
+                                            <strong>Your Settings have been updated </strong>
+                                        </Alert>
+                                    )}
+                                </Box>
+                            </Grid>
+                        </Grid>
 
-                            <Typography variant="h5" noWrap className={classes.subHeading}>
-                                Preferred language:
-                                <Chip color="secondary" label={language} />
 
-                            </Typography>
-                        </Box>
-                        <Box ml={10} p={2}>
-                            <PreferenceSelection preference={preference} setPreference={handlePreference} currentPreference={userData.preference_category} />
-                        </Box>
-                        <Box ml={7} p={2}>
-                            <LanguageSelection language={language} setLanguage={handleLanguage} />
-                        </Box>
-                        <Box ml={7} p={2}>
-                            <Button id="" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", height: '55px', width: '200px' }}>Update My Info</Button>
-                            {showSuccess && (
-                                <Alert severity="success" style={{ width: '300px' }}>
-                                    <AlertTitle>Success!</AlertTitle>
-                                    <strong>Your Settings have been updated </strong>
-                                </Alert>
-                            )}
-                        </Box>
+
                     </div>
 
                     <Box ml={7} p={2}>
