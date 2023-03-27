@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
+<<<<<<< Updated upstream
 import Grid from "@material-ui/core/Grid";
+=======
+import { Grid, FormControl, InputLabel, Select, TextField, MenuItem, Box } from '@mui/material';
+>>>>>>> Stashed changes
 import { Typography } from "@material-ui/core";
 import NavBar from '../NavBar';
 
@@ -202,6 +206,7 @@ const useStyles = makeStyles((theme) => ({
 const ThinkPieceCard = ({ thinkpiece }) => {
     const classes = useStyles();
 
+<<<<<<< Updated upstream
     return (
         <Card variant="outlined" style={{ "width": 400, "height": 400 }} className={classes.ArticleCard} color="backgroundColor">
             <CardHeader
@@ -216,6 +221,176 @@ const ThinkPieceCard = ({ thinkpiece }) => {
                     {thinkpiece.content}
                 </Typography>
             </CardContent>
+=======
+    const Categories = {
+        BUSINESS: "Business",
+        ENTERTAINMENT: "Entertainment",
+        GENERAL: "General",
+        HEALTH: "Health",
+        SCIENCE: "Science",
+        SPORTS: "Sports",
+        TECHNOLOGY: "Technology"
+    }
+
+    const [edit, setEdit] = useState(false);
+    const [title, setTitle] = useState(thinkpiece.title)
+    const [summary, setSummary] = useState(thinkpiece.summary)
+    const [topic, setTopic] = useState(thinkpiece.topic)
+    const [url, setUrl] = useState(thinkpiece.url)
+    const [content, setContent] = useState(thinkpiece.content)
+    const [uuid, setUuid] = useState("");
+
+    const updateThinkPiece = () => {
+        callApiUpdateThinkPiece()
+        setEdit(false)
+    }
+
+    const callApiUpdateThinkPiece = async () => {
+        const url = "/api/updateThinkPiece";
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json,"
+            },
+            body: JSON.stringify({
+                uuid: uuid,
+                title: title,
+                summary: summary,
+                topic: topic,
+                content: content,
+                url: url,
+            })
+        })
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+    }
+
+    return (
+        <div>
+            {
+                (edit) ?
+                    <Grid
+                        container
+                        direction="column"
+                        item xs={10}
+                    >
+                        <Grid item style={{ marginTop: 50 }} xs={5}>
+                            <Box ml={7} p={2}>
+                                <TextField
+                                    id="outlined-basic"
+                                    label="Title"
+                                    variant="outlined"
+                                    value={title}
+                                    className={classes.textField}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+                            </Box>
+
+                            <Box ml={7} p={2}>
+                                <TextField
+                                    id="outlined-basic"
+                                    label="Summary"
+                                    variant="outlined"
+                                    value={summary}
+                                    className={classes.textField}
+                                    onChange={(e) => setSummary(e.target.value)}
+                                />
+                            </Box>
+
+                            <Box ml={7} p={2}>
+                                <FormControl fullWidth>
+                                    <InputLabel style={{ color: "#fff" }}>Topic</InputLabel>
+                                    <Select
+                                        value={topic}
+                                        onChange={(e) => setTopic(e.target.value)}
+                                        label="Topic"
+                                        variant="outlined"
+                                        className={classes.select}
+                                        style={{ color: "#fff" }}
+                                        required
+                                        data-testid='Topic'
+
+                                    >
+                                        {
+                                            Object.keys(Categories).map(key => Categories[key]).map((categoryName) =>
+                                                <MenuItem value={categoryName}>{categoryName}</MenuItem>
+                                            )
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                            <Box ml={7} p={2}>
+                                <TextField
+                                    id="outlined-basic"
+                                    label="Content"
+                                    variant="outlined"
+                                    multiline
+                                    rows={10}
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                    className={classes.textField}
+                                />
+                            </Box>
+
+
+                            <Box ml={7} p={2}>
+                                <Typography>
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Url"
+                                        variant="outlined"
+                                        value={url}
+                                        onChange={(e) => setUrl(e.target.value)}
+                                        className={classes.textField}
+                                    />
+                                </Typography>
+                            </Box>
+
+                            <Box m2={2} p={2}>
+                                <Button id="save-edits" variant="contained" onClick={updateThinkPiece} style={{ backgroundColor: "#B18CFF" }}> Save Edits </Button>
+                            </Box>
+                        </Grid>
+
+                    </Grid>
+                    :
+                    <Card variant="outlined" style={{ "width": 400, "height": 400 }} className={classes.ArticleCard} color="backgroundColor">
+                        <CardHeader
+                            className={classes.header}
+                            title={title}
+                            subheader={topic}
+                        />
+
+                        <CardContent>
+                            <Typography variant="body2" color="text.secondary" className={classes.header}>
+                                {summary}
+                                {content}
+                            </Typography>
+                        </CardContent>
+
+                        <div
+                            style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
+                            <IconButton href={url} target="_blank" rel="noreferrer">
+                                <LinkIcon />
+                                {/* <Link /> */}
+                            </IconButton>
+
+                        </div>
+
+                        <Button onClick={() => setEdit(true)}>
+                            Edit think piece
+                        </Button>
+
+                    </Card>
+            }
+        </div>
+    )
+}
+
+const EditThinkPiece = ({ thinkpiece }) => {
+    const classes = useStyles();
+>>>>>>> Stashed changes
 
             <div
                 style={{ justifyContent: 'flex-start', marginLeft: 10 }}>
@@ -224,6 +399,7 @@ const ThinkPieceCard = ({ thinkpiece }) => {
                     {/* <Link /> */}
                 </IconButton>
 
+<<<<<<< Updated upstream
             </div>
 
             <Button>
@@ -231,6 +407,132 @@ const ThinkPieceCard = ({ thinkpiece }) => {
             </Button>
 
         </Card>
+=======
+    const updateThinkPiece = () => {
+        callApiUpdateThinkPiece()
+    }
+
+    const callApiUpdateThinkPiece = async () => {
+        const url = "/api/updateThinkPiece";
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json,"
+            },
+            body: JSON.stringify({
+                uuid: uuid,
+                title: title,
+                summary: summary,
+                topic: topic,
+                content: content,
+                url: url,
+            })
+        })
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+
+    }
+
+    return (
+        <Grid
+            container
+            direction="column"
+            item xs={4}
+        >
+            <Grid item style={{ marginTop: 50 }} xs={5}>
+                <Box ml={7} p={2}>
+                    <Typography variant="h5" className={classes.subHeading}>
+                        Title:
+                        <TextField
+                            id="outlined-basic"
+                            label="Outlined"
+                            variant="outlined"
+                            value={title}
+                            className={classes.textField}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </Typography>
+                </Box>
+
+                <Box ml={7} p={2}>
+                    <Typography>
+                        Summary:
+                        <TextField
+                            id="outlined-basic"
+                            label="Outlined"
+                            variant="outlined"
+                            value={summary}
+                            className={classes.textField}
+                            onChange={(e) => setSummary(e.target.value)}
+                        />
+                    </Typography>
+                </Box>
+
+                <Box ml={7} p={2}>
+                    <Typography>
+                        Topic:
+                        <FormControl>
+                            <Select
+                                value={topic}
+                                onChange={(e) => setTopic(e.target.value)}
+                                label="Topic"
+                                className={classes.select}
+                                style={{ color: "#fff" }}
+                                required
+                                data-testid='Topic'
+
+                            >
+                            </Select>
+                        </FormControl>
+                    </Typography>
+                </Box>
+
+                <Box ml={7} p={2}>
+                    <Typography>
+                        Content:
+                        <TextField
+                            id="outlined-basic"
+                            label="Outlined"
+                            variant="outlined"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            className={classes.textField}
+                        />
+                    </Typography>
+                </Box>
+
+
+                <Box ml={7} p={2}>
+                    <Typography>
+                        Url:
+                        <TextField
+                            id="outlined-basic"
+                            label="Outlined"
+                            variant="outlined"
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            className={classes.textField}
+                        />
+                    </Typography>
+                </Box>
+
+                <Box m2={2} p={2}>
+                    <Button
+                        id="save-edits"
+                        variant="contained"
+                        onClick={updateThinkPiece}
+                        style={{ backgroundColor: "#B18CFF" }}
+                        classes={classes.buttonGroup}
+
+                    > Save Edits
+                    </Button>
+                </Box>
+            </Grid>
+
+        </Grid>
+
+
+>>>>>>> Stashed changes
     )
 }
 
@@ -272,7 +574,16 @@ const ViewThinkPiece = () => {
                 setView(res.think_pieces);
             })
     }
+<<<<<<< Updated upstream
     
+=======
+
+    // const handleEdit = () => {
+    //     setEdit(true);
+    // }
+
+
+>>>>>>> Stashed changes
 
     const callApiViewThinkPieces = async () => {
         const url = '/api/viewThinkPiece';
@@ -328,20 +639,32 @@ const ViewThinkPiece = () => {
                     View Your Think Pieces!
                 </Typography>
 
+<<<<<<< Updated upstream
                     <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
+=======
+                <Box m2={2} p={2}></Box>
 
-                        {view.map((thinkpiece, index) => {
-                                return (
-                                    <Grid xs={4} sm={4} md={4} key={index}>
-                                        <ThinkPieceCard thinkpiece={thinkpiece}></ThinkPieceCard>
-                                        <Typography style={{ padding: 20 }}></Typography>
-                                    </Grid>
-                                )
-                            })
-                        }
-                    </Grid>
-                    {/* : <></> */}
-        
+>>>>>>> Stashed changes
+
+                <Box ml={7} p={2}>
+                    <Typography className={classes.subHeading}>{view?.length} Results</Typography>
+                </Box>
+                <Box mt ={2} ></Box>
+
+                <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
+
+                    {view.map((thinkpiece, index) => {
+                        return (
+                            <Grid xs={4} sm={4} md={4} key={index}>
+                                <ThinkPieceCard thinkpiece={thinkpiece}></ThinkPieceCard>
+                                <Typography style={{ padding: 20 }}></Typography>
+                            </Grid>
+                        )
+                    })
+                    }
+                </Grid>
+                {/* : <></> */}
+
             </Grid>
         </div >
     )

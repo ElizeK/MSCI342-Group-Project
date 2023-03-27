@@ -229,6 +229,7 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 const ViewOtherThinkPiece = () => {
     const classes = useStyles();
 
+<<<<<<< Updated upstream
     const [userId, setUserId] = React.useState(1);
     // const [title, setTitle] = React.useState('');
     // const [content, setContent] = React.useState('');
@@ -236,6 +237,33 @@ const ViewOtherThinkPiece = () => {
     // const [topic, setTopic] = React.useState('');
     // const [url, setUrl] = React.useState('');
     const [view, setView] = React.useState([]);
+=======
+    React.useEffect(() => {
+        getOtherThinkPiece(uuid);
+    }, [category, uuid])
+
+    // const getThinkPiece = () => {
+    //     callApiSearchThinkPiece()
+    //         .then(res => {
+    //             setCategory(res.think_pieces);
+    //         })
+    // }
+
+    // const callApiSearchThinkPiece = async () => {
+    //     const url = '/api/searchThinkPiece'
+    //     const response = await fetch(url, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "applciation/json",
+    //         },
+    //         body: JSON.stringify({
+    //             category: category,
+    //         })
+
+    //     });
+
+    // }
+>>>>>>> Stashed changes
 
     React.useEffect(() => {
         getThinkPiece();
@@ -254,6 +282,7 @@ const ViewOtherThinkPiece = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+<<<<<<< Updated upstream
             }
             // body: JSON.stringify({
             // userID: userId,
@@ -263,6 +292,13 @@ const ViewOtherThinkPiece = () => {
             // topic: topic,
             // url: url     
 
+=======
+            },
+            body: JSON.stringify({
+                uuid: uuid,
+                category: category,
+            })
+>>>>>>> Stashed changes
         });
         const body = await response.json();
         console.log(body);
@@ -299,9 +335,46 @@ const ViewOtherThinkPiece = () => {
                     View Public Think Pieces!
                 </Typography>
 
+<<<<<<< Updated upstream
                     <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
 
                         {view.map((thinkpiece, index) => {
+=======
+                <Box ml={7} p={2}>
+                    <FormControl style={{ "width": 200 }} >
+                        <InputLabel style={{ color: "#fff" }}>Category</InputLabel>
+                        <Select
+                            value={category}
+                            label="Search Thinkpiece"
+                            onChange={(e) => setCategory(e.target.value)}
+                            className={classes.select}
+                            style={{ color: "#fff" }}
+                            required
+                            data-testid='Category'
+                            defaultValue={""}
+                        >
+                            <MenuItem value={""}>None</MenuItem>
+                            <MenuItem value={"business"}>Business</MenuItem>
+                            <MenuItem value={"entertainment"}>Entertainment</MenuItem>
+                            <MenuItem value={"general"}>General</MenuItem>
+                            <MenuItem value={"health"}>Health</MenuItem>
+                            <MenuItem value={"science"}>Science</MenuItem>
+                            <MenuItem value={"sports"}>Sports</MenuItem>
+                            <MenuItem value={"technology"}>Technology</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                <Box ml={7} p={2}>
+                    <Typography className={classes.subHeading}>{publicThinkpieces?.length} Results</Typography>
+                </Box>
+                <Box mt ={2} ></Box>
+
+                <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
+
+                    {
+                        publicThinkpieces.length > 0 ?
+                            publicThinkpieces.map((thinkpiece, index) => {
+>>>>>>> Stashed changes
                                 return (
                                     <Grid xs={4} sm={4} md={4} key={index}>
                                         <ThinkPieceCard thinkpiece={thinkpiece}></ThinkPieceCard>
@@ -309,10 +382,16 @@ const ViewOtherThinkPiece = () => {
                                     </Grid>
                                 )
                             })
+<<<<<<< Updated upstream
                         }
                     </Grid>
                     : <></>
         
+=======
+                            : <></>
+                    }
+                </Grid>
+>>>>>>> Stashed changes
             </Grid>
         </div >
     )

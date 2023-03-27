@@ -130,6 +130,7 @@ const SignUpBar = () => {
 
                 <Button
                     variant="contained"
+                    id = "sign-up"
                     // color="inherit"
                     style={{ backgroundColor: "#B18CFF", minWidth: '300px', minHeight: '40px' }}
                     onClick={() => history.push('/SigningUp')}
@@ -138,6 +139,7 @@ const SignUpBar = () => {
                 </Button>
                 <Button
                     variant="contained"
+                    id = "log-in"
                     // color="inherit"
                     style={{ backgroundColor: "#B18CFF", minWidth: '300px', minHeight: '40px' }}
                     onClick={() => history.push('/Login')}
