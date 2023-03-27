@@ -15,6 +15,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+
 import "@fontsource/oswald";
 import "@fontsource/inter";
 
@@ -228,41 +231,45 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 
 const ViewOtherThinkPiece = () => {
     const classes = useStyles();
+    const [publicThinkpieces, setPublicThinkpieces] = React.useState([]);
+    const [uuid, setUuid] = useState("");
 
-    const [userId, setUserId] = React.useState(1);
-    // const [title, setTitle] = React.useState('');
-    // const [content, setContent] = React.useState('');
-    // const [summary, setSummary] = React.useState('');
-    // const [topic, setTopic] = React.useState('');
-    // const [url, setUrl] = React.useState('');
-    const [view, setView] = React.useState([]);
+    onAuthStateChanged(getAuth(), (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
 
-    React.useEffect(() => {
-        getThinkPiece();
-    }, [userId]);
+            // check if we already have public thinkpieces for this user
+            if (user.uid !== uuid) {
+                console.log("UUID is: " + user.uid)
+                getOtherThinkPiece(user.uid)
+                setUuid(user.uid)
+            }
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
 
-    const getThinkPiece = () => {
-        callApiViewThinkPieces()
+    const getOtherThinkPiece = (uuid) => {
+        callApiViewOtherThinkPieces(uuid)
             .then(res => {
-                setView(res.think_pieces);
+                console.log("public thinkpieces: " + JSON.stringify(res.think_pieces))
+                setPublicThinkpieces(res.think_pieces);
             })
     }
 
-    const callApiViewThinkPieces = async () => {
-        const url = '/api/viewThinkPiece';
+    const callApiViewOtherThinkPieces = async (uuid) => {
+        const url = '/api/viewOtherThinkPieces';
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            }
-            // body: JSON.stringify({
-            // userID: userId,
-            // title: title,
-            // content: content,
-            // summary: symmary,
-            // topic: topic,
-            // url: url     
-
+            },
+            body: JSON.stringify({
+                uuid: uuid,
+            }) 
         });
         const body = await response.json();
         console.log(body);
@@ -275,17 +282,6 @@ const ViewOtherThinkPiece = () => {
             <NavBar
                 backgroundColor="secondary"
             ></NavBar>
-            {/* {view.map(thinkpiece => (
-                <div key = {thinkpiece.id}>
-                    <li>
-                        {thinkpiece.title}
-                        {thinkpiece.content}
-                        {thinkpiece.summary}
-                        {thinkpiece.topic}
-                        {thinkpiece.url}
-                    </li>
-                </div>
-            ))} */}
             <Grid
                 container
                 spacing={3}
@@ -301,7 +297,9 @@ const ViewOtherThinkPiece = () => {
 
                     <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
 
-                        {view.map((thinkpiece, index) => {
+                        {
+                            publicThinkpieces.length > 0 ? 
+                        publicThinkpieces.map((thinkpiece, index) => {
                                 return (
                                     <Grid xs={4} sm={4} md={4} key={index}>
                                         <ThinkPieceCard thinkpiece={thinkpiece}></ThinkPieceCard>
@@ -309,10 +307,9 @@ const ViewOtherThinkPiece = () => {
                                     </Grid>
                                 )
                             })
-                        }
+                            : <></>
+                        } 
                     </Grid>
-                    : <></>
-        
             </Grid>
         </div >
     )
