@@ -253,7 +253,7 @@ const ViewOtherThinkPiece = () => {
     });
 
     React.useEffect(() => {
-       getOtherThinkPiece(uuid); 
+        getOtherThinkPiece(uuid);
     }, [category, uuid])
 
     // const getThinkPiece = () => {
@@ -275,7 +275,7 @@ const ViewOtherThinkPiece = () => {
     //         })
 
     //     });
-        
+
     // }
 
 
@@ -297,7 +297,7 @@ const ViewOtherThinkPiece = () => {
             body: JSON.stringify({
                 uuid: uuid,
                 category: category,
-            }) 
+            })
         });
         const body = await response.json();
         console.log(body);
@@ -336,6 +336,7 @@ const ViewOtherThinkPiece = () => {
                             data-testid='Category'
                             defaultValue={""}
                         >
+                            <MenuItem value={""}>None</MenuItem>
                             <MenuItem value={"business"}>Business</MenuItem>
                             <MenuItem value={"entertainment"}>Entertainment</MenuItem>
                             <MenuItem value={"general"}>General</MenuItem>
@@ -346,12 +347,15 @@ const ViewOtherThinkPiece = () => {
                         </Select>
                     </FormControl>
                 </Box>
+                <Box ml={7} p={2}>
+                    <Typography className={classes.subHeading}>{publicThinkpieces?.length} Results</Typography>
+                </Box>
+                <Box mt={2} ></Box>
+                <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
 
-                    <Grid container spacing={{ xs: 10, md: 3 }} columns={{ xs: 5, sm: 8, md: 12 }} alignItems="center" style={{ marginLeft: 50 }}>
-
-                        {
-                            publicThinkpieces.length > 0 ? 
-                        publicThinkpieces.map((thinkpiece, index) => {
+                    {
+                        publicThinkpieces.length > 0 ?
+                            publicThinkpieces.map((thinkpiece, index) => {
                                 return (
                                     <Grid xs={4} sm={4} md={4} key={index}>
                                         <ThinkPieceCard thinkpiece={thinkpiece}></ThinkPieceCard>
@@ -360,8 +364,8 @@ const ViewOtherThinkPiece = () => {
                                 )
                             })
                             : <></>
-                        } 
-                    </Grid>
+                    }
+                </Grid>
             </Grid>
         </div >
     )

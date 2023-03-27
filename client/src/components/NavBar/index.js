@@ -261,6 +261,7 @@ const NavBar = () => {
                     color="inherit"
                     style={{ cursor: "pointer" }}
                     onClick={handleSignout}
+                    id = "sign-out"
                 >
                     <Typography className={classes.navbarItem}>Sign Out</Typography>
                 </Button>
