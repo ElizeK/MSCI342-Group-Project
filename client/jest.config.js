@@ -14,6 +14,7 @@ module.exports = {
         "@mui/material": "identity-obj-proxy",
         "@faker-js/faker": "identity-obj-proxy",
         "@testing-library/user-event": "identity-obj-proxy",
+        '@mui/icons-material': "identity-obj-proxy",
 
 
     },
