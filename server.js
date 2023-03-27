@@ -17,8 +17,8 @@ const NewsAPI = require('newsapi');
 const { connect } = require('http2');
 const { user } = require('./config.js');
 const { title } = require('process');
-const API_KEY = "6b7b0836496b456f93fbce243cb33ae1";
-// const API_KEY = "5ae7abb759d7488c966c2013803bdd91";
+// const API_KEY = "6b7b0836496b456f93fbce243cb33ae1";
+const API_KEY = "5ae7abb759d7488c966c2013803bdd91";
 const newsapi = new NewsAPI(API_KEY);
 
 
@@ -202,8 +202,8 @@ app.post('/api/updateThinkPiece', (req, res) => {
 	let uuid = req.body.uuid;
 	let piece_id = req.body.pieceid;
 	
-	let sql = `UPDATE think_pieces SET title = '${title}', content = ${content}', summary = '${summary}, topic = ${topic}, url = ${url}, firebase_uuid = ${uuid} WHERE piece_id = ${piece_id}`
-	
+	let sql = `UPDATE think_pieces SET title = '${title}', content = '${content}', summary = '${summary}', topic = '${topic}', url = '${url}', firebase_uuid = '${uuid}' WHERE piece_id = ${piece_id}`
+	console.log("sql results are" + sql)
 	connection.query(sql, (error, results, fields) => {
 		if (error) {
 			return console.error(error.message);

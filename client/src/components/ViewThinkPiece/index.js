@@ -327,8 +327,8 @@ const ThinkPieceCard = ({ thinkpiece }) => {
                                     />
                                 </Typography>
                             </Box>
-
-                            <Box m2={2} p={2}>
+                         
+                            <Box ml={7} m2={2} p={2}>
                                 <Button id="save-edits" variant="contained" onClick={updateThinkPiece} style={{ backgroundColor: "#B18CFF" }}> Save Edits </Button>
                             </Box>
                         </Grid>
@@ -344,8 +344,11 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 
                         <CardContent>
                             <Typography variant="body2" color="text.secondary" className={classes.header}>
-                                {summary}
-                                {content}
+                                Summary: {summary}
+                            </Typography>
+                            <Typography style = {{margin: 20}}></Typography>
+                            <Typography variant="body3" color="text.secondary" className={classes.header}>
+                                Content: {content}
                             </Typography>
                         </CardContent>
 
@@ -358,7 +361,14 @@ const ThinkPieceCard = ({ thinkpiece }) => {
 
                         </div>
 
-                        <Button onClick={() => setEdit(true)}>
+                        <Button 
+                        onClick={() => setEdit(true)}
+                        variant="outlined"
+                        target="_blank"
+                        rel="noreferrer"
+                        color="inherit"
+                        style={{ cursor: "pointer", float: 'left', marginLeft: '225px' }}                        
+                        >
                             Edit think piece
                         </Button>
 
@@ -366,145 +376,6 @@ const ThinkPieceCard = ({ thinkpiece }) => {
             }
         </div>
     )
-}
-
-const EditThinkPiece = ({ thinkpiece }) => {
-    const classes = useStyles();
-
-    const [edit, setEdit] = useState(false);
-    const [title, setTitle] = useState(thinkpiece.title)
-    const [summary, setSummary] = useState(thinkpiece.summary)
-    const [topic, setTopic] = useState(thinkpiece.topic)
-    const [url, setUrl] = useState(thinkpiece.url)
-    const [content, setContent] = useState(thinkpiece.content)
-    const [uuid, setUuid] = useState("");
-
-    const updateThinkPiece = () => {
-        callApiUpdateThinkPiece()
-    }
-
-    const callApiUpdateThinkPiece = async () => {
-        const url = "/api/updateThinkPiece";
-        const response = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json,"
-            },
-            body: JSON.stringify({
-                uuid: uuid,
-                title: title,
-                summary: summary,
-                topic: topic,
-                content: content,
-                url: url,
-            })
-        })
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-
-    }
-
-    return (
-        <Grid
-            container
-            direction="column"
-            item xs={4}
-        >
-            <Grid item style={{ marginTop: 50 }} xs={5}>
-                <Box ml={7} p={2}>
-                    <Typography variant="h5" className={classes.subHeading}>
-                        Title:
-                        <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
-                            value={title}
-                            className={classes.textField}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </Typography>
-                </Box>
-
-                <Box ml={7} p={2}>
-                    <Typography>
-                        Summary:
-                        <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
-                            value={summary}
-                            className={classes.textField}
-                            onChange={(e) => setSummary(e.target.value)}
-                        />
-                    </Typography>
-                </Box>
-
-                <Box ml={7} p={2}>
-                    <Typography>
-                        Topic:
-                        <FormControl>
-                            <Select
-                                value={topic}
-                                onChange={(e) => setTopic(e.target.value)}
-                                label="Topic"
-                                className={classes.select}
-                                style={{ color: "#fff" }}
-                                required
-                                data-testid='Topic'
-
-                            >
-                            </Select>
-                        </FormControl>
-                    </Typography>
-                </Box>
-
-                <Box ml={7} p={2}>
-                    <Typography>
-                        Content:
-                        <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            className={classes.textField}
-                        />
-                    </Typography>
-                </Box>
-
-
-                <Box ml={7} p={2}>
-                    <Typography>
-                        Url:
-                        <TextField
-                            id="outlined-basic"
-                            label="Outlined"
-                            variant="outlined"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                            className={classes.textField}
-                        />
-                    </Typography>
-                </Box>
-
-                <Box m2={2} p={2}>
-                    <Button
-                        id="save-edits"
-                        variant="contained"
-                        onClick={updateThinkPiece}
-                        style={{ backgroundColor: "#B18CFF" }}
-                        classes={classes.buttonGroup}
-
-                    > Save Edits
-                    </Button>
-                </Box>
-            </Grid>
-
-        </Grid>
-
-
-    )
-
 }
 
 const ViewThinkPiece = () => {
