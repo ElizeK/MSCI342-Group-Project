@@ -9,6 +9,8 @@ import { Grid, Button, Paper, FormControl, InputLabel, Select, MenuItem, TextFie
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import NavBar from '../NavBar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
@@ -374,6 +376,7 @@ const Profile = () => {
     const [language, setLanguage] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [userData, setUserData] = useState([]);
+    const [showSuccess, setShowSuccess] = React.useState(false);
 
     const [uuid, setUuid] = React.useState("");
     const fetch = require('node-fetch');
@@ -456,6 +459,7 @@ const Profile = () => {
 
     const updateUserInfo = () => {
         callApiUpdateUserInfo()
+        setShowSuccess(true);
         //add confirmation  
     }
 
@@ -561,6 +565,12 @@ const Profile = () => {
                         </Box>
                         <Box ml={7} p={2}>
                             <Button id="" variant="contained" onClick={updateUserInfo} style={{ backgroundColor: "#B18CFF", height: '55px', width: '200px' }}>Update My Info</Button>
+                            {showSuccess && (
+                                <Alert severity="success" style={{ width: '300px' }}>
+                                    <AlertTitle>Success!</AlertTitle>
+                                    <strong>Your Settings have been updated </strong>
+                                </Alert>
+                            )}
                         </Box>
                     </div>
 
