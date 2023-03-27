@@ -169,7 +169,7 @@ const Login = () => {
     }
 
     return (
-        <div>
+        <div data-testid="login-component">
             <NavBarSignedOut
                 backgroundColor="secondary"
             ></NavBarSignedOut>
@@ -201,6 +201,7 @@ const Login = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='Email'
                         />
                     </Box>
                     <Box ml={7} p={2}>
@@ -217,6 +218,7 @@ const Login = () => {
                             InputLabelProps={{
                                 style: { color: '#fff' },
                             }}
+                            data-testid='Password'
                         />
                     </Box>
                 </Grid>
