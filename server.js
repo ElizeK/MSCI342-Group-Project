@@ -125,6 +125,48 @@ app.post('/api/viewThinkPiece', (req, res) => {
 	connection.end();
 })
 
+app.post('/api/viewOtherThinkPieces', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let uuid = req.body.uuid;
+	if (uuid !== "") {
+		let sql = `SELECT * FROM think_pieces WHERE firebase_uuid != ("${uuid}")`
+		connection.query(sql, (error, results, fields) => {
+			if (error) {
+				return console.error(error.message);
+			}
+			console.log("RESULTS FROM API: " + JSON.stringify(results))
+			res.send({ think_pieces: results });
+		});
+	}
+})
+
+app.post('/api/updateThinkPiece', (req, res) => {
+	let connection = mysql.createConnection(config);
+	let title = req.body.title;
+	let content = req.body.content;
+	let summary = req.body.summary;
+	let topic = req.body.topic;
+	let url = req.body.url;
+	let uuid = req.body.uuid;
+	let piece_id = req.body.pieceid;
+	
+	let sql = `UPDATE think_pieces SET title = '${title}', content = ${content}', summary = '${summary}, topic = ${topic}, url = ${url}, firebase_uuid = ${uuid} WHERE piece_id = ${piece_id}`
+	
+	connection.query(sql, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+
+		}
+		// let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		res.send({ user_info: results });
+
+
+
+	});
+	connection.end();
+
+})
 
 app.post('/api/preferenceCategory', (req, res) => {
 	console.log("MADE IT TO API")
