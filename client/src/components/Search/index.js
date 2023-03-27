@@ -538,13 +538,13 @@ const Search = () => {
                 className={classes.backgroundColor}
             >
                 <Box ml={7} p={2}>
-                    <Typography className={classes.subHeading}>{articles.length} Results</Typography>
+                    <Typography className={classes.subHeading}>{articles?.length} Results</Typography>
                 </Box>
 
                 <Grid item>
 
                     {
-                        articles.length > 0 ?
+                        articles?.length > 0 ?
                             <div>
 
                                 <Typography style={{ padding: 20 }} className={classes.subHeading}>Results for keyword: {query}</Typography>

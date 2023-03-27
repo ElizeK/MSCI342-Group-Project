@@ -129,8 +129,18 @@ app.post('/api/viewThinkPiece', (req, res) => {
 app.post('/api/viewOtherThinkPieces', (req, res) => {
 	let connection = mysql.createConnection(config);
 	let uuid = req.body.uuid;
+	let category = req.body.category;
+	let sql = "";
+
 	if (uuid !== "") {
-		let sql = `SELECT * FROM think_pieces WHERE firebase_uuid != ("${uuid}")`
+		if (category !== "") {
+			sql = `SELECT * FROM think_pieces WHERE firebase_uuid != ("${uuid}") AND topic = '${category}'`
+			console.log(sql)
+		}
+		
+		else {
+			sql = `SELECT * FROM think_pieces WHERE firebase_uuid != ("${uuid}")`
+		}
 		connection.query(sql, (error, results, fields) => {
 			if (error) {
 				return console.error(error.message);
@@ -141,6 +151,27 @@ app.post('/api/viewOtherThinkPieces', (req, res) => {
 	}
 	connection.end();
 })	
+
+// app.post('/api/searchThinkPiece', (req, res) => {
+
+// 	let connection = mysql.createConnection(config);
+// 	if (category !== "") {
+// 		let sql = `SELECT * FROM think_pieces WHERE topic = '${category}'`
+// 	}
+// 	else {
+// 		let sql = `SELECT * FROM think_pieces`
+// 	}
+	
+	
+// 	connection.query(sql, (error, results, fields) => {
+// 		if (error) {
+// 			return console.error(error.message);
+// 		}
+
+// 		res.send({ think_pieces: results });
+// 	});
+// 	connection.end();
+// });
 
 	
 app.post('/api/viewFavoriteArticles', (req, res) => {
